@@ -103,7 +103,6 @@ const Index = () => {
       }
     }, 1500 + Math.random() * 1000);
   };
-
   const handleDrawTarotCard = (question?: string) => {
     setIsGenerating(true);
     setShowIntro(false);
@@ -183,7 +182,7 @@ const Index = () => {
               <Book className="mr-2 h-4 w-4" />
               Fortunes
             </TabsTrigger>
-            <TabsTrigger value="horoscope" className="font-wizard bg-amber-200 hover:bg-amber-100 text-violet-950">
+            <TabsTrigger value="horoscope" className="font-wizard bg-stone-800 hover:bg-stone-700 text-orange-200">
               <Stars className="mr-2 h-4 w-4" />
               Horoscope
             </TabsTrigger>
@@ -241,11 +240,7 @@ const Index = () => {
           </TabsContent>
 
           <TabsContent value="tarot" className="space-y-4">
-            <TarotReading 
-              onDrawCard={handleDrawTarotCard}
-              isDrawing={isGenerating}
-              currentReading={currentTarotReading}
-            />
+            <TarotReading onDrawCard={handleDrawTarotCard} isDrawing={isGenerating} currentReading={currentTarotReading} />
           </TabsContent>
         </Tabs>
         

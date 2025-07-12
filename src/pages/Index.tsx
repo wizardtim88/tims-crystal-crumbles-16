@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import CrystalBall from '@/components/CrystalBall';
 import EnhancedAskForm from '@/components/EnhancedAskForm';
@@ -18,14 +17,12 @@ import { Heart, Coins, Thermometer, Book, Sparkles, Stars } from 'lucide-react';
 import { FortuneCategory } from '@/types/fortune';
 import { ZodiacSign, ZodiacReading } from '@/types/zodiac';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-
 interface Fortune {
   response: string;
   id: number;
   category: FortuneCategory;
   question?: string;
 }
-
 const Index = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [fortunes, setFortunes] = useState<Fortune[]>([]);
@@ -58,71 +55,54 @@ const Index = () => {
     document.documentElement.classList.toggle('dark', !isDarkMode);
     localStorage.setItem('wizardTimTheme', isDarkMode ? 'dark' : 'light');
   }, [isDarkMode]);
-
   const handleGenerateFortune = (question?: string) => {
     setIsGenerating(true);
     setShowIntro(false);
-    
     setTimeout(() => {
       const response = generateTimResponse(selectedCategory, question);
-      
-      setFortunes(prev => [
-        ...prev, 
-        { 
-          response, 
-          id: Date.now(),
-          category: selectedCategory,
-          question
-        }
-      ]);
-      
+      setFortunes(prev => [...prev, {
+        response,
+        id: Date.now(),
+        category: selectedCategory,
+        question
+      }]);
       setIsGenerating(false);
-      
       if (Math.random() < 0.2) {
         setTimeout(() => {
           toast("Tim grumbles...", {
-            description: "Do you know how much energy it takes to predict the future? I could be napping right now!",
+            description: "Do you know how much energy it takes to predict the future? I could be napping right now!"
           });
         }, 1000);
       }
     }, 1500 + Math.random() * 1000);
   };
-
   const handleGenerateHoroscope = () => {
     setIsGenerating(true);
     setShowIntro(false);
-    
     setTimeout(() => {
       const reading = generateZodiacReading(selectedZodiacSign);
-      
-      setZodiacReadings(prev => [
-        ...prev,
-        {
-          sign: selectedZodiacSign,
-          reading,
-          date: new Date().toDateString(),
-          id: Date.now()
-        }
-      ]);
-      
+      setZodiacReadings(prev => [...prev, {
+        sign: selectedZodiacSign,
+        reading,
+        date: new Date().toDateString(),
+        id: Date.now()
+      }]);
       setIsGenerating(false);
-      
       if (Math.random() < 0.2) {
         setTimeout(() => {
           toast("Tim sighs dramatically...", {
-            description: "The stars made me do it! Now can I please get back to my cosmic snacks?",
+            description: "The stars made me do it! Now can I please get back to my cosmic snacks?"
           });
         }, 1000);
       }
     }, 1500 + Math.random() * 1000);
   };
-  
   const clearAll = () => {
     setFortunes([]);
     setZodiacReadings([]);
     setShowIntro(true);
     toast("All cleared", {
-      description: "Tim has returned to his well-deserved nap.",
+      description: "Tim has returned to his well-deserved nap."
     });
   };
 
@@ -132,21 +112,18 @@ const Index = () => {
       fortunesRef.current.scrollTop = fortunesRef.current.scrollHeight;
     }
   }, [fortunes, zodiacReadings]);
-
   const hasAnyContent = fortunes.length > 0 || zodiacReadings.length > 0;
-
-  return (
-    <div className={`min-h-screen flex flex-col transition-all duration-300 ${isDarkMode ? 'starry-night' : 'bg-wizard-study bg-cover bg-center bg-fixed'}`}>
+  return <div className={`min-h-screen flex flex-col transition-all duration-300 ${isDarkMode ? 'starry-night' : 'bg-wizard-study bg-cover bg-center bg-fixed'}`}>
       {isDarkMode && <MagicalParticles />}
       {!isDarkMode && <div className="absolute inset-0 bg-wizard-dark/40 backdrop-blur-[1px]"></div>}
       
       {/* Header */}
-      <header className="w-full bg-background/90 backdrop-blur-sm border-b border-border/50 py-4 px-6 flex justify-between items-center z-10 relative">
+      <header className="w-full backdrop-blur-sm border-b border-border/50 py-4 px-6 flex justify-between items-center z-10 relative bg-slate-700">
         <div className="flex flex-col">
-          <h1 className="text-2xl md:text-3xl font-wizard text-primary">
+          <h1 className="text-2xl md:text-3xl font-wizard text-amber-500">
             The Wizard Tim's Crystal Ball
           </h1>
-          <p className="text-sm font-scroll text-muted-foreground">
+          <p className="text-sm font-scroll text-slate-200">
             Gaze into the Mysteries with the Laziest Wizard Around
           </p>
         </div>
@@ -174,13 +151,13 @@ const Index = () => {
         </div>
         
         {/* Tabs for Fortunes vs Horoscope */}
-        <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as "fortunes" | "horoscope")} className="w-full max-w-2xl">
+        <Tabs value={activeTab} onValueChange={value => setActiveTab(value as "fortunes" | "horoscope")} className="w-full max-w-2xl">
           <TabsList className="grid w-full grid-cols-2 mb-4 bg-wizard-dark/40 border-wizard-gold/30">
-            <TabsTrigger value="fortunes" className="font-wizard data-[state=active]:bg-wizard-purple data-[state=active]:text-white">
+            <TabsTrigger value="fortunes" className="font-wizard data-[state=active]:bg-wizard-purple text-orange-200">
               <Book className="mr-2 h-4 w-4" />
               Fortunes
             </TabsTrigger>
-            <TabsTrigger value="horoscope" className="font-wizard data-[state=active]:bg-wizard-purple data-[state=active]:text-white">
+            <TabsTrigger value="horoscope" className="font-wizard bg-amber-200 hover:bg-amber-100 text-violet-950">
               <Stars className="mr-2 h-4 w-4" />
               Daily Horoscope
             </TabsTrigger>
@@ -189,68 +166,40 @@ const Index = () => {
           <TabsContent value="fortunes" className="space-y-4">
             {/* Fortune Categories */}
             <div className="w-full max-w-md mx-auto mb-4 flex flex-wrap justify-center gap-2">
-              <Button 
-                variant={selectedCategory === "general" ? "default" : "outline"}
-                className={`border-wizard-gold/30 font-wizard ${selectedCategory === "general" ? "bg-wizard-purple text-white" : "bg-wizard-dark/40 text-wizard-cream hover:bg-wizard-purple/40"}`}
-                onClick={() => setSelectedCategory("general")}
-              >
+              <Button variant={selectedCategory === "general" ? "default" : "outline"} className={`border-wizard-gold/30 font-wizard ${selectedCategory === "general" ? "bg-wizard-purple text-white" : "bg-wizard-dark/40 text-wizard-cream hover:bg-wizard-purple/40"}`} onClick={() => setSelectedCategory("general")}>
                 <Book className="mr-2 h-4 w-4" />
                 General
               </Button>
-              <Button 
-                variant={selectedCategory === "love" ? "default" : "outline"}
-                className={`border-wizard-gold/30 font-wizard ${selectedCategory === "love" ? "bg-wizard-purple text-white" : "bg-wizard-dark/40 text-wizard-cream hover:bg-wizard-purple/40"}`}
-                onClick={() => setSelectedCategory("love")}
-              >
+              <Button variant={selectedCategory === "love" ? "default" : "outline"} className={`border-wizard-gold/30 font-wizard ${selectedCategory === "love" ? "bg-wizard-purple text-white" : "bg-wizard-dark/40 text-wizard-cream hover:bg-wizard-purple/40"}`} onClick={() => setSelectedCategory("love")}>
                 <Heart className="mr-2 h-4 w-4" />
                 Love
               </Button>
-              <Button 
-                variant={selectedCategory === "career" ? "default" : "outline"}
-                className={`border-wizard-gold/30 font-wizard ${selectedCategory === "career" ? "bg-wizard-purple text-white" : "bg-wizard-dark/40 text-wizard-cream hover:bg-wizard-purple/40"}`}
-                onClick={() => setSelectedCategory("career")}
-              >
+              <Button variant={selectedCategory === "career" ? "default" : "outline"} className={`border-wizard-gold/30 font-wizard ${selectedCategory === "career" ? "bg-wizard-purple text-white" : "bg-wizard-dark/40 text-wizard-cream hover:bg-wizard-purple/40"}`} onClick={() => setSelectedCategory("career")}>
                 <Coins className="mr-2 h-4 w-4" />
                 Career
               </Button>
-              <Button 
-                variant={selectedCategory === "health" ? "default" : "outline"}
-                className={`border-wizard-gold/30 font-wizard ${selectedCategory === "health" ? "bg-wizard-purple text-white" : "bg-wizard-dark/40 text-wizard-cream hover:bg-wizard-purple/40"}`}
-                onClick={() => setSelectedCategory("health")}
-              >
+              <Button variant={selectedCategory === "health" ? "default" : "outline"} className={`border-wizard-gold/30 font-wizard ${selectedCategory === "health" ? "bg-wizard-purple text-white" : "bg-wizard-dark/40 text-wizard-cream hover:bg-wizard-purple/40"}`} onClick={() => setSelectedCategory("health")}>
                 <Thermometer className="mr-2 h-4 w-4" />
                 Health
               </Button>
             </div>
             
             {/* Enhanced Fortune Form */}
-            <EnhancedAskForm 
-              onGenerateFortune={handleGenerateFortune} 
-              isGenerating={isGenerating}
-              selectedCategory={selectedCategory}
-            />
+            <EnhancedAskForm onGenerateFortune={handleGenerateFortune} isGenerating={isGenerating} selectedCategory={selectedCategory} />
           </TabsContent>
           
           <TabsContent value="horoscope" className="space-y-4">
             {/* Zodiac Sign Selector */}
-            <ZodiacSelector 
-              selectedSign={selectedZodiacSign} 
-              onSignSelect={setSelectedZodiacSign}
-            />
+            <ZodiacSelector selectedSign={selectedZodiacSign} onSignSelect={setSelectedZodiacSign} />
             
             {/* Horoscope Button */}
             <div className="w-full max-w-md mx-auto flex justify-center">
-              <Button 
-                onClick={handleGenerateHoroscope}
-                disabled={isGenerating}
-                className={`
+              <Button onClick={handleGenerateHoroscope} disabled={isGenerating} className={`
                   bg-wizard-purple hover:bg-wizard-purple/80 text-white 
                   font-wizard px-6 py-6 text-lg flex items-center gap-2 
                   transition-all hover:shadow-lg relative overflow-hidden
                   ${isGenerating ? 'animate-pulse' : ''}
-                `}
-                size="lg"
-              >
+                `} size="lg">
                 <div className="absolute inset-0 bg-gradient-to-r from-wizard-gold/10 to-transparent opacity-50"></div>
                 <Stars className="w-5 h-5" />
                 {isGenerating ? "Tim is consulting the stars..." : "Get Daily Horoscope"}
@@ -263,59 +212,34 @@ const Index = () => {
         </Tabs>
         
         {/* Combined Responses */}
-        <div 
-          ref={fortunesRef}
-          className="w-full mt-8 max-h-[400px] overflow-y-auto px-4 py-2 rounded-lg scrollbar-thin scrollbar-thumb-wizard-purple/30 scrollbar-track-transparent"
-        >
-          {showIntro && (
-            <div className="bg-card/90 backdrop-blur-sm p-4 rounded-lg border border-border shadow-md mb-4">
+        <div ref={fortunesRef} className="w-full mt-8 max-h-[400px] overflow-y-auto px-4 py-2 rounded-lg scrollbar-thin scrollbar-thumb-wizard-purple/30 scrollbar-track-transparent">
+          {showIntro && <div className="bg-card/90 backdrop-blur-sm p-4 rounded-lg border border-border shadow-md mb-4">
               <p className="font-scroll text-card-foreground italic">
                 Welcome to the cozy hole of The Wizard Tim, the laziest, most food-obsessed wizard in all of Halfass. 
                 Get your fortune told or disturb Tim for a daily horoscope reading - though he's quite skeptical about "star nonsense."
               </p>
-            </div>
-          )}
+            </div>}
           
           {/* Show all responses chronologically */}
-          {[...fortunes, ...zodiacReadings]
-            .sort((a, b) => a.id - b.id)
-            .map((item) => {
-              if ('category' in item) {
-                // It's a fortune
-                return (
-                  <div key={item.id} className="mb-4">
-                    <TimResponse 
-                      response={item.response} 
-                      category={item.category}
-                      isNew={item.id === Math.max(...fortunes.map(f => f.id), ...zodiacReadings.map(z => z.id))} 
-                    />
-                  </div>
-                );
-              } else {
-                // It's a zodiac reading
-                return (
-                  <div key={item.id} className="mb-4">
-                    <ZodiacResponse 
-                      reading={item.reading} 
-                      sign={item.sign}
-                      isNew={item.id === Math.max(...fortunes.map(f => f.id), ...zodiacReadings.map(z => z.id))} 
-                    />
-                  </div>
-                );
-              }
-          })}
+          {[...fortunes, ...zodiacReadings].sort((a, b) => a.id - b.id).map(item => {
+          if ('category' in item) {
+            // It's a fortune
+            return <div key={item.id} className="mb-4">
+                    <TimResponse response={item.response} category={item.category} isNew={item.id === Math.max(...fortunes.map(f => f.id), ...zodiacReadings.map(z => z.id))} />
+                  </div>;
+          } else {
+            // It's a zodiac reading
+            return <div key={item.id} className="mb-4">
+                    <ZodiacResponse reading={item.reading} sign={item.sign} isNew={item.id === Math.max(...fortunes.map(f => f.id), ...zodiacReadings.map(z => z.id))} />
+                  </div>;
+          }
+        })}
         </div>
         
         {/* Clear button - now above book advertisement */}
-        {hasAnyContent && (
-          <Button 
-            variant="outline" 
-            onClick={clearAll}
-            className="mt-4 mb-6 border-wizard-purple/30 text-wizard-purple font-scroll hover:bg-wizard-purple/10"
-          >
+        {hasAnyContent && <Button variant="outline" onClick={clearAll} className="mt-4 mb-6 border-wizard-purple/30 text-wizard-purple font-scroll hover:bg-wizard-purple/10">
             Clear All
-          </Button>
-        )}
+          </Button>}
         
         {/* Book Advertisement - moved below responses and clear button */}
         <BookAdvertisement />
@@ -329,12 +253,7 @@ const Index = () => {
       </footer>
 
       {/* Onboarding Modal */}
-      <OnboardingModal 
-        isOpen={showOnboarding} 
-        onClose={() => setShowOnboarding(false)} 
-      />
-    </div>
-  );
+      <OnboardingModal isOpen={showOnboarding} onClose={() => setShowOnboarding(false)} />
+    </div>;
 };
-
 export default Index;

@@ -2,7 +2,7 @@
 import { FortuneCategory } from "@/types/fortune";
 
 // Lazy, food-obsessed wizard Tim's fortune telling responses
-export const generateTimResponse = (category: FortuneCategory = "general"): string => {
+export const generateTimResponse = (category: FortuneCategory = "general", userQuestion?: string): string => {
   // Tim's actions (always in asterisks to be rendered in italics) - now with proper capitalization and punctuation
   const timActions = [
     "*Yawns loudly and brushes crumbs from his beard.*",
@@ -53,7 +53,17 @@ export const generateTimResponse = (category: FortuneCategory = "general"): stri
         "True love requires patience, like waiting for a soufflé to rise. Don't rush it!",
         "Your romantic fortune improves dramatically if you bring snacks to dates.",
         "That special someone is closer than you think. Maybe close enough to share a meal.",
-        "The crystal ball shows two figures sharing a feast. Romance and food - perfect!"
+        "The crystal ball shows two figures sharing a feast. Romance and food - perfect!",
+        "Love will bloom like my appetite after a good nap - suddenly and powerfully.",
+        "Your soulmate shares your appreciation for the finer things: comfort and good food.",
+        "Romance enters through the stomach, as I always say. Cook together, stay together.",
+        "Venus aligns with my dinner schedule - meaning romance is perfectly timed for you.",
+        "A chance encounter over food will spark something magical. Bring napkins.",
+        "Your dating life improves once you stop trying so hard and start being yourself.",
+        "Someone will appreciate your quirks as much as I appreciate a well-timed snack.",
+        "Love finds you when you're busy doing what you love. Like eating pie.",
+        "Your heart opens to new possibilities, wider than my mouth at buffet time.",
+        "The universe conspires to bring you love. Unlike how it conspires against my diet."
       ],
       negative: [
         "Romance is as elusive as finding good snacks at 3 AM. Try again next season.",
@@ -65,7 +75,16 @@ export const generateTimResponse = (category: FortuneCategory = "general"): stri
         "Romance will avoid you like I avoid morning exercise. Consistently.",
         "Your heart will be as empty as my pantry after a good day. Quite empty.",
         "Dating apps will treat you like expired coupons. Ignored and discarded.",
-        "Your romantic prospects are dimmer than my motivation before breakfast."
+        "Your romantic prospects are dimmer than my motivation before breakfast.",
+        "Love will dodge you like I dodge vegetables at dinner. Expertly and consistently.",
+        "Your romantic life will be as exciting as watching paint dry on wet toast.",
+        "Cupid took the day off and forgot to tell anyone. Permanently.",
+        "Romance will be as rare as my urge to exercise after a meal. Nonexistent.",
+        "Your love life mirrors my relationship with salad - reluctant and short-lived.",
+        "Dating will feel like eating without seasoning. Bland and disappointing.",
+        "Your heart will be as closed as my mind to morning workouts. Completely.",
+        "Romance will slip through your fingers like crumbs through mine. Constantly.",
+        "Love will be as elusive as the last slice of cake when I'm nearby. Gone instantly."
       ]
     },
     career: {
@@ -79,7 +98,20 @@ export const generateTimResponse = (category: FortuneCategory = "general"): stri
         "The stars align for professional advancement. Use this time wisely, unlike me.",
         "A mentor will appear in your life, hopefully one who brings food to meetings.",
         "Your innovative thinking will solve a workplace problem. I use this to locate snacks.",
-        "New skills you develop now will pay off later. Master one-handed snacking while working."
+        "New skills you develop now will pay off later. Master one-handed snacking while working.",
+        "Professional success comes to those who balance work and rest. I've mastered the rest part.",
+        "Your career path brightens like my mood when I smell fresh bread baking.",
+        "A lucrative opportunity appears, possibly involving food. The best kind of opportunity.",
+        "Your work ethic impresses superiors as much as pie impresses me. Considerably.",
+        "Networking events will actually be useful, especially if they serve good appetizers.",
+        "Your creativity flows like my enthusiasm for second helpings. Abundantly.",
+        "Leadership qualities emerge when you're well-fed and well-rested. Take note.",
+        "A windfall arrives just when you need it most, like finding cookies in your pocket.",
+        "Your professional reputation grows like my appreciation for comfortable chairs. Steadily.",
+        "Career doors open as easily as I open snack containers. Effortlessly.",
+        "Success tastes as sweet as my favorite dessert. Which is saying something.",
+        "Your value at work becomes as obvious as my need for afternoon naps. Very obvious.",
+        "Professional achievements stack up like pancakes on my plate. Impressively high."
       ],
       negative: [
         "Your boss will be as helpful as a chocolate teapot. Time to polish that resume.",
@@ -186,6 +218,11 @@ export const generateTimResponse = (category: FortuneCategory = "general"): stri
     ? " " + selectedPostComments[Math.floor(Math.random() * selectedPostComments.length)]
     : "";
   
+  // Add user question context if provided
+  const questionContext = userQuestion 
+    ? `\n\n*Tim squints at the crystal ball, clearly annoyed at having to focus on something specific.*\n\nSo you asked: "${userQuestion}" Well, let me see what the mystical forces have to say about that...\n\n`
+    : "\n\n";
+
   // Construct the full response with better spacing
-  return `${action}\n\n${grumble} "${fortune}"${postComment}`;
+  return `${action}${questionContext}${grumble} "${fortune}"${postComment}`;
 };

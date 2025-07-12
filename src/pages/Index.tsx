@@ -1,12 +1,15 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import CrystalBall from '@/components/CrystalBall';
-import FortuneButton from '@/components/AskForm';
+import EnhancedAskForm from '@/components/EnhancedAskForm';
 import TimResponse from '@/components/TimResponse';
 import ZodiacResponse from '@/components/ZodiacResponse';
 import ZodiacSelector from '@/components/ZodiacSelector';
 import WizardAvatar from '@/components/WizardAvatar';
 import BookAdvertisement from '@/components/BookAdvertisement';
+import ThemeToggle from '@/components/ThemeToggle';
+import MagicalParticles from '@/components/MagicalParticles';
+import OnboardingModal from '@/components/OnboardingModal';
 import { generateTimResponse } from '@/utils/fortuneTeller';
 import { generateZodiacReading } from '@/utils/zodiacReader';
 import { Button } from '@/components/ui/button';
@@ -20,6 +23,7 @@ interface Fortune {
   response: string;
   id: number;
   category: FortuneCategory;
+  question?: string;
 }
 
 const Index = () => {
@@ -30,21 +34,45 @@ const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState<FortuneCategory>("general");
   const [selectedZodiacSign, setSelectedZodiacSign] = useState<ZodiacSign>("aries");
   const [activeTab, setActiveTab] = useState<"fortunes" | "horoscope">("fortunes");
+  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const fortunesRef = useRef<HTMLDivElement>(null);
 
-  const handleGenerateFortune = () => {
+  // Check for first visit and show onboarding
+  useEffect(() => {
+    const hasVisited = sessionStorage.getItem('wizardTimVisited');
+    if (!hasVisited) {
+      setShowOnboarding(true);
+      sessionStorage.setItem('wizardTimVisited', 'true');
+    }
+
+    // Load theme preference
+    const savedTheme = localStorage.getItem('wizardTimTheme');
+    if (savedTheme) {
+      setIsDarkMode(savedTheme === 'dark');
+    }
+  }, []);
+
+  // Apply theme to document
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', !isDarkMode);
+    localStorage.setItem('wizardTimTheme', isDarkMode ? 'dark' : 'light');
+  }, [isDarkMode]);
+
+  const handleGenerateFortune = (question?: string) => {
     setIsGenerating(true);
     setShowIntro(false);
     
     setTimeout(() => {
-      const response = generateTimResponse(selectedCategory);
+      const response = generateTimResponse(selectedCategory, question);
       
       setFortunes(prev => [
         ...prev, 
         { 
           response, 
           id: Date.now(),
-          category: selectedCategory
+          category: selectedCategory,
+          question
         }
       ]);
       
@@ -108,16 +136,23 @@ const Index = () => {
   const hasAnyContent = fortunes.length > 0 || zodiacReadings.length > 0;
 
   return (
-    <div className="min-h-screen flex flex-col bg-wizard-study bg-cover bg-center bg-fixed">
-      <div className="absolute inset-0 bg-wizard-dark/40 backdrop-blur-[1px]"></div>
+    <div className={`min-h-screen flex flex-col transition-all duration-300 ${isDarkMode ? 'starry-night' : 'bg-wizard-study bg-cover bg-center bg-fixed'}`}>
+      {isDarkMode && <MagicalParticles />}
+      {!isDarkMode && <div className="absolute inset-0 bg-wizard-dark/40 backdrop-blur-[1px]"></div>}
       
       {/* Header */}
-      <header className="w-full bg-wizard-dark/90 backdrop-blur-sm text-white py-4 px-6 flex justify-between items-center z-10 relative">
-        <h1 className="text-2xl md:text-3xl font-wizard text-wizard-gold">
-          The Wizard Tim's Crystal Ball
-        </h1>
-        <div className="flex gap-1">
-          <Sparkles className="h-5 w-5 text-wizard-gold animate-pulse" />
+      <header className="w-full bg-background/90 backdrop-blur-sm border-b border-border/50 py-4 px-6 flex justify-between items-center z-10 relative">
+        <div className="flex flex-col">
+          <h1 className="text-2xl md:text-3xl font-wizard text-primary">
+            The Wizard Tim's Crystal Ball
+          </h1>
+          <p className="text-sm font-scroll text-muted-foreground">
+            Gaze into the Mysteries with the Laziest Wizard Around
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <ThemeToggle isDark={isDarkMode} onToggle={() => setIsDarkMode(!isDarkMode)} />
+          <Sparkles className="h-5 w-5 text-accent animate-sparkle" />
         </div>
       </header>
       
@@ -188,8 +223,12 @@ const Index = () => {
               </Button>
             </div>
             
-            {/* Fortune Button */}
-            <FortuneButton onGenerateFortune={handleGenerateFortune} isGenerating={isGenerating} />
+            {/* Enhanced Fortune Form */}
+            <EnhancedAskForm 
+              onGenerateFortune={handleGenerateFortune} 
+              isGenerating={isGenerating}
+              selectedCategory={selectedCategory}
+            />
           </TabsContent>
           
           <TabsContent value="horoscope" className="space-y-4">
@@ -229,8 +268,8 @@ const Index = () => {
           className="w-full mt-8 max-h-[400px] overflow-y-auto px-4 py-2 rounded-lg scrollbar-thin scrollbar-thumb-wizard-purple/30 scrollbar-track-transparent"
         >
           {showIntro && (
-            <div className="bg-white/90 backdrop-blur-sm p-4 rounded-lg border border-wizard-gold/30 shadow-md mb-4">
-              <p className="font-scroll text-gray-700 italic">
+            <div className="bg-card/90 backdrop-blur-sm p-4 rounded-lg border border-border shadow-md mb-4">
+              <p className="font-scroll text-card-foreground italic">
                 Welcome to the cozy hole of The Wizard Tim, the laziest, most food-obsessed wizard in all of Halfass. 
                 Get your fortune told or disturb Tim for a daily horoscope reading - though he's quite skeptical about "star nonsense."
               </p>
@@ -283,11 +322,17 @@ const Index = () => {
       </main>
       
       {/* Footer */}
-      <footer className="w-full bg-wizard-dark/90 backdrop-blur-sm text-white py-3 px-6 mt-8 text-center z-10 relative">
-        <p className="text-sm text-wizard-cream/70 font-scroll">
+      <footer className="w-full bg-background/90 backdrop-blur-sm border-t border-border/50 py-3 px-6 mt-8 text-center z-10 relative">
+        <p className="text-sm text-muted-foreground font-scroll">
           Based on The Wizard Tim by Joseph Eleam and Tim Canada
         </p>
       </footer>
+
+      {/* Onboarding Modal */}
+      <OnboardingModal 
+        isOpen={showOnboarding} 
+        onClose={() => setShowOnboarding(false)} 
+      />
     </div>
   );
 };

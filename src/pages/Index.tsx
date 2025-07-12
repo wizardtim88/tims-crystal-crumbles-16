@@ -9,13 +9,17 @@ import BookAdvertisement from '@/components/BookAdvertisement';
 import ThemeToggle from '@/components/ThemeToggle';
 import MagicalParticles from '@/components/MagicalParticles';
 import OnboardingModal from '@/components/OnboardingModal';
+import TarotReading from '@/components/TarotReading';
+import TarotResponse from '@/components/TarotResponse';
 import { generateTimResponse } from '@/utils/fortuneTeller';
 import { generateZodiacReading } from '@/utils/zodiacReader';
+import { drawSingleCard } from '@/utils/tarotReader';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/sonner';
 import { Heart, Coins, Thermometer, Book, Sparkles, Stars } from 'lucide-react';
 import { FortuneCategory } from '@/types/fortune';
 import { ZodiacSign, ZodiacReading } from '@/types/zodiac';
+import { TarotReading as TarotReadingType } from '@/types/tarot';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 interface Fortune {
   response: string;
@@ -27,10 +31,12 @@ const Index = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [fortunes, setFortunes] = useState<Fortune[]>([]);
   const [zodiacReadings, setZodiacReadings] = useState<ZodiacReading[]>([]);
+  const [tarotReadings, setTarotReadings] = useState<TarotReadingType[]>([]);
+  const [currentTarotReading, setCurrentTarotReading] = useState<TarotReadingType | undefined>();
   const [showIntro, setShowIntro] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<FortuneCategory>("general");
   const [selectedZodiacSign, setSelectedZodiacSign] = useState<ZodiacSign>("aries");
-  const [activeTab, setActiveTab] = useState<"fortunes" | "horoscope">("fortunes");
+  const [activeTab, setActiveTab] = useState<"fortunes" | "horoscope" | "tarot">("fortunes");
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const fortunesRef = useRef<HTMLDivElement>(null);
@@ -97,9 +103,29 @@ const Index = () => {
       }
     }, 1500 + Math.random() * 1000);
   };
+
+  const handleDrawTarotCard = (question?: string) => {
+    setIsGenerating(true);
+    setShowIntro(false);
+    setTimeout(() => {
+      const reading = drawSingleCard(question);
+      setCurrentTarotReading(reading);
+      setTarotReadings(prev => [...prev, reading]);
+      setIsGenerating(false);
+      if (Math.random() < 0.2) {
+        setTimeout(() => {
+          toast("Tim grumbles about his stolen deck...", {
+            description: "These cards better not be sticky from that time I spilled honey on them..."
+          });
+        }, 1000);
+      }
+    }, 2000 + Math.random() * 1000);
+  };
   const clearAll = () => {
     setFortunes([]);
     setZodiacReadings([]);
+    setTarotReadings([]);
+    setCurrentTarotReading(undefined);
     setShowIntro(true);
     toast("All cleared", {
       description: "Tim has returned to his well-deserved nap."
@@ -111,8 +137,8 @@ const Index = () => {
     if (fortunesRef.current) {
       fortunesRef.current.scrollTop = fortunesRef.current.scrollHeight;
     }
-  }, [fortunes, zodiacReadings]);
-  const hasAnyContent = fortunes.length > 0 || zodiacReadings.length > 0;
+  }, [fortunes, zodiacReadings, tarotReadings]);
+  const hasAnyContent = fortunes.length > 0 || zodiacReadings.length > 0 || tarotReadings.length > 0;
   return <div className={`min-h-screen flex flex-col transition-all duration-300 ${isDarkMode ? 'starry-night' : 'bg-wizard-study bg-cover bg-center bg-fixed'}`}>
       {isDarkMode && <MagicalParticles />}
       {!isDarkMode && <div className="absolute inset-0 bg-wizard-dark/40 backdrop-blur-[1px]"></div>}
@@ -150,16 +176,20 @@ const Index = () => {
           <CrystalBall isActive={isGenerating} className="animate-float" />
         </div>
         
-        {/* Tabs for Fortunes vs Horoscope */}
-        <Tabs value={activeTab} onValueChange={value => setActiveTab(value as "fortunes" | "horoscope")} className="w-full max-w-2xl">
-          <TabsList className="grid w-full grid-cols-2 mb-4 bg-wizard-dark/40 border-wizard-gold/30">
+        {/* Tabs for Fortunes vs Horoscope vs Tarot */}
+        <Tabs value={activeTab} onValueChange={value => setActiveTab(value as "fortunes" | "horoscope" | "tarot")} className="w-full max-w-2xl">
+          <TabsList className="grid w-full grid-cols-3 mb-4 bg-wizard-dark/40 border-wizard-gold/30">
             <TabsTrigger value="fortunes" className="font-wizard data-[state=active]:bg-wizard-purple text-orange-200">
               <Book className="mr-2 h-4 w-4" />
               Fortunes
             </TabsTrigger>
             <TabsTrigger value="horoscope" className="font-wizard bg-amber-200 hover:bg-amber-100 text-violet-950">
               <Stars className="mr-2 h-4 w-4" />
-              Daily Horoscope
+              Horoscope
+            </TabsTrigger>
+            <TabsTrigger value="tarot" className="font-wizard data-[state=active]:bg-wizard-purple text-orange-200">
+              <Sparkles className="mr-2 h-4 w-4" />
+              Tim's Stolen Deck
             </TabsTrigger>
           </TabsList>
           
@@ -209,6 +239,14 @@ const Index = () => {
               </Button>
             </div>
           </TabsContent>
+
+          <TabsContent value="tarot" className="space-y-4">
+            <TarotReading 
+              onDrawCard={handleDrawTarotCard}
+              isDrawing={isGenerating}
+              currentReading={currentTarotReading}
+            />
+          </TabsContent>
         </Tabs>
         
         {/* Combined Responses */}
@@ -221,16 +259,21 @@ const Index = () => {
             </div>}
           
           {/* Show all responses chronologically */}
-          {[...fortunes, ...zodiacReadings].sort((a, b) => a.id - b.id).map(item => {
+          {[...fortunes, ...zodiacReadings, ...tarotReadings].sort((a, b) => a.id - b.id).map(item => {
           if ('category' in item) {
             // It's a fortune
             return <div key={item.id} className="mb-4">
-                    <TimResponse response={item.response} category={item.category} isNew={item.id === Math.max(...fortunes.map(f => f.id), ...zodiacReadings.map(z => z.id))} />
+                    <TimResponse response={item.response} category={item.category} isNew={item.id === Math.max(...fortunes.map(f => f.id), ...zodiacReadings.map(z => z.id), ...tarotReadings.map(t => t.id))} />
                   </div>;
-          } else {
+          } else if ('sign' in item) {
             // It's a zodiac reading
             return <div key={item.id} className="mb-4">
-                    <ZodiacResponse reading={item.reading} sign={item.sign} isNew={item.id === Math.max(...fortunes.map(f => f.id), ...zodiacReadings.map(z => z.id))} />
+                    <ZodiacResponse reading={item.reading} sign={item.sign} isNew={item.id === Math.max(...fortunes.map(f => f.id), ...zodiacReadings.map(z => z.id), ...tarotReadings.map(t => t.id))} />
+                  </div>;
+          } else {
+            // It's a tarot reading
+            return <div key={item.id} className="mb-4">
+                    <TarotResponse reading={item} isNew={item.id === Math.max(...fortunes.map(f => f.id), ...zodiacReadings.map(z => z.id), ...tarotReadings.map(t => t.id))} />
                   </div>;
           }
         })}

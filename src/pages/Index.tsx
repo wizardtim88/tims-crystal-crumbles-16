@@ -13,13 +13,13 @@ import TarotReading from '@/components/TarotReading';
 import TarotResponse from '@/components/TarotResponse';
 import { generateTimResponse } from '@/utils/fortuneTeller';
 import { generateZodiacReading } from '@/utils/zodiacReader';
-import { drawSingleCard } from '@/utils/tarotReader';
+import { drawSingleCard, drawThreeCards } from '@/utils/tarotReader';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/sonner';
 import { Heart, Coins, Thermometer, Book, Sparkles, Stars } from 'lucide-react';
 import { FortuneCategory } from '@/types/fortune';
 import { ZodiacSign, ZodiacReading } from '@/types/zodiac';
-import { TarotReading as TarotReadingType } from '@/types/tarot';
+import { TarotReading as TarotReadingType, TarotSpread } from '@/types/tarot';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 interface Fortune {
   response: string;
@@ -29,6 +29,7 @@ interface Fortune {
 }
 const Index = () => {
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isDrawingTarot, setIsDrawingTarot] = useState(false);
   const [fortunes, setFortunes] = useState<Fortune[]>([]);
   const [zodiacReadings, setZodiacReadings] = useState<ZodiacReading[]>([]);
   const [tarotReadings, setTarotReadings] = useState<TarotReadingType[]>([]);
@@ -103,14 +104,21 @@ const Index = () => {
       }
     }, 1500 + Math.random() * 1000);
   };
-  const handleDrawTarotCard = (question?: string) => {
-    setIsGenerating(true);
+  const handleDrawTarotCard = (question?: string, spread: TarotSpread = 'single') => {
+    setIsDrawingTarot(true);
     setShowIntro(false);
     setTimeout(() => {
-      const reading = drawSingleCard(question);
+      const reading = spread === 'three-card' 
+        ? drawThreeCards(question)
+        : drawSingleCard(question);
+      
       setCurrentTarotReading(reading);
-      setTarotReadings(prev => [...prev, reading]);
-      setIsGenerating(false);
+      setTarotReadings(prev => {
+        const updated = [reading, ...prev];
+        localStorage.setItem('tarotReadings', JSON.stringify(updated));
+        return updated;
+      });
+      setIsDrawingTarot(false);
       if (Math.random() < 0.2) {
         setTimeout(() => {
           toast("Tim grumbles about his stolen deck...", {
@@ -240,7 +248,7 @@ const Index = () => {
           </TabsContent>
 
           <TabsContent value="tarot" className="space-y-4">
-            <TarotReading onDrawCard={handleDrawTarotCard} isDrawing={isGenerating} currentReading={currentTarotReading} />
+            <TarotReading onDrawCard={handleDrawTarotCard} isDrawing={isDrawingTarot} currentReading={currentTarotReading} />
           </TabsContent>
         </Tabs>
         

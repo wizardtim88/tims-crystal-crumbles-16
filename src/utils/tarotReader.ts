@@ -302,3 +302,49 @@ export const drawSingleCard = (question?: string): TarotReading => {
     date: new Date().toDateString()
   };
 };
+
+// Draw three cards for Past/Present/Future spread
+export const drawThreeCards = (question?: string): TarotReading => {
+  const shuffled = shuffleDeck(majorArcana);
+  const positions = ["Past", "Present", "Future"];
+  
+  const cards: DrawnCard[] = shuffled.slice(0, 3).map((card, index) => ({
+    card,
+    isReversed: Math.random() < 0.5,
+    position: positions[index]
+  }));
+  
+  // Create combined interpretation
+  const pastCard = cards[0];
+  const presentCard = cards[1];
+  const futureCard = cards[2];
+  
+  const pastInterpretation = pastCard.isReversed 
+    ? pastCard.card.timInterpretation.reversed 
+    : pastCard.card.timInterpretation.upright;
+    
+  const presentInterpretation = presentCard.isReversed 
+    ? presentCard.card.timInterpretation.reversed 
+    : presentCard.card.timInterpretation.upright;
+    
+  const futureInterpretation = futureCard.isReversed 
+    ? futureCard.card.timInterpretation.reversed 
+    : futureCard.card.timInterpretation.upright;
+  
+  const interpretation = `Past: ${pastInterpretation}
+
+Present: ${presentInterpretation}
+
+Future: ${futureInterpretation}
+
+Overall: The cards suggest a journey from where you've been to where you're headed. Pay attention to how these energies connect—sometimes the past gives context to the future!`;
+  
+  return {
+    id: Date.now(),
+    question,
+    cards,
+    spread: "three-card",
+    interpretation,
+    date: new Date().toDateString()
+  };
+};

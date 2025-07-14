@@ -21,10 +21,14 @@ const TarotReading: React.FC<TarotReadingProps> = ({
   const [selectedSpread, setSelectedSpread] = useState<TarotSpread>('single');
   const [isShuffling, setIsShuffling] = useState(false);
   const [isRevealed, setIsRevealed] = useState(false);
+  const [cardRevealStates, setCardRevealStates] = useState<boolean[]>([]);
+  const [isDealing, setIsDealing] = useState(false);
 
   const handleShuffle = () => {
     setIsShuffling(true);
     setIsRevealed(false);
+    setCardRevealStates([]);
+    setIsDealing(false);
     
     setTimeout(() => {
       setIsShuffling(false);
@@ -33,13 +37,67 @@ const TarotReading: React.FC<TarotReadingProps> = ({
   };
 
   const handleReveal = () => {
-    setIsRevealed(true);
+    if (selectedSpread === 'single') {
+      setIsRevealed(true);
+    } else {
+      // For three-card spread, reveal all cards at once
+      const newStates = new Array(3).fill(true);
+      setCardRevealStates(newStates);
+      setIsRevealed(true);
+    }
+  };
+
+  const handleCardReveal = (index: number) => {
+    if (selectedSpread === 'three-card') {
+      const newStates = [...cardRevealStates];
+      newStates[index] = true;
+      setCardRevealStates(newStates);
+      
+      // Check if all cards are revealed
+      if (newStates.every(state => state)) {
+        setIsRevealed(true);
+      }
+    }
   };
 
   const handleNewReading = () => {
     setQuestion('');
     setIsRevealed(false);
+    setCardRevealStates([]);
+    setIsDealing(false);
   };
+
+  // Initialize card reveal states when reading changes
+  React.useEffect(() => {
+    if (currentReading && selectedSpread === 'three-card') {
+      setCardRevealStates(new Array(currentReading.cards.length).fill(false));
+      setIsDealing(true);
+      
+      // Stagger card dealing animation
+      setTimeout(() => setIsDealing(false), 1000);
+    }
+  }, [currentReading, selectedSpread]);
+
+  // Helper to get reveal state for individual cards
+  const getCardRevealState = (index: number) => {
+    if (selectedSpread === 'single') return isRevealed;
+    return cardRevealStates[index] || false;
+  };
+
+  // Helper to determine if card should be clickable
+  const isCardClickable = (index: number) => {
+    if (selectedSpread === 'single') return !isRevealed;
+    if (selectedSpread === 'three-card') {
+      return !cardRevealStates[index] && !isDealing;
+    }
+    return false;
+  };
+
+  // Count revealed cards for progress
+  const revealedCount = selectedSpread === 'three-card' 
+    ? cardRevealStates.filter(Boolean).length 
+    : (isRevealed ? 1 : 0);
+  const totalCards = selectedSpread === 'three-card' ? 3 : 1;
 
   const spreads = [
     { 
@@ -140,20 +198,68 @@ const TarotReading: React.FC<TarotReadingProps> = ({
             />
           ) : (
             // Three Card Layout
-            <div className="grid grid-cols-3 gap-4 max-w-2xl mx-auto">
-              {currentReading.cards.map((drawnCard, index) => (
-                <div key={index} className="text-center space-y-3">
-                  <p className="font-wizard text-wizard-gold text-sm">
-                    {drawnCard.position}
+            <div className="space-y-4">
+              {/* Progress Indicator */}
+              {!isRevealed && (
+                <div className="text-center">
+                  <p className="font-wizard text-wizard-cream/70 text-sm mb-2">
+                    {isDealing ? "Tim is dealing your cards..." : `Click cards to reveal (${revealedCount}/${totalCards})`}
                   </p>
-                  <TarotCard
-                    drawnCard={drawnCard}
-                    isRevealed={isRevealed}
-                    onReveal={index === 0 ? handleReveal : undefined}
-                    className="mx-auto"
-                  />
+                  <div className="flex justify-center gap-2">
+                    {Array.from({ length: totalCards }, (_, i) => (
+                      <div
+                        key={i}
+                        className={`w-2 h-2 rounded-full transition-colors ${
+                          i < revealedCount ? 'bg-wizard-gold' : 'bg-wizard-gold/30'
+                        }`}
+                      />
+                    ))}
+                  </div>
                 </div>
-              ))}
+              )}
+              
+              {/* Cards Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
+                {currentReading.cards.map((drawnCard, index) => (
+                  <div 
+                    key={index} 
+                    className={`text-center space-y-3 transition-all duration-500 ${
+                      isDealing ? `opacity-0 translate-y-4` : 'opacity-100 translate-y-0'
+                    }`}
+                    style={{
+                      animationDelay: isDealing ? `${index * 200}ms` : '0ms',
+                      animation: isDealing ? 'none' : 'fade-in 0.6s ease-out forwards'
+                    }}
+                  >
+                    <p className="font-wizard text-wizard-gold text-sm">
+                      {drawnCard.position}
+                    </p>
+                    <TarotCard
+                      drawnCard={drawnCard}
+                      isRevealed={getCardRevealState(index)}
+                      onReveal={isCardClickable(index) ? () => handleCardReveal(index) : undefined}
+                      className={`mx-auto transition-all duration-300 ${
+                        isCardClickable(index) ? 'hover:scale-105 cursor-pointer' : ''
+                      } ${getCardRevealState(index) ? 'ring-2 ring-wizard-gold/30' : ''}`}
+                    />
+                  </div>
+                ))}
+              </div>
+              
+              {/* Reveal All Button */}
+              {!isRevealed && revealedCount > 0 && revealedCount < totalCards && (
+                <div className="text-center">
+                  <Button
+                    onClick={handleReveal}
+                    variant="outline"
+                    size="sm"
+                    className="border-wizard-gold/30 text-wizard-gold font-wizard hover:bg-wizard-gold/10"
+                  >
+                    <Sparkles className="w-4 h-4 mr-2" />
+                    Reveal All Cards
+                  </Button>
+                </div>
+              )}
             </div>
           )}
 

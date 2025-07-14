@@ -18,7 +18,7 @@ const TarotCard: React.FC<TarotCardProps> = ({
   const [isFlipping, setIsFlipping] = useState(false);
 
   const handleClick = () => {
-    if (!isRevealed && onReveal) {
+    if (!isRevealed && onReveal && !isFlipping) {
       setIsFlipping(true);
       setTimeout(() => {
         onReveal();
@@ -28,7 +28,7 @@ const TarotCard: React.FC<TarotCardProps> = ({
   };
 
   return (
-    <div className={`relative w-40 h-60 cursor-pointer ${className}`} onClick={handleClick}>
+    <div className={`relative w-40 h-60 ${onReveal && !isRevealed ? 'cursor-pointer' : ''} ${className}`} onClick={handleClick}>
       <div className={`
         relative w-full h-full transition-transform duration-500 transform-style-preserve-3d
         ${isRevealed ? 'rotate-y-180' : ''}

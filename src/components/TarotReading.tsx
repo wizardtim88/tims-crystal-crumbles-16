@@ -19,144 +19,101 @@ const TarotReading: React.FC<TarotReadingProps> = ({
 }) => {
   const [question, setQuestion] = useState('');
   const [selectedSpread, setSelectedSpread] = useState<TarotSpread>('single');
-  // Consolidated state management
-  const [revealState, setRevealState] = useState({
-    isShuffling: false,
-    isDealing: false,
-    dealingCardIndex: -1,
-    cardReveals: [] as boolean[],
-    allRevealed: false
-  });
+  // Simplified state management
+  const [isShuffling, setIsShuffling] = useState(false);
+  const [isDealing, setIsDealing] = useState(false);
+  const [revealedCards, setRevealedCards] = useState<boolean[]>([]);
+  const [allRevealed, setAllRevealed] = useState(false);
 
   const handleShuffle = () => {
     // Reset all state
-    setRevealState({
-      isShuffling: true,
-      isDealing: false,
-      dealingCardIndex: -1,
-      cardReveals: [],
-      allRevealed: false
-    });
+    setIsShuffling(true);
+    setIsDealing(false);
+    setRevealedCards([]);
+    setAllRevealed(false);
     
     setTimeout(() => {
-      setRevealState(prev => ({ ...prev, isShuffling: false }));
+      setIsShuffling(false);
       onDrawCard(question.trim() || undefined, selectedSpread);
     }, 2000);
   };
 
   const handleReveal = () => {
     if (selectedSpread === 'single') {
-      setRevealState(prev => ({ ...prev, allRevealed: true }));
+      setAllRevealed(true);
     } else {
       // For three-card spread, reveal all remaining cards
-      const newReveals = new Array(3).fill(true);
-      setRevealState(prev => ({ 
-        ...prev, 
-        cardReveals: newReveals,
-        allRevealed: true 
-      }));
+      setRevealedCards(new Array(3).fill(true));
+      setAllRevealed(true);
     }
   };
 
   const handleCardReveal = (index: number) => {
-    if (selectedSpread === 'three-card' && !revealState.isDealing) {
-      setRevealState(prev => {
-        const newReveals = [...prev.cardReveals];
+    if (selectedSpread === 'three-card' && !isDealing) {
+      setRevealedCards(prev => {
+        const newReveals = [...prev];
         newReveals[index] = true;
         
         // Check if all cards are revealed
-        const allRevealed = newReveals.every(state => state);
+        const allCardsRevealed = newReveals.every(state => state);
+        if (allCardsRevealed) {
+          setAllRevealed(true);
+        }
         
-        return {
-          ...prev,
-          cardReveals: newReveals,
-          allRevealed
-        };
+        return newReveals;
       });
     }
   };
 
   const handleNewReading = () => {
     setQuestion('');
-    setRevealState({
-      isShuffling: false,
-      isDealing: false,
-      dealingCardIndex: -1,
-      cardReveals: [],
-      allRevealed: false
-    });
+    setIsShuffling(false);
+    setIsDealing(false);
+    setRevealedCards([]);
+    setAllRevealed(false);
   };
 
   // Initialize card states and handle dealing animation
   React.useEffect(() => {
     if (currentReading) {
       if (selectedSpread === 'three-card') {
-        setRevealState(prev => ({
-          ...prev,
-          cardReveals: new Array(currentReading.cards.length).fill(false),
-          isDealing: true,
-          dealingCardIndex: 0,
-          allRevealed: false
-        }));
+        setRevealedCards(new Array(currentReading.cards.length).fill(false));
+        setAllRevealed(false);
+        setIsDealing(true);
         
-        // Stagger card dealing animation
-        const cardCount = currentReading.cards.length;
-        let currentIndex = 0;
+        // Brief dealing animation, then make cards clickable
+        const dealTimeout = setTimeout(() => {
+          setIsDealing(false);
+        }, 1200); // Shorter delay to make cards clickable faster
         
-        const dealInterval = setInterval(() => {
-          currentIndex++;
-          setRevealState(prev => ({ ...prev, dealingCardIndex: currentIndex }));
-          
-          if (currentIndex >= cardCount) {
-            clearInterval(dealInterval);
-            setTimeout(() => {
-              setRevealState(prev => ({ 
-                ...prev, 
-                isDealing: false,
-                dealingCardIndex: -1 
-              }));
-            }, 300);
-          }
-        }, 400);
-        
-        return () => clearInterval(dealInterval);
+        return () => clearTimeout(dealTimeout);
       } else {
-        setRevealState(prev => ({ 
-          ...prev, 
-          cardReveals: [false],
-          allRevealed: false 
-        }));
+        setRevealedCards([false]);
+        setAllRevealed(false);
+        setIsDealing(false);
       }
     }
   }, [currentReading, selectedSpread]);
 
   // Helper to get reveal state for individual cards
   const getCardRevealState = (index: number) => {
-    if (selectedSpread === 'single') return revealState.allRevealed;
-    return revealState.cardReveals[index] || false;
+    if (selectedSpread === 'single') return allRevealed;
+    return revealedCards[index] || false;
   };
 
   // Helper to determine if card should be clickable
   const isCardClickable = (index: number) => {
-    if (selectedSpread === 'single') return !revealState.allRevealed && !revealState.isDealing;
+    if (selectedSpread === 'single') return !allRevealed && !isDealing;
     if (selectedSpread === 'three-card') {
-      return !revealState.cardReveals[index] && 
-             !revealState.isDealing && 
-             index <= revealState.dealingCardIndex;
+      return !revealedCards[index] && !isDealing;
     }
     return false;
   };
 
-  // Helper to determine if card should be visible
-  const isCardVisible = (index: number) => {
-    if (selectedSpread === 'single') return true;
-    return index <= revealState.dealingCardIndex || !revealState.isDealing;
-  };
-
   // Count revealed cards for progress
   const revealedCount = selectedSpread === 'three-card' 
-    ? revealState.cardReveals.filter(Boolean).length 
-    : (revealState.allRevealed ? 1 : 0);
+    ? revealedCards.filter(Boolean).length 
+    : (allRevealed ? 1 : 0);
   const totalCards = selectedSpread === 'three-card' ? 3 : 1;
 
   const spreads = [
@@ -193,7 +150,7 @@ const TarotReading: React.FC<TarotReadingProps> = ({
                     : 'border-wizard-gold/30 bg-wizard-dark/20 text-wizard-cream/70 hover:bg-wizard-dark/40'
                   }
                 `}
-                disabled={isDrawing || revealState.isShuffling}
+                disabled={isDrawing || isShuffling}
               >
                 <div className="flex items-start gap-3">
                   <Icon className={`w-5 h-5 mt-0.5 ${selectedSpread === spread.id ? 'text-wizard-gold' : 'text-wizard-cream/50'}`} />
@@ -219,7 +176,7 @@ const TarotReading: React.FC<TarotReadingProps> = ({
           onChange={(e) => setQuestion(e.target.value)}
           placeholder="What guidance do you seek?"
           className="bg-wizard-dark/40 border-wizard-gold/30 text-wizard-cream placeholder:text-wizard-cream/50"
-          disabled={isDrawing || revealState.isShuffling}
+          disabled={isDrawing || isShuffling}
         />
       </div>
 
@@ -227,18 +184,18 @@ const TarotReading: React.FC<TarotReadingProps> = ({
       <div className="flex justify-center">
         <Button
           onClick={handleShuffle}
-          disabled={isDrawing || revealState.isShuffling}
+          disabled={isDrawing || isShuffling}
           className={`
             bg-wizard-purple hover:bg-wizard-purple/80 text-white 
             font-wizard px-6 py-6 text-lg flex items-center gap-2 
             transition-all hover:shadow-lg relative overflow-hidden
-            ${revealState.isShuffling ? 'animate-pulse' : ''}
+            ${isShuffling ? 'animate-pulse' : ''}
           `}
           size="lg"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-wizard-gold/10 to-transparent opacity-50"></div>
-          <Shuffle className={`w-5 h-5 ${revealState.isShuffling ? 'animate-spin' : ''}`} />
-          {revealState.isShuffling ? "Tim is shuffling..." : "Shuffle the Deck"}
+          <Shuffle className={`w-5 h-5 ${isShuffling ? 'animate-spin' : ''}`} />
+          {isShuffling ? "Tim is shuffling..." : "Shuffle the Deck"}
           
           <span className="absolute -top-1 left-1/4 text-wizard-gold text-xs">✨</span>
           <span className="absolute -bottom-1 right-1/4 text-wizard-gold text-xs">✨</span>
@@ -252,7 +209,7 @@ const TarotReading: React.FC<TarotReadingProps> = ({
             // Single Card Layout
             <TarotCard
               drawnCard={currentReading.cards[0]}
-              isRevealed={revealState.allRevealed}
+              isRevealed={allRevealed}
               onReveal={isCardClickable(0) ? handleReveal : undefined}
               className="mx-auto"
             />
@@ -260,13 +217,13 @@ const TarotReading: React.FC<TarotReadingProps> = ({
             // Three Card Layout
             <div className="space-y-4">
               {/* Progress Indicator */}
-              {!revealState.allRevealed && (
+              {!allRevealed && (
                 <div className="text-center">
                   <p className="font-wizard text-wizard-cream/70 text-sm mb-2">
-                    {revealState.isDealing 
+                    {isDealing 
                       ? "Tim is dealing your cards..." 
                       : revealedCount === 0 
-                        ? "Click the first card to begin"
+                        ? "Click any card to begin"
                         : `Click cards to reveal (${revealedCount}/${totalCards})`
                     }
                   </p>
@@ -275,8 +232,7 @@ const TarotReading: React.FC<TarotReadingProps> = ({
                       <div
                         key={i}
                         className={`w-2 h-2 rounded-full transition-colors ${
-                          i < revealedCount ? 'bg-wizard-gold' : 
-                          i <= revealState.dealingCardIndex ? 'bg-wizard-gold/50' : 'bg-wizard-gold/30'
+                          i < revealedCount ? 'bg-wizard-gold' : 'bg-wizard-gold/30'
                         }`}
                       />
                     ))}
@@ -289,11 +245,9 @@ const TarotReading: React.FC<TarotReadingProps> = ({
                 {currentReading.cards.map((drawnCard, index) => (
                   <div 
                     key={index} 
-                    className={`text-center space-y-3 transition-all duration-700 ${
-                      !isCardVisible(index) ? 'opacity-0 scale-95 translate-y-8' : 'opacity-100 scale-100 translate-y-0'
-                    }`}
+                    className="text-center space-y-3 transition-all duration-700 opacity-100 scale-100 translate-y-0"
                     style={{
-                      transitionDelay: revealState.isDealing ? `${index * 400}ms` : '0ms'
+                      transitionDelay: isDealing ? `${index * 400}ms` : '0ms'
                     }}
                   >
                     <p className="font-wizard text-wizard-gold text-sm">
@@ -316,7 +270,7 @@ const TarotReading: React.FC<TarotReadingProps> = ({
               </div>
               
               {/* Reveal All Button */}
-              {!revealState.allRevealed && revealedCount > 0 && revealedCount < totalCards && !revealState.isDealing && (
+              {!allRevealed && revealedCount > 0 && revealedCount < totalCards && !isDealing && (
                 <div className="text-center">
                   <Button
                     onClick={handleReveal}
@@ -333,7 +287,7 @@ const TarotReading: React.FC<TarotReadingProps> = ({
           )}
 
           {/* Interpretation */}
-          {revealState.allRevealed && (
+          {allRevealed && (
             <div className="max-w-2xl mx-auto animate-fade-in">
               <div className="bg-card/90 backdrop-blur-sm p-6 rounded-lg border border-wizard-gold/30 shadow-lg">
                 {currentReading.spread === 'single' ? (

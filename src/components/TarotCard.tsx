@@ -30,13 +30,14 @@ const TarotCard: React.FC<TarotCardProps> = ({
   return (
     <div className={`relative w-40 h-60 ${onReveal && !isRevealed ? 'cursor-pointer' : ''} ${className}`} onClick={handleClick}>
       <div className={`
-        relative w-full h-full transition-transform duration-500 transform-style-preserve-3d
-        ${isRevealed ? 'rotate-y-180' : ''}
+        relative w-full h-full transition-transform duration-500
+        [transform-style:preserve-3d] [perspective:1000px]
+        ${isRevealed ? '[transform:rotateY(180deg)]' : ''}
         ${isFlipping ? 'animate-pulse' : ''}
       `}>
         {/* Card Back */}
         <Card className={`
-          absolute inset-0 w-full h-full backface-hidden
+          absolute inset-0 w-full h-full [backface-visibility:hidden]
           border-2 border-wizard-gold/50 bg-gradient-to-br from-wizard-purple to-wizard-dark
           flex items-center justify-center hover:border-wizard-gold hover:shadow-lg
           hover:shadow-wizard-gold/20 transition-all
@@ -50,7 +51,7 @@ const TarotCard: React.FC<TarotCardProps> = ({
 
         {/* Card Front */}
         <Card className={`
-          absolute inset-0 w-full h-full backface-hidden rotate-y-180
+          absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)]
           border-2 border-wizard-gold/50 bg-gradient-to-br from-wizard-cream to-wizard-peach
           ${drawnCard?.isReversed ? 'rotate-180' : ''}
           hover:shadow-lg hover:shadow-wizard-gold/20 transition-all

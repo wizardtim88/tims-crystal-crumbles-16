@@ -190,7 +190,7 @@ const Index = () => {
               <Book className="mr-2 h-4 w-4" />
               Fortunes
             </TabsTrigger>
-            <TabsTrigger value="horoscope" className="font-wizard bg-stone-800 hover:bg-stone-700 text-orange-200">
+            <TabsTrigger value="horoscope" className="font-wizard data-[state=active]:bg-wizard-purple text-orange-200">
               <Stars className="mr-2 h-4 w-4" />
               Horoscope
             </TabsTrigger>

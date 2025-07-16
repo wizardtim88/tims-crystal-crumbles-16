@@ -196,7 +196,7 @@ const Index = () => {
             </TabsTrigger>
             <TabsTrigger value="tarot" className="font-wizard data-[state=active]:bg-wizard-purple text-orange-200">
               <Sparkles className="mr-2 h-4 w-4" />
-              Tim's Stolen Deck
+              Tarot
             </TabsTrigger>
           </TabsList>
           

@@ -16,7 +16,7 @@ import { generateZodiacReading } from '@/utils/zodiacReader';
 import { drawSingleCard, drawThreeCards } from '@/utils/tarotReader';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/sonner';
-import { Heart, Coins, Thermometer, Book, Sparkles, Stars } from 'lucide-react';
+import { Heart, Coins, Thermometer, Book, Sparkles, Stars, Spade } from 'lucide-react';
 import { FortuneCategory } from '@/types/fortune';
 import { ZodiacSign, ZodiacReading } from '@/types/zodiac';
 import { TarotReading as TarotReadingType, TarotSpread } from '@/types/tarot';
@@ -195,7 +195,7 @@ const Index = () => {
               Horoscope
             </TabsTrigger>
             <TabsTrigger value="tarot" className="font-wizard data-[state=active]:bg-wizard-purple text-orange-200">
-              <Sparkles className="mr-2 h-4 w-4" />
+              <Spade className="mr-2 h-4 w-4" />
               Tarot
             </TabsTrigger>
           </TabsList>

@@ -54,47 +54,23 @@ const TarotCard: React.FC<TarotCardProps> = ({
           absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)]
           border-2 border-wizard-gold/50 bg-gradient-to-br from-wizard-cream to-wizard-peach
           ${drawnCard?.isReversed ? 'rotate-180' : ''}
-          hover:shadow-lg hover:shadow-wizard-gold/20 transition-all
+          hover:shadow-lg hover:shadow-wizard-gold/20 transition-all overflow-hidden
         `}>
           {drawnCard && (
-            <div className="p-4 h-full flex flex-col">
-              {/* Card header */}
-              <div className="text-center mb-3">
-                <h3 className="font-wizard text-lg text-wizard-dark">
-                  {drawnCard.card.name}
-                </h3>
-                {drawnCard.isReversed && (
-                  <span className="text-xs text-wizard-purple font-scroll">
-                    Reversed
-                  </span>
-                )}
-              </div>
-              
-              {/* Card image */}
-              <div className="flex-1 mb-3 rounded overflow-hidden border border-wizard-gold/30">
-                <img 
-                  src={drawnCard.card.imageUrl}
-                  alt={drawnCard.card.imageAlt}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                  onError={(e) => {
-                    // Fallback to emoji if image fails to load
-                    e.currentTarget.style.display = 'none';
-                    const fallback = document.createElement('div');
-                    fallback.className = 'w-full h-full flex items-center justify-center bg-wizard-dark/10';
-                    fallback.innerHTML = '<div class="text-6xl opacity-50">🎴</div>';
-                    e.currentTarget.parentNode?.appendChild(fallback);
-                  }}
-                />
-              </div>
-              
-              {/* Keywords */}
-              <div className="text-center">
-                <div className="text-xs text-wizard-purple font-scroll">
-                  {drawnCard.card.keywords.join(' • ')}
-                </div>
-              </div>
-            </div>
+            <img 
+              src={drawnCard.card.imageUrl}
+              alt={drawnCard.card.imageAlt}
+              className="absolute inset-0 w-full h-full object-cover"
+              loading="lazy"
+              onError={(e) => {
+                // Fallback to emoji if image fails to load
+                e.currentTarget.style.display = 'none';
+                const fallback = document.createElement('div');
+                fallback.className = 'absolute inset-0 w-full h-full flex items-center justify-center bg-wizard-dark/10';
+                fallback.innerHTML = '<div class="text-6xl opacity-50">🎴</div>';
+                e.currentTarget.parentNode?.appendChild(fallback);
+              }}
+            />
           )}
         </Card>
       </div>

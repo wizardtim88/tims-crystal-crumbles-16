@@ -5,6 +5,8 @@ export interface TarotCard {
   keywords: string[];
   uprightMeaning: string;
   reversedMeaning: string;
+  imageUrl: string;
+  imageAlt: string;
   timInterpretation: {
     upright: string;
     reversed: string;

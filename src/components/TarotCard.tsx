@@ -28,7 +28,7 @@ const TarotCard: React.FC<TarotCardProps> = ({
   };
 
   return (
-    <div className={`relative w-40 h-60 ${onReveal && !isRevealed ? 'cursor-pointer' : ''} ${className}`} onClick={handleClick}>
+    <div className={`relative w-36 h-64 ${onReveal && !isRevealed ? 'cursor-pointer' : ''} ${className}`} onClick={handleClick}>
       <div className={`
         relative w-full h-full transition-transform duration-500
         [transform-style:preserve-3d] [perspective:1000px]
@@ -70,9 +70,22 @@ const TarotCard: React.FC<TarotCardProps> = ({
                 )}
               </div>
               
-              {/* Card image placeholder */}
-              <div className="flex-1 bg-wizard-dark/10 rounded border border-wizard-gold/30 flex items-center justify-center mb-3">
-                <div className="text-6xl opacity-50">🎴</div>
+              {/* Card image */}
+              <div className="flex-1 mb-3 rounded overflow-hidden border border-wizard-gold/30">
+                <img 
+                  src={drawnCard.card.imageUrl}
+                  alt={drawnCard.card.imageAlt}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                  onError={(e) => {
+                    // Fallback to emoji if image fails to load
+                    e.currentTarget.style.display = 'none';
+                    const fallback = document.createElement('div');
+                    fallback.className = 'w-full h-full flex items-center justify-center bg-wizard-dark/10';
+                    fallback.innerHTML = '<div class="text-6xl opacity-50">🎴</div>';
+                    e.currentTarget.parentNode?.appendChild(fallback);
+                  }}
+                />
               </div>
               
               {/* Keywords */}

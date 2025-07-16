@@ -9,6 +9,8 @@ export const majorArcana: TarotCard[] = [
     keywords: ["new beginnings", "innocence", "adventure"],
     uprightMeaning: "New beginnings, innocence, spontaneity, free spirit",
     reversedMeaning: "Holding back, recklessness, risk-taking",
+    imageUrl: "/images/tarot/major-arcana/the-fool.jpg",
+    imageAlt: "The Fool tarot card",
     timInterpretation: {
       upright: "You're about to embark on a new adventure! Pack snacks. Seriously, you'll get hungry and make poor decisions on an empty stomach.",
       reversed: "Someone's being a bit too cautious. Life's too short to overthink everything—sometimes you just gotta trip into destiny!"
@@ -21,6 +23,8 @@ export const majorArcana: TarotCard[] = [
     keywords: ["manifestation", "resourcefulness", "power"],
     uprightMeaning: "Manifestation, resourcefulness, power, inspired action",
     reversedMeaning: "Manipulation, poor planning, untapped talents",
+    imageUrl: "/images/tarot/major-arcana/the-magician.jpg",
+    imageAlt: "The Magician tarot card",
     timInterpretation: {
       upright: "You've got all the tools you need! Now stop hoarding them like I hoard cheese wheels and actually USE them.",
       reversed: "All that potential and you're just... sitting there? Even I get off the couch sometimes. Mostly for food, but still."
@@ -33,6 +37,8 @@ export const majorArcana: TarotCard[] = [
     keywords: ["intuition", "sacred knowledge", "subconscious"],
     uprightMeaning: "Intuition, sacred knowledge, divine feminine, subconscious mind",
     reversedMeaning: "Secrets, disconnected from intuition, withdrawal",
+    imageUrl: "/images/tarot/major-arcana/the-high-priestess.jpg",
+    imageAlt: "The High Priestess tarot card",
     timInterpretation: {
       upright: "Trust your gut! It's rarely wrong. Unlike my digestive system after too much pizza, but that's different.",
       reversed: "You're overthinking everything. Sometimes the answer is as simple as 'yes, you should order extra toppings.'"
@@ -45,6 +51,8 @@ export const majorArcana: TarotCard[] = [
     keywords: ["femininity", "beauty", "nature", "abundance"],
     uprightMeaning: "Femininity, beauty, nature, abundance, nurturing",
     reversedMeaning: "Creative block, dependence on others",
+    imageUrl: "/images/tarot/major-arcana/the-empress.jpg",
+    imageAlt: "The Empress tarot card",
     timInterpretation: {
       upright: "Time to nurture something! Maybe start with yourself—when's the last time you had a proper meal?",
       reversed: "You're being too hard on yourself. Even I occasionally think I'm magnificent, and I live in a hole."
@@ -57,6 +65,8 @@ export const majorArcana: TarotCard[] = [
     keywords: ["authority", "structure", "control", "father-figure"],
     uprightMeaning: "Authority, structure, control, father-figure",
     reversedMeaning: "Tyranny, rigidity, coldness",
+    imageUrl: "/images/tarot/major-arcana/the-emperor.jpg",
+    imageAlt: "The Emperor tarot card",
     timInterpretation: {
       upright: "Time to take charge! But maybe start small—like organizing your snack cabinet. Work your way up to world domination.",
       reversed: "Someone's being a bit bossy. Power corrupts, absolute power corrupts absolutely, and hangry power is just annoying."
@@ -69,6 +79,8 @@ export const majorArcana: TarotCard[] = [
     keywords: ["spiritual wisdom", "religious beliefs", "conformity"],
     uprightMeaning: "Spiritual wisdom, religious beliefs, conformity, tradition",
     reversedMeaning: "Personal beliefs, freedom, challenging the status quo",
+    imageUrl: "/images/tarot/major-arcana/the-hierophant.jpg",
+    imageAlt: "The Hierophant tarot card",
     timInterpretation: {
       upright: "Sometimes you need to follow the rules. But make sure they're good rules, not 'no eating in the library' nonsense.",
       reversed: "Question everything! Except gravity. I learned that lesson the hard way during my flying carpet incident."
@@ -81,6 +93,8 @@ export const majorArcana: TarotCard[] = [
     keywords: ["love", "harmony", "relationships", "values alignment"],
     uprightMeaning: "Love, harmony, relationships, values alignment",
     reversedMeaning: "Self-love, disharmony, imbalance, misalignment of values",
+    imageUrl: "/images/tarot/major-arcana/the-lovers.jpg",
+    imageAlt: "The Lovers tarot card",
     timInterpretation: {
       upright: "Love is in the air! Or maybe that's just the smell of my famous chili. Either way, good things are coming.",
       reversed: "Time for some self-love. Treat yourself like you'd treat a favorite pet—with snacks and afternoon naps."
@@ -93,6 +107,8 @@ export const majorArcana: TarotCard[] = [
     keywords: ["control", "willpower", "success", "determination"],
     uprightMeaning: "Control, willpower, success, determination",
     reversedMeaning: "Self-discipline, inner guidance, lack of control",
+    imageUrl: "/images/tarot/major-arcana/the-chariot.jpg",
+    imageAlt: "The Chariot tarot card",
     timInterpretation: {
       upright: "You're in control and moving forward! Just remember to steer—I once rode a runaway shopping cart for three blocks.",
       reversed: "Feeling out of control? Take a deep breath, have a snack, and remember: even I eventually figured out how to use a map."
@@ -105,6 +121,8 @@ export const majorArcana: TarotCard[] = [
     keywords: ["strength", "courage", "persuasion", "influence"],
     uprightMeaning: "Strength, courage, persuasion, influence, compassion",
     reversedMeaning: "Self doubt, low energy, raw emotion",
+    imageUrl: "/images/tarot/major-arcana/strength.jpg",
+    imageAlt: "Strength tarot card",
     timInterpretation: {
       upright: "You're stronger than you think! I once arm-wrestled a troll for the last donut. Spoiler: the donut was worth it.",
       reversed: "Everyone has off days. Even dragons need mental health breaks. Be kind to yourself."
@@ -117,6 +135,8 @@ export const majorArcana: TarotCard[] = [
     keywords: ["soul searching", "seeking inner guidance", "introspection"],
     uprightMeaning: "Soul searching, seeking inner guidance, introspection",
     reversedMeaning: "Isolation, loneliness, withdrawal",
+    imageUrl: "/images/tarot/major-arcana/the-hermit.jpg",
+    imageAlt: "The Hermit tarot card",
     timInterpretation: {
       upright: "Time for some soul searching. Find a comfy spot, bring snacks, and think deep thoughts. Works for me!",
       reversed: "Enough hermiting! Even I occasionally talk to people who aren't my refrigerator. Time to socialize."
@@ -129,6 +149,8 @@ export const majorArcana: TarotCard[] = [
     keywords: ["good luck", "karma", "life cycles", "destiny"],
     uprightMeaning: "Good luck, karma, life cycles, destiny, turning point",
     reversedMeaning: "Bad luck, lack of control, clinging to control",
+    imageUrl: "/images/tarot/major-arcana/wheel-of-fortune.jpg",
+    imageAlt: "Wheel of Fortune tarot card",
     timInterpretation: {
       upright: "The universe is spinning in your favor! Like when the pizza delivery arrives early—pure magic!",
       reversed: "Sometimes the wheel gets stuck. Give it a good kick and see what happens. Worked for my washing machine."
@@ -141,6 +163,8 @@ export const majorArcana: TarotCard[] = [
     keywords: ["justice", "fairness", "truth", "cause and effect"],
     uprightMeaning: "Justice, fairness, truth, cause and effect, law",
     reversedMeaning: "Unfairness, lack of accountability, dishonesty",
+    imageUrl: "/images/tarot/major-arcana/justice.jpg",
+    imageAlt: "Justice tarot card",
     timInterpretation: {
       upright: "Truth and fairness will prevail! Like when someone finally admits pineapple belongs on pizza. Justice served!",
       reversed: "Something's not quite fair. Stand up for what's right, but maybe finish your sandwich first. You'll need the energy."
@@ -153,6 +177,8 @@ export const majorArcana: TarotCard[] = [
     keywords: ["suspension", "restriction", "letting go"],
     uprightMeaning: "Suspension, restriction, letting go, sacrifice",
     reversedMeaning: "Delays, resistance, stalling",
+    imageUrl: "/images/tarot/major-arcana/the-hanged-man.jpg",
+    imageAlt: "The Hanged Man tarot card",
     timInterpretation: {
       upright: "Sometimes you need to hang upside down to see things clearly. I do my best thinking while napping anyway.",
       reversed: "Stop stalling! I once put off doing laundry for three months. It wasn't pretty. Learn from my mistakes."
@@ -165,6 +191,8 @@ export const majorArcana: TarotCard[] = [
     keywords: ["endings", "transformation", "transition"],
     uprightMeaning: "Endings, transformation, transition, new beginnings",
     reversedMeaning: "Resistance to change, personal transformation, inner purging",
+    imageUrl: "/images/tarot/major-arcana/death.jpg",
+    imageAlt: "Death tarot card",
     timInterpretation: {
       upright: "Big changes ahead! Don't worry, it's like cleaning out your fridge—scary at first, but ultimately necessary.",
       reversed: "You're resisting change like I resist morning exercises. Sometimes you just gotta embrace the inevitable."
@@ -177,6 +205,8 @@ export const majorArcana: TarotCard[] = [
     keywords: ["balance", "moderation", "patience", "purpose"],
     uprightMeaning: "Balance, moderation, patience, purpose",
     reversedMeaning: "Imbalance, excess, self-healing, re-alignment",
+    imageUrl: "/images/tarot/major-arcana/temperance.jpg",
+    imageAlt: "Temperance tarot card",
     timInterpretation: {
       upright: "Balance is key! Like the perfect ratio of cheese to crackers. Too much of either ruins the harmony.",
       reversed: "Things are a bit out of whack. Time to recalibrate. Start with your sleep schedule and work from there."
@@ -189,6 +219,8 @@ export const majorArcana: TarotCard[] = [
     keywords: ["shadow self", "attachment", "addiction", "restriction"],
     uprightMeaning: "Shadow self, attachment, addiction, restriction, sexuality",
     reversedMeaning: "Releasing limiting beliefs, exploring dark thoughts, detachment",
+    imageUrl: "/images/tarot/major-arcana/the-devil.jpg",
+    imageAlt: "The Devil tarot card",
     timInterpretation: {
       upright: "We all have our vices. Mine happens to be hoarding magical cookbooks. What's yours? (No judgment here.)",
       reversed: "Breaking free from bad habits! I once gave up midnight snacking for... well, it lasted about six hours."
@@ -201,6 +233,8 @@ export const majorArcana: TarotCard[] = [
     keywords: ["sudden change", "upheaval", "chaos", "revelation"],
     uprightMeaning: "Sudden change, upheaval, chaos, revelation, awakening",
     reversedMeaning: "Personal transformation, fear of change, averting disaster",
+    imageUrl: "/images/tarot/major-arcana/the-tower.jpg",
+    imageAlt: "The Tower tarot card",
     timInterpretation: {
       upright: "Uh oh, someone's tower is about to tumble! Don't panic—sometimes you need to knock things down to build better.",
       reversed: "Crisis averted! Like when I remembered to turn off the cauldron before it exploded. Close calls build character."
@@ -213,6 +247,8 @@ export const majorArcana: TarotCard[] = [
     keywords: ["hope", "faith", "purpose", "renewal"],
     uprightMeaning: "Hope, faith, purpose, renewal, spirituality",
     reversedMeaning: "Lack of faith, despair, self-trust, disconnection",
+    imageUrl: "/images/tarot/major-arcana/the-star.jpg",
+    imageAlt: "The Star tarot card",
     timInterpretation: {
       upright: "Hope shines bright! Like finding the last slice of cake in the fridge when you thought it was gone forever.",
       reversed: "Feeling a bit dim? Everyone's light flickers sometimes. Mine went out completely during the Great Cookie Shortage of '97."
@@ -225,6 +261,8 @@ export const majorArcana: TarotCard[] = [
     keywords: ["illusion", "fear", "anxiety", "subconscious"],
     uprightMeaning: "Illusion, fear, anxiety, subconscious, intuition",
     reversedMeaning: "Release of fear, repressed emotion, inner confusion",
+    imageUrl: "/images/tarot/major-arcana/the-moon.jpg",
+    imageAlt: "The Moon tarot card",
     timInterpretation: {
       upright: "Things aren't quite as they seem. Like when I thought I invented a new spell but it was just really strong coffee.",
       reversed: "The fog is lifting! You're starting to see things clearly. Unlike me without my reading glasses."
@@ -237,6 +275,8 @@ export const majorArcana: TarotCard[] = [
     keywords: ["positivity", "fun", "warmth", "success"],
     uprightMeaning: "Positivity, fun, warmth, success, vitality",
     reversedMeaning: "Inner child, feeling down, overly optimistic",
+    imageUrl: "/images/tarot/major-arcana/the-sun.jpg",
+    imageAlt: "The Sun tarot card",
     timInterpretation: {
       upright: "Pure sunshine and happiness! Like finding out there's a surprise nap scheduled in your day. Perfection!",
       reversed: "Your inner sunshine is a bit cloudy. Try some comfort food and a good book—works every time."
@@ -249,6 +289,8 @@ export const majorArcana: TarotCard[] = [
     keywords: ["judgement", "rebirth", "inner calling", "absolution"],
     uprightMeaning: "Judgement, rebirth, inner calling, absolution",
     reversedMeaning: "Self-doubt, inner critic, ignoring the call",
+    imageUrl: "/images/tarot/major-arcana/judgement.jpg",
+    imageAlt: "Judgement tarot card",
     timInterpretation: {
       upright: "Time for a fresh start! Like when I finally organized my spell components. Okay, I hired someone, but still counts!",
       reversed: "Stop being so hard on yourself! I judge people who put pineapple on pizza, but that's different. Be kinder."
@@ -261,6 +303,8 @@ export const majorArcana: TarotCard[] = [
     keywords: ["completion", "accomplishment", "travel", "fulfillment"],
     uprightMeaning: "Completion, accomplishment, travel, fulfillment",
     reversedMeaning: "Seeking personal closure, short-cut to success, stagnation",
+    imageUrl: "/images/tarot/major-arcana/the-world.jpg",
+    imageAlt: "The World tarot card",
     timInterpretation: {
       upright: "You've reached the end goal! Time to celebrate with something delicious. I recommend pie. Always recommend pie.",
       reversed: "Almost there! Don't take shortcuts now—you've come too far to cut corners. Unless it's a literal corner on a sandwich."

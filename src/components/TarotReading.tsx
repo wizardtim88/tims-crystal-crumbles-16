@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -25,6 +25,9 @@ const TarotReading: React.FC<TarotReadingProps> = ({
   const [isDealing, setIsDealing] = useState(false);
   const [revealedCards, setRevealedCards] = useState<boolean[]>([]);
   const [allRevealed, setAllRevealed] = useState(false);
+  
+  // Ref for the single card for image capture
+  const singleCardRef = useRef<HTMLDivElement>(null);
 
   const handleShuffle = () => {
     // Reset all state
@@ -208,12 +211,14 @@ const TarotReading: React.FC<TarotReadingProps> = ({
         <div className="flex flex-col items-center space-y-6">
           {currentReading.spread === 'single' ? (
             // Single Card Layout
-            <TarotCard
-              drawnCard={currentReading.cards[0]}
-              isRevealed={allRevealed}
-              onReveal={isCardClickable(0) ? handleReveal : undefined}
-              className="mx-auto"
-            />
+            <div ref={singleCardRef}>
+              <TarotCard
+                drawnCard={currentReading.cards[0]}
+                isRevealed={allRevealed}
+                onReveal={isCardClickable(0) ? handleReveal : undefined}
+                className="mx-auto"
+              />
+            </div>
           ) : (
             // Three Card Layout
             <div className="space-y-4">
@@ -338,7 +343,10 @@ const TarotReading: React.FC<TarotReadingProps> = ({
                 </div>
 
                 {/* Share Buttons */}
-                <ShareButton reading={currentReading} />
+                <ShareButton 
+                  reading={currentReading} 
+                  cardRef={currentReading.spread === 'single' ? singleCardRef : undefined} 
+                />
                 
                 <div className="mt-6 text-center">
                   <Button

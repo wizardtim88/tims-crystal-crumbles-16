@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import TarotCard from '@/components/TarotCard';
+import ShareButton from '@/components/ShareButton';
 import { TarotReading as TarotReadingType, TarotSpread } from '@/types/tarot';
 import { Shuffle, Sparkles, Calendar, Clock, Zap } from 'lucide-react';
 
@@ -335,6 +336,9 @@ const TarotReading: React.FC<TarotReadingProps> = ({
                     {currentReading.interpretation}
                   </div>
                 </div>
+
+                {/* Share Buttons */}
+                <ShareButton reading={currentReading} />
                 
                 <div className="mt-6 text-center">
                   <Button

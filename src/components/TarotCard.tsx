@@ -19,6 +19,8 @@ const TarotCard: React.FC<TarotCardProps> = ({
   const [isFlipping, setIsFlipping] = useState(false);
   const [showVideo, setShowVideo] = useState(false);
   const [videoEnded, setVideoEnded] = useState(false);
+  const [videoError, setVideoError] = useState(false);
+  const [videoLoading, setVideoLoading] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
@@ -35,18 +37,51 @@ const TarotCard: React.FC<TarotCardProps> = ({
   // Handle video reveal
   useEffect(() => {
     if (isRevealed && drawnCard?.card.videoUrl && !prefersReducedMotion) {
+      console.log('Starting video reveal for:', drawnCard.card.name);
+      setVideoLoading(true);
       setShowVideo(true);
       setVideoEnded(false);
+      setVideoError(false);
       
-      // Start video playback
+      // Start video playback when ready
       if (videoRef.current) {
-        videoRef.current.currentTime = 0;
-        videoRef.current.play().catch(() => {
-          // If video fails to play, show static image immediately
+        const video = videoRef.current;
+        
+        const handleCanPlay = () => {
+          console.log('Video can play, starting playback');
+          setVideoLoading(false);
+          video.play().catch((error) => {
+            console.error('Video play failed:', error);
+            setVideoError(true);
+            setShowVideo(false);
+            setVideoEnded(true);
+          });
+        };
+
+        const handleError = () => {
+          console.error('Video loading error');
+          setVideoError(true);
+          setVideoLoading(false);
           setShowVideo(false);
           setVideoEnded(true);
-        });
+        };
+
+        video.addEventListener('canplay', handleCanPlay);
+        video.addEventListener('error', handleError);
+        
+        // Reset video to start
+        video.currentTime = 0;
+        video.load();
+
+        return () => {
+          video.removeEventListener('canplay', handleCanPlay);
+          video.removeEventListener('error', handleError);
+        };
       }
+    } else if (isRevealed) {
+      // No video or reduced motion - show static image immediately
+      setShowVideo(false);
+      setVideoEnded(true);
     }
   }, [isRevealed, drawnCard?.card.videoUrl, prefersReducedMotion]);
 
@@ -61,11 +96,12 @@ const TarotCard: React.FC<TarotCardProps> = ({
   };
 
   const handleVideoEnded = () => {
+    console.log('Video ended, transitioning to static image');
     setShowVideo(false);
     setVideoEnded(true);
   };
 
-  const shouldShowVideo = showVideo && !videoEnded && drawnCard?.card.videoUrl && !prefersReducedMotion;
+  const shouldShowVideo = showVideo && !videoEnded && !videoError && drawnCard?.card.videoUrl && !prefersReducedMotion;
   const shouldShowImage = !shouldShowVideo && isRevealed && drawnCard;
 
   return (
@@ -97,6 +133,16 @@ const TarotCard: React.FC<TarotCardProps> = ({
           ${drawnCard?.isReversed ? 'rotate-180' : ''}
           hover:shadow-lg hover:shadow-wizard-gold/20 transition-all overflow-hidden
         `}>
+          {/* Video Loading Indicator */}
+          {videoLoading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-wizard-dark/10">
+              <div className="text-wizard-dark/60 text-center">
+                <div className="text-2xl mb-2">📽️</div>
+                <div className="text-sm">Loading magical animation...</div>
+              </div>
+            </div>
+          )}
+
           {/* Video Element */}
           {shouldShowVideo && (
             <video
@@ -104,9 +150,11 @@ const TarotCard: React.FC<TarotCardProps> = ({
               className="absolute inset-0 w-full h-full object-cover"
               muted
               playsInline
-              preload="metadata"
+              preload="auto"
               onEnded={handleVideoEnded}
               onError={() => {
+                console.error('Video playback error');
+                setVideoError(true);
                 setShowVideo(false);
                 setVideoEnded(true);
               }}
@@ -120,11 +168,12 @@ const TarotCard: React.FC<TarotCardProps> = ({
             <img 
               src={drawnCard.card.imageUrl}
               alt={drawnCard.card.imageAlt}
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
                 videoEnded ? 'opacity-100' : 'opacity-0'
               }`}
               loading="lazy"
               onError={(e) => {
+                console.error('Image loading error for:', drawnCard.card.name);
                 // Fallback to emoji if image fails to load
                 e.currentTarget.style.display = 'none';
                 const fallback = document.createElement('div');
@@ -133,6 +182,16 @@ const TarotCard: React.FC<TarotCardProps> = ({
                 e.currentTarget.parentNode?.appendChild(fallback);
               }}
             />
+          )}
+
+          {/* Video Error Fallback */}
+          {videoError && isRevealed && (
+            <div className="absolute inset-0 flex items-center justify-center bg-wizard-dark/5">
+              <div className="text-wizard-dark/60 text-center p-4">
+                <div className="text-3xl mb-2">🎴</div>
+                <div className="text-xs">Video unavailable</div>
+              </div>
+            </div>
           )}
         </Card>
       </div>

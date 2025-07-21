@@ -11,7 +11,7 @@ export const majorArcana: TarotCard[] = [
     reversedMeaning: "Holding back, recklessness, risk-taking",
     imageUrl: "https://i.imgur.com/Lus4nEi.png",
     imageAlt: "The Fool tarot card",
-    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4", // Sample video URL
+    videoUrl: "https://imgur.com/e50ATdY", // The Fool video URL
     timInterpretation: {
       upright: "You're about to embark on a new adventure! Pack snacks. Seriously, you'll get hungry and make poor decisions on an empty stomach.",
       reversed: "Someone's being a bit too cautious. Life's too short to overthink everything—sometimes you just gotta trip into destiny!"

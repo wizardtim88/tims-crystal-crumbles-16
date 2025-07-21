@@ -39,6 +39,7 @@ const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState<FortuneCategory>("general");
   const [selectedZodiacSign, setSelectedZodiacSign] = useState<ZodiacSign>("aries");
   const [activeTab, setActiveTab] = useState<"fortunes" | "horoscope" | "tarot">("fortunes");
+  const [selectedSpread, setSelectedSpread] = useState<TarotSpread>('single');
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const fortunesRef = useRef<HTMLDivElement>(null);

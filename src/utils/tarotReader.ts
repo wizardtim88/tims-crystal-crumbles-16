@@ -11,7 +11,7 @@ export const majorArcana: TarotCard[] = [
     reversedMeaning: "Holding back, recklessness, risk-taking",
     imageUrl: "https://i.imgur.com/Lus4nEi.png",
     imageAlt: "The Fool tarot card",
-    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4", // Sample video URL
+    videoUrl: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", // The Fool video URL
     timInterpretation: {
       upright: "You're about to embark on a new adventure! Pack snacks. Seriously, you'll get hungry and make poor decisions on an empty stomach.",
       reversed: "Someone's being a bit too cautious. Life's too short to overthink everything—sometimes you just gotta trip into destiny!"
@@ -26,7 +26,7 @@ export const majorArcana: TarotCard[] = [
     reversedMeaning: "Manipulation, poor planning, untapped talents",
     imageUrl: "https://i.imgur.com/3S8ZmqW.png",
     imageAlt: "The Magician tarot card",
-    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4", // Sample video URL
+    videoUrl: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", // Sample video URL
     timInterpretation: {
       upright: "You've got all the tools you need! Now stop hoarding them like I hoard cheese wheels and actually USE them.",
       reversed: "All that potential and you're just... sitting there? Even I get off the couch sometimes. Mostly for food, but still."
@@ -41,7 +41,7 @@ export const majorArcana: TarotCard[] = [
     reversedMeaning: "Secrets, disconnected from intuition, withdrawal",
     imageUrl: "https://i.imgur.com/WqUYQox.png",
     imageAlt: "The High Priestess tarot card",
-    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4", // Sample video URL
+    videoUrl: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", // The Fool video URL
     timInterpretation: {
       upright: "Trust your gut! It's rarely wrong. Unlike my digestive system after too much pizza, but that's different.",
       reversed: "You're overthinking everything. Sometimes the answer is as simple as 'yes, you should order extra toppings.'"
@@ -56,7 +56,7 @@ export const majorArcana: TarotCard[] = [
     reversedMeaning: "Creative block, dependence on others",
     imageUrl: "https://i.imgur.com/DA0ehGN.png",
     imageAlt: "The Empress tarot card",
-    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4", // Sample video URL
+    videoUrl: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", // The Fool video URL
     timInterpretation: {
       upright: "Time to nurture something! Maybe start with yourself—when's the last time you had a proper meal?",
       reversed: "You're being too hard on yourself. Even I occasionally think I'm magnificent, and I live in a hole."
@@ -71,7 +71,7 @@ export const majorArcana: TarotCard[] = [
     reversedMeaning: "Tyranny, rigidity, coldness",
     imageUrl: "https://i.imgur.com/xUmrJrR.png",
     imageAlt: "The Emperor tarot card",
-    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4", // Sample video URL
+    videoUrl: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", // The Fool video URL
     timInterpretation: {
       upright: "Time to take charge! But maybe start small—like organizing your snack cabinet. Work your way up to world domination.",
       reversed: "Someone's being a bit bossy. Power corrupts, absolute power corrupts absolutely, and hangry power is just annoying."
@@ -86,7 +86,7 @@ export const majorArcana: TarotCard[] = [
     reversedMeaning: "Personal beliefs, freedom, challenging the status quo",
     imageUrl: "https://i.imgur.com/iAh32hF.png",
     imageAlt: "The Hierophant tarot card",
-    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4", // Sample video URL
+    videoUrl: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", // The Fool video URL
     timInterpretation: {
       upright: "Sometimes you need to follow the rules. But make sure they're good rules, not 'no eating in the library' nonsense.",
       reversed: "Question everything! Except gravity. I learned that lesson the hard way during my flying carpet incident."
@@ -101,7 +101,7 @@ export const majorArcana: TarotCard[] = [
     reversedMeaning: "Self-love, disharmony, imbalance, misalignment of values",
     imageUrl: "https://i.imgur.com/BwVwvcb.png",
     imageAlt: "The Lovers tarot card",
-    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4", // Sample video URL
+    videoUrl: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", // The Fool video URL
     timInterpretation: {
       upright: "Love is in the air! Or maybe that's just the smell of my famous chili. Either way, good things are coming.",
       reversed: "Time for some self-love. Treat yourself like you'd treat a favorite pet—with snacks and afternoon naps."
@@ -116,7 +116,7 @@ export const majorArcana: TarotCard[] = [
     reversedMeaning: "Self-discipline, inner guidance, lack of control",
     imageUrl: "https://i.imgur.com/9G2nmY6.png",
     imageAlt: "The Chariot tarot card",
-    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4", // Sample video URL
+    videoUrl: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", // The Fool video URL
     timInterpretation: {
       upright: "You're in control and moving forward! Just remember to steer—I once rode a runaway shopping cart for three blocks.",
       reversed: "Feeling out of control? Take a deep breath, have a snack, and remember: even I eventually figured out how to use a map."
@@ -131,7 +131,7 @@ export const majorArcana: TarotCard[] = [
     reversedMeaning: "Self doubt, low energy, raw emotion",
     imageUrl: "https://i.imgur.com/bJSQ20w.png",
     imageAlt: "Strength tarot card",
-    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4", // Sample video URL
+    videoUrl: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", // The Fool video URL
     timInterpretation: {
       upright: "You're stronger than you think! I once arm-wrestled a troll for the last donut. Spoiler: the donut was worth it.",
       reversed: "Everyone has off days. Even dragons need mental health breaks. Be kind to yourself."
@@ -146,7 +146,7 @@ export const majorArcana: TarotCard[] = [
     reversedMeaning: "Isolation, loneliness, withdrawal",
     imageUrl: "https://i.imgur.com/CF5f2EE.png",
     imageAlt: "The Hermit tarot card",
-    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4", // Sample video URL
+    videoUrl: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", // The Fool video URL
     timInterpretation: {
       upright: "Time for some soul searching. Find a comfy spot, bring snacks, and think deep thoughts. Works for me!",
       reversed: "Enough hermiting! Even I occasionally talk to people who aren't my refrigerator. Time to socialize."
@@ -161,7 +161,7 @@ export const majorArcana: TarotCard[] = [
     reversedMeaning: "Bad luck, lack of control, clinging to control",
     imageUrl: "https://i.imgur.com/idRzv55.png",
     imageAlt: "Wheel of Fortune tarot card",
-    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4", // Sample video URL
+    videoUrl: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", // The Fool video URL
     timInterpretation: {
       upright: "The universe is spinning in your favor! Like when the pizza delivery arrives early—pure magic!",
       reversed: "Sometimes the wheel gets stuck. Give it a good kick and see what happens. Worked for my washing machine."
@@ -176,7 +176,7 @@ export const majorArcana: TarotCard[] = [
     reversedMeaning: "Unfairness, lack of accountability, dishonesty",
     imageUrl: "https://i.imgur.com/pxb9VUh.png",
     imageAlt: "Justice tarot card",
-    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4", // Sample video URL
+    videoUrl: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", // The Fool video URL
     timInterpretation: {
       upright: "Truth and fairness will prevail! Like when someone finally admits pineapple belongs on pizza. Justice served!",
       reversed: "Something's not quite fair. Stand up for what's right, but maybe finish your sandwich first. You'll need the energy."
@@ -191,7 +191,7 @@ export const majorArcana: TarotCard[] = [
     reversedMeaning: "Delays, resistance, stalling",
     imageUrl: "https://i.imgur.com/PF1f1Ud.png",
     imageAlt: "The Hanged Man tarot card",
-    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4", // Sample video URL
+    videoUrl: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", // The Fool video URL
     timInterpretation: {
       upright: "Sometimes you need to hang upside down to see things clearly. I do my best thinking while napping anyway.",
       reversed: "Stop stalling! I once put off doing laundry for three months. It wasn't pretty. Learn from my mistakes."
@@ -205,7 +205,7 @@ export const majorArcana: TarotCard[] = [
     uprightMeaning: "Endings, transformation, transition, new beginnings",
     reversedMeaning: "Resistance to change, personal transformation, inner purging",
     imageUrl: "https://i.imgur.com/UzSQ9Jy.png",
-    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4", // Sample video URL
+    videoUrl: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", // The Fool video URL
     imageAlt: "Death tarot card",
     timInterpretation: {
       upright: "Big changes ahead! Don't worry, it's like cleaning out your fridge—scary at first, but ultimately necessary.",
@@ -221,7 +221,7 @@ export const majorArcana: TarotCard[] = [
     reversedMeaning: "Imbalance, excess, self-healing, re-alignment",
     imageUrl: "https://i.imgur.com/HTQxYtx.png",
     imageAlt: "Temperance tarot card",
-    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4", // Sample video URL
+    videoUrl: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", // The Fool video URL
     timInterpretation: {
       upright: "Balance is key! Like the perfect ratio of cheese to crackers. Too much of either ruins the harmony.",
       reversed: "Things are a bit out of whack. Time to recalibrate. Start with your sleep schedule and work from there."
@@ -236,7 +236,7 @@ export const majorArcana: TarotCard[] = [
     reversedMeaning: "Releasing limiting beliefs, exploring dark thoughts, detachment",
     imageUrl: "https://i.imgur.com/KpaPN1T.png",
     imageAlt: "The Devil tarot card",
-    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4", // Sample video URL
+    videoUrl: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", // The Fool video URL
     timInterpretation: {
       upright: "We all have our vices. Mine happens to be hoarding magical cookbooks. What's yours? (No judgment here.)",
       reversed: "Breaking free from bad habits! I once gave up midnight snacking for... well, it lasted about six hours."
@@ -251,7 +251,7 @@ export const majorArcana: TarotCard[] = [
     reversedMeaning: "Personal transformation, fear of change, averting disaster",
     imageUrl: "https://i.imgur.com/OU1zd2P.png",
     imageAlt: "The Tower tarot card",
-    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4", // Sample video URL
+    videoUrl: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", // The Fool video URL
     timInterpretation: {
       upright: "Uh oh, someone's tower is about to tumble! Don't panic—sometimes you need to knock things down to build better.",
       reversed: "Crisis averted! Like when I remembered to turn off the cauldron before it exploded. Close calls build character."
@@ -266,7 +266,7 @@ export const majorArcana: TarotCard[] = [
     reversedMeaning: "Lack of faith, despair, self-trust, disconnection",
     imageUrl: "https://i.imgur.com/h9v5lAt.png",
     imageAlt: "The Star tarot card",
-    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4", // Sample video URL
+    videoUrl: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", // The Fool video URL
     timInterpretation: {
       upright: "Hope shines bright! Like finding the last slice of cake in the fridge when you thought it was gone forever.",
       reversed: "Feeling a bit dim? Everyone's light flickers sometimes. Mine went out completely during the Great Cookie Shortage of '97."
@@ -281,7 +281,7 @@ export const majorArcana: TarotCard[] = [
     reversedMeaning: "Release of fear, repressed emotion, inner confusion",
     imageUrl: "https://i.imgur.com/sJV2jav.png",
     imageAlt: "The Moon tarot card",
-    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4", // Sample video URL
+    videoUrl: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", // The Fool video URL
     timInterpretation: {
       upright: "Things aren't quite as they seem. Like when I thought I invented a new spell but it was just really strong coffee.",
       reversed: "The fog is lifting! You're starting to see things clearly. Unlike me without my reading glasses."
@@ -296,7 +296,7 @@ export const majorArcana: TarotCard[] = [
     reversedMeaning: "Inner child, feeling down, overly optimistic",
     imageUrl: "https://i.imgur.com/Ugb08Qc.png",
     imageAlt: "The Sun tarot card",
-    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4", // Sample video URL
+    videoUrl: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", // The Fool video URL
     timInterpretation: {
       upright: "Pure sunshine and happiness! Like finding out there's a surprise nap scheduled in your day. Perfection!",
       reversed: "Your inner sunshine is a bit cloudy. Try some comfort food and a good book—works every time."
@@ -311,7 +311,7 @@ export const majorArcana: TarotCard[] = [
     reversedMeaning: "Self-doubt, inner critic, ignoring the call",
     imageUrl: "https://i.imgur.com/sfnfy9f.png",
     imageAlt: "Judgement tarot card",
-    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4", // Sample video URL
+    videoUrl: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", // The Fool video URL
     timInterpretation: {
       upright: "Time for a fresh start! Like when I finally organized my spell components. Okay, I hired someone, but still counts!",
       reversed: "Stop being so hard on yourself! I judge people who put pineapple on pizza, but that's different. Be kinder."
@@ -326,7 +326,7 @@ export const majorArcana: TarotCard[] = [
     reversedMeaning: "Seeking personal closure, short-cut to success, stagnation",
     imageUrl: "https://i.imgur.com/xQK5Inu.png",
     imageAlt: "The World tarot card",
-    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4", // Sample video URL
+    videoUrl: "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/WeAreGoingOnBullrun.mp4", // The Fool video URL
     timInterpretation: {
       upright: "You've reached the end goal! Time to celebrate with something delicious. I recommend pie. Always recommend pie.",
       reversed: "Almost there! Don't take shortcuts now—you've come too far to cut corners. Unless it's a literal corner on a sandwich."

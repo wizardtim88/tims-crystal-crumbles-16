@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import TarotCard from '@/components/TarotCard';
 import ShareButton from '@/components/ShareButton';
 import { TarotReading as TarotReadingType, TarotSpread } from '@/types/tarot';
-import { Shuffle, Sparkles, Calendar, Clock, Zap } from 'lucide-react';
+import { Shuffle, Sparkles, Calendar, Clock, Zap, HelpCircle } from 'lucide-react';
 
 interface TarotReadingProps {
   onDrawCard: (question?: string, spread?: TarotSpread) => void;
@@ -20,12 +20,11 @@ const TarotReading: React.FC<TarotReadingProps> = ({
 }) => {
   const [question, setQuestion] = useState('');
   const [selectedSpread, setSelectedSpread] = useState<TarotSpread>('single');
-  // Simplified state management
   const [isShuffling, setIsShuffling] = useState(false);
   const [isDealing, setIsDealing] = useState(false);
   const [revealedCards, setRevealedCards] = useState<boolean[]>([]);
   const [allRevealed, setAllRevealed] = useState(false);
-  
+  const [showTips, setShowTips] = useState(false);
 
   const handleShuffle = () => {
     // Reset all state
@@ -123,21 +122,56 @@ const TarotReading: React.FC<TarotReadingProps> = ({
       id: 'single' as TarotSpread, 
       name: 'Single Card', 
       description: 'Quick guidance for any question',
-      icon: Zap
+      icon: Zap,
+      bestFor: 'Daily guidance, yes/no questions, immediate clarity'
     },
     { 
       id: 'three-card' as TarotSpread, 
       name: 'Past • Present • Future', 
       description: 'See the full timeline of your situation',
-      icon: Calendar
+      icon: Calendar,
+      bestFor: 'Understanding patterns, relationship evolution, career trajectory'
     }
+  ];
+
+  const tips = [
+    "Be specific with your questions for clearer guidance",
+    "Focus on 'how' and 'what' rather than 'when' questions",
+    "Trust your intuition when interpreting the cards",
+    "Remember, tarot shows possibilities, not fixed outcomes"
   ];
 
   return (
     <div className="space-y-6">
-      {/* Spread Selection */}
+      {/* Spread Selection with Enhanced Information */}
       <div className="space-y-3">
-        <Label className="font-wizard text-wizard-cream">Choose Your Reading</Label>
+        <div className="flex items-center justify-between">
+          <Label className="font-wizard text-wizard-cream">Choose Your Reading</Label>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowTips(!showTips)}
+            className="text-wizard-cream/70 hover:text-wizard-cream"
+          >
+            <HelpCircle className="h-4 w-4 mr-1" />
+            Tips
+          </Button>
+        </div>
+        
+        {showTips && (
+          <div className="bg-wizard-dark/30 border border-wizard-gold/30 rounded-lg p-3 space-y-2">
+            <h4 className="font-wizard text-sm text-wizard-gold">Reading Tips:</h4>
+            <ul className="space-y-1">
+              {tips.map((tip, index) => (
+                <li key={index} className="text-xs text-wizard-cream/80 flex items-start gap-2">
+                  <span className="text-wizard-gold mt-1">•</span>
+                  {tip}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {spreads.map((spread) => {
             const Icon = spread.icon;
@@ -156,9 +190,10 @@ const TarotReading: React.FC<TarotReadingProps> = ({
               >
                 <div className="flex items-start gap-3">
                   <Icon className={`w-5 h-5 mt-0.5 ${selectedSpread === spread.id ? 'text-wizard-gold' : 'text-wizard-cream/50'}`} />
-                  <div>
+                  <div className="flex-1">
                     <h3 className="font-wizard font-medium">{spread.name}</h3>
-                    <p className="text-sm font-scroll opacity-80">{spread.description}</p>
+                    <p className="text-sm font-scroll opacity-80 mb-2">{spread.description}</p>
+                    <p className="text-xs opacity-60">Best for: {spread.bestFor}</p>
                   </div>
                 </div>
               </button>
@@ -167,7 +202,7 @@ const TarotReading: React.FC<TarotReadingProps> = ({
         </div>
       </div>
 
-      {/* Question Input */}
+      {/* Enhanced Question Input */}
       <div className="space-y-2">
         <Label htmlFor="tarot-question" className="font-wizard text-wizard-cream">
           Ask Tim's Crystal Ball (Optional)
@@ -176,10 +211,19 @@ const TarotReading: React.FC<TarotReadingProps> = ({
           id="tarot-question"
           value={question}
           onChange={(e) => setQuestion(e.target.value)}
-          placeholder="What guidance do you seek?"
+          placeholder={selectedSpread === 'single' 
+            ? "What guidance do you seek?" 
+            : "What situation would you like clarity on?"
+          }
           className="bg-wizard-dark/40 border-wizard-gold/30 text-wizard-cream placeholder:text-wizard-cream/50"
           disabled={isDrawing || isShuffling}
         />
+        <p className="text-xs text-wizard-cream/60 font-scroll">
+          {selectedSpread === 'single' 
+            ? "Ask about immediate guidance, decisions, or daily focus"
+            : "Ask about situations that have developed over time"
+          }
+        </p>
       </div>
 
       {/* Shuffle Button */}

@@ -8,7 +8,8 @@ import WizardAvatar from '@/components/WizardAvatar';
 import BookAdvertisement from '@/components/BookAdvertisement';
 import ThemeToggle from '@/components/ThemeToggle';
 import MagicalParticles from '@/components/MagicalParticles';
-import OnboardingModal from '@/components/OnboardingModal';
+import EnhancedOnboardingModal from '@/components/EnhancedOnboardingModal';
+import QuestionSuggestions from '@/components/QuestionSuggestions';
 import TarotReading from '@/components/TarotReading';
 import TarotResponse from '@/components/TarotResponse';
 import { generateTimResponse } from '@/utils/fortuneTeller';
@@ -146,7 +147,17 @@ const Index = () => {
     }
   }, [fortunes, zodiacReadings, tarotReadings]);
   const hasAnyContent = fortunes.length > 0 || zodiacReadings.length > 0 || tarotReadings.length > 0;
-  return <div className={`min-h-screen flex flex-col transition-all duration-300 ${isDarkMode ? 'starry-night' : 'bg-wizard-study bg-cover bg-center bg-fixed'}`}>
+
+  const handleQuestionSelect = (question: string, type: 'fortune' | 'tarot') => {
+    if (type === 'fortune') {
+      handleGenerateFortune(question);
+    } else if (type === 'tarot') {
+      handleDrawTarotCard(question, selectedSpread);
+    }
+  };
+
+  return (
+    <div className={`min-h-screen flex flex-col transition-all duration-300 ${isDarkMode ? 'starry-night' : 'bg-wizard-study bg-cover bg-center bg-fixed'}`}>
       {isDarkMode && <MagicalParticles />}
       {!isDarkMode && <div className="absolute inset-0 bg-wizard-dark/40 backdrop-blur-[1px]"></div>}
       
@@ -223,6 +234,13 @@ const Index = () => {
             
             {/* Enhanced Fortune Form */}
             <EnhancedAskForm onGenerateFortune={handleGenerateFortune} isGenerating={isGenerating} selectedCategory={selectedCategory} />
+            
+            {/* Question Suggestions */}
+            <QuestionSuggestions
+              type="fortune"
+              category={selectedCategory}
+              onSelectQuestion={(question) => handleQuestionSelect(question, 'fortune')}
+            />
           </TabsContent>
           
           <TabsContent value="horoscope" className="space-y-4">
@@ -245,10 +263,27 @@ const Index = () => {
                 <span className="absolute -bottom-1 right-1/4 text-wizard-gold text-xs">✨</span>
               </Button>
             </div>
+            
+            {/* Question Suggestions for Horoscope */}
+            <QuestionSuggestions
+              type="horoscope"
+              zodiacSign={selectedZodiacSign}
+              onSelectQuestion={(question) => {
+                // For horoscope, we don't use the question directly but it gives users ideas
+                handleGenerateHoroscope();
+              }}
+            />
           </TabsContent>
 
           <TabsContent value="tarot" className="space-y-4">
             <TarotReading onDrawCard={handleDrawTarotCard} isDrawing={isDrawingTarot} currentReading={currentTarotReading} />
+            
+            {/* Question Suggestions for Tarot */}
+            <QuestionSuggestions
+              type="tarot"
+              tarotSpread={selectedSpread}
+              onSelectQuestion={(question) => handleQuestionSelect(question, 'tarot')}
+            />
           </TabsContent>
         </Tabs>
         
@@ -298,8 +333,10 @@ const Index = () => {
         </p>
       </footer>
 
-      {/* Onboarding Modal */}
-      <OnboardingModal isOpen={showOnboarding} onClose={() => setShowOnboarding(false)} />
-    </div>;
+      {/* Enhanced Onboarding Modal */}
+      <EnhancedOnboardingModal isOpen={showOnboarding} onClose={() => setShowOnboarding(false)} />
+    </div>
+  );
 };
+
 export default Index;

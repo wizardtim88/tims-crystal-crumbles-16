@@ -11,6 +11,7 @@ export const majorArcana: TarotCard[] = [
     reversedMeaning: "Holding back, recklessness, risk-taking",
     imageUrl: "https://i.imgur.com/Lus4nEi.png",
     imageAlt: "The Fool tarot card",
+    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4", // Sample video URL
     timInterpretation: {
       upright: "You're about to embark on a new adventure! Pack snacks. Seriously, you'll get hungry and make poor decisions on an empty stomach.",
       reversed: "Someone's being a bit too cautious. Life's too short to overthink everything—sometimes you just gotta trip into destiny!"
@@ -25,6 +26,7 @@ export const majorArcana: TarotCard[] = [
     reversedMeaning: "Manipulation, poor planning, untapped talents",
     imageUrl: "https://i.imgur.com/3S8ZmqW.png",
     imageAlt: "The Magician tarot card",
+    videoUrl: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_2mb.mp4", // Sample video URL
     timInterpretation: {
       upright: "You've got all the tools you need! Now stop hoarding them like I hoard cheese wheels and actually USE them.",
       reversed: "All that potential and you're just... sitting there? Even I get off the couch sometimes. Mostly for food, but still."

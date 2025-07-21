@@ -7,6 +7,7 @@ export interface TarotCard {
   reversedMeaning: string;
   imageUrl: string;
   imageAlt: string;
+  videoUrl?: string; // Optional video for animation
   timInterpretation: {
     upright: string;
     reversed: string;

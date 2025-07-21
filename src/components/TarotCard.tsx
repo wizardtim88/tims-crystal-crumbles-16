@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React, { useState, useRef, useEffect } from 'react';
 import { DrawnCard } from '@/types/tarot';
 import { Card } from '@/components/ui/card';
 
@@ -16,6 +17,38 @@ const TarotCard: React.FC<TarotCardProps> = ({
   className = "" 
 }) => {
   const [isFlipping, setIsFlipping] = useState(false);
+  const [showVideo, setShowVideo] = useState(false);
+  const [videoEnded, setVideoEnded] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  // Check for reduced motion preference
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(mediaQuery.matches);
+    
+    const handler = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mediaQuery.addEventListener('change', handler);
+    return () => mediaQuery.removeEventListener('change', handler);
+  }, []);
+
+  // Handle video reveal
+  useEffect(() => {
+    if (isRevealed && drawnCard?.card.videoUrl && !prefersReducedMotion) {
+      setShowVideo(true);
+      setVideoEnded(false);
+      
+      // Start video playback
+      if (videoRef.current) {
+        videoRef.current.currentTime = 0;
+        videoRef.current.play().catch(() => {
+          // If video fails to play, show static image immediately
+          setShowVideo(false);
+          setVideoEnded(true);
+        });
+      }
+    }
+  }, [isRevealed, drawnCard?.card.videoUrl, prefersReducedMotion]);
 
   const handleClick = () => {
     if (!isRevealed && onReveal && !isFlipping) {
@@ -26,6 +59,14 @@ const TarotCard: React.FC<TarotCardProps> = ({
       }, 300);
     }
   };
+
+  const handleVideoEnded = () => {
+    setShowVideo(false);
+    setVideoEnded(true);
+  };
+
+  const shouldShowVideo = showVideo && !videoEnded && drawnCard?.card.videoUrl && !prefersReducedMotion;
+  const shouldShowImage = !shouldShowVideo && isRevealed && drawnCard;
 
   return (
     <div className={`relative w-36 h-64 ${onReveal && !isRevealed ? 'cursor-pointer' : ''} ${className}`} onClick={handleClick}>
@@ -56,11 +97,32 @@ const TarotCard: React.FC<TarotCardProps> = ({
           ${drawnCard?.isReversed ? 'rotate-180' : ''}
           hover:shadow-lg hover:shadow-wizard-gold/20 transition-all overflow-hidden
         `}>
-          {drawnCard && (
+          {/* Video Element */}
+          {shouldShowVideo && (
+            <video
+              ref={videoRef}
+              className="absolute inset-0 w-full h-full object-cover"
+              muted
+              playsInline
+              preload="metadata"
+              onEnded={handleVideoEnded}
+              onError={() => {
+                setShowVideo(false);
+                setVideoEnded(true);
+              }}
+            >
+              <source src={drawnCard.card.videoUrl} type="video/mp4" />
+            </video>
+          )}
+
+          {/* Static Image */}
+          {shouldShowImage && (
             <img 
               src={drawnCard.card.imageUrl}
               alt={drawnCard.card.imageAlt}
-              className="absolute inset-0 w-full h-full object-cover"
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
+                videoEnded ? 'opacity-100' : 'opacity-0'
+              }`}
               loading="lazy"
               onError={(e) => {
                 // Fallback to emoji if image fails to load

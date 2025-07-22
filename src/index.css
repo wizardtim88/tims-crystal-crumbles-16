@@ -7,18 +7,18 @@
 
 @layer base {
   :root {
-    /* Light theme - starry night magical theme */
-    --background: 15 23% 12%;
-    --foreground: 43 96% 90%;
+    /* Light theme - cozy study theme */
+    --background: 25 33% 94%;
+    --foreground: 240 10% 10%;
 
-    /* Magical starry colors */
+    /* Magical starry colors for light theme */
     --wizard-primary: 252 59% 55%;
     --wizard-secondary: 291 47% 71%;
     --wizard-accent: 45 93% 47%;
     --wizard-dark: 222 84% 5%;
     --wizard-light: 43 96% 90%;
     
-    /* Particle colors */
+    /* Particle colors for light theme */
     --star-primary: 45 93% 75%;
     --star-secondary: 291 47% 80%;
     --star-tertiary: 252 59% 70%;
@@ -52,9 +52,9 @@
   }
 
   .dark {
-    /* Dark theme - cozy study theme */
-    --background: 25 33% 94%;
-    --foreground: 240 10% 10%;
+    /* Dark theme - starry night magical theme */
+    --background: 15 23% 12%;
+    --foreground: 43 96% 90%;
 
     --card: 240 6% 12%;
     --card-foreground: 0 0% 98%;
@@ -91,7 +91,7 @@
     overflow-x: hidden;
   }
 
-  /* Starry night background */
+  /* Starry night background for dark theme */
   .starry-night {
     background: 
       radial-gradient(2px 2px at 20px 30px, hsl(var(--star-primary)), transparent),
@@ -110,7 +110,7 @@
     50% { opacity: 0.8; }
   }
 
-  /* Wizard study background */
+  /* Wizard study background for light theme */
   .bg-wizard-study {
     background-image: 
       /* Bookshelves */
@@ -138,6 +138,8 @@
   .crystal-ball-glow {
     background: radial-gradient(circle, rgba(255, 215, 0, 0.5) 0%, transparent 70%);
   }
+
+  /* ... keep existing code (scrollbar styles and animations) the same */
 
   /* Custom scrollbar for the fortunes container */
   .scrollbar-thin::-webkit-scrollbar {

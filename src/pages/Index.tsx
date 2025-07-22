@@ -22,12 +22,14 @@ import { FortuneCategory } from '@/types/fortune';
 import { ZodiacSign, ZodiacReading } from '@/types/zodiac';
 import { TarotReading as TarotReadingType, TarotSpread } from '@/types/tarot';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+
 interface Fortune {
   response: string;
   id: number;
   category: FortuneCategory;
   question?: string;
 }
+
 const Index = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isDrawingTarot, setIsDrawingTarot] = useState(false);
@@ -61,9 +63,10 @@ const Index = () => {
 
   // Apply theme to document
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', !isDarkMode);
+    document.documentElement.classList.toggle('dark', isDarkMode);
     localStorage.setItem('wizardTimTheme', isDarkMode ? 'dark' : 'light');
   }, [isDarkMode]);
+
   const handleGenerateFortune = (question?: string) => {
     setIsGenerating(true);
     setShowIntro(false);
@@ -85,6 +88,7 @@ const Index = () => {
       }
     }, 1500 + Math.random() * 1000);
   };
+
   const handleGenerateHoroscope = () => {
     setIsGenerating(true);
     setShowIntro(false);
@@ -106,6 +110,7 @@ const Index = () => {
       }
     }, 1500 + Math.random() * 1000);
   };
+
   const handleDrawTarotCard = (question?: string, spread: TarotSpread = 'single') => {
     setIsDrawingTarot(true);
     setShowIntro(false);
@@ -130,6 +135,7 @@ const Index = () => {
       }
     }, 2000 + Math.random() * 1000);
   };
+
   const clearAll = () => {
     setFortunes([]);
     setZodiacReadings([]);
@@ -147,6 +153,7 @@ const Index = () => {
       fortunesRef.current.scrollTop = fortunesRef.current.scrollHeight;
     }
   }, [fortunes, zodiacReadings, tarotReadings]);
+
   const hasAnyContent = fortunes.length > 0 || zodiacReadings.length > 0 || tarotReadings.length > 0;
 
   const handleQuestionSelect = (question: string, type: 'fortune' | 'tarot') => {

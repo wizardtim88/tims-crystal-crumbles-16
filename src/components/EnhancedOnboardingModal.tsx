@@ -1,26 +1,20 @@
-
 import React, { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Sparkles, Gem, Heart, Coins, Thermometer, Book, Stars, Calendar, Zap, ChevronRight, ChevronLeft } from 'lucide-react';
-
 interface EnhancedOnboardingModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
-
 const EnhancedOnboardingModal: React.FC<EnhancedOnboardingModalProps> = ({
   isOpen,
   onClose
 }) => {
   const [currentStep, setCurrentStep] = useState(0);
-
-  const steps = [
-    {
-      title: "Welcome to Tim's Mystical World",
-      content: (
-        <div className="space-y-4 text-center">
+  const steps = [{
+    title: "Welcome to Tim's Mystical World",
+    content: <div className="space-y-4 text-center">
           <div className="flex justify-center">
             <div className="relative">
               <Gem className="h-16 w-16 text-primary animate-pulse-glow" />
@@ -40,12 +34,9 @@ const EnhancedOnboardingModal: React.FC<EnhancedOnboardingModalProps> = ({
             </p>
           </div>
         </div>
-      )
-    },
-    {
-      title: "Crystal Ball Fortunes",
-      content: (
-        <div className="space-y-4">
+  }, {
+    title: "Crystal Ball Fortunes",
+    content: <div className="space-y-4">
           <div className="flex justify-center">
             <div className="w-24 h-24 rounded-full bg-gradient-to-br from-wizard-purple to-wizard-dark flex items-center justify-center">
               <Book className="h-12 w-12 text-wizard-cream" />
@@ -92,12 +83,9 @@ const EnhancedOnboardingModal: React.FC<EnhancedOnboardingModalProps> = ({
             </div>
           </div>
         </div>
-      )
-    },
-    {
-      title: "Zodiac Horoscopes",
-      content: (
-        <div className="space-y-4">
+  }, {
+    title: "Zodiac Horoscopes",
+    content: <div className="space-y-4">
           <div className="flex justify-center">
             <div className="w-24 h-24 rounded-full bg-gradient-to-br from-wizard-purple to-wizard-dark flex items-center justify-center">
               <Stars className="h-12 w-12 text-wizard-cream" />
@@ -120,12 +108,9 @@ const EnhancedOnboardingModal: React.FC<EnhancedOnboardingModalProps> = ({
             </Card>
           </div>
         </div>
-      )
-    },
-    {
-      title: "Tarot Readings",
-      content: (
-        <div className="space-y-4">
+  }, {
+    title: "Tarot Readings",
+    content: <div className="space-y-4">
           <div className="flex justify-center">
             <div className="w-24 h-24 rounded-full bg-gradient-to-br from-wizard-purple to-wizard-dark flex items-center justify-center">
               <div className="text-3xl">🎴</div>
@@ -156,12 +141,9 @@ const EnhancedOnboardingModal: React.FC<EnhancedOnboardingModalProps> = ({
             </div>
           </div>
         </div>
-      )
-    },
-    {
-      title: "Getting Started",
-      content: (
-        <div className="space-y-4">
+  }, {
+    title: "Getting Started",
+    content: <div className="space-y-4">
           <div className="flex justify-center">
             <Sparkles className="h-16 w-16 text-wizard-gold animate-sparkle" />
           </div>
@@ -187,30 +169,23 @@ const EnhancedOnboardingModal: React.FC<EnhancedOnboardingModalProps> = ({
             </div>
           </div>
         </div>
-      )
-    }
-  ];
-
+  }];
   const nextStep = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     }
   };
-
   const prevStep = () => {
     if (currentStep > 0) {
       setCurrentStep(currentStep - 1);
     }
   };
-
   const handleClose = () => {
     setCurrentStep(0);
     onClose();
   };
-
-  return (
-    <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-md mx-auto backdrop-blur-sm border border-primary/30 bg-slate-600">
+  return <Dialog open={isOpen} onOpenChange={handleClose}>
+      <DialogContent className="max-w-md mx-auto backdrop-blur-sm border border-primary/30 bg-slate-50">
         <DialogHeader className="text-center space-y-2">
           <DialogTitle className="font-wizard text-xl text-primary">
             {steps[currentStep].title}
@@ -218,14 +193,7 @@ const EnhancedOnboardingModal: React.FC<EnhancedOnboardingModalProps> = ({
           
           {/* Progress indicator */}
           <div className="flex justify-center gap-2">
-            {steps.map((_, index) => (
-              <div
-                key={index}
-                className={`w-2 h-2 rounded-full transition-colors ${
-                  index === currentStep ? 'bg-wizard-gold' : 'bg-wizard-gold/30'
-                }`}
-              />
-            ))}
+            {steps.map((_, index) => <div key={index} className={`w-2 h-2 rounded-full transition-colors ${index === currentStep ? 'bg-wizard-gold' : 'bg-wizard-gold/30'}`} />)}
           </div>
         </DialogHeader>
         
@@ -234,12 +202,7 @@ const EnhancedOnboardingModal: React.FC<EnhancedOnboardingModalProps> = ({
         </div>
         
         <div className="flex justify-between items-center">
-          <Button
-            variant="ghost"
-            onClick={prevStep}
-            disabled={currentStep === 0}
-            className="text-wizard-cream/70 hover:text-wizard-cream"
-          >
+          <Button variant="ghost" onClick={prevStep} disabled={currentStep === 0} className="text-wizard-cream/70 hover:text-wizard-cream">
             <ChevronLeft className="h-4 w-4 mr-1" />
             Previous
           </Button>
@@ -248,25 +211,19 @@ const EnhancedOnboardingModal: React.FC<EnhancedOnboardingModalProps> = ({
             {currentStep + 1} of {steps.length}
           </span>
           
-          {currentStep === steps.length - 1 ? (
-            <Button onClick={handleClose} className="bg-primary hover:bg-primary/90 text-primary-foreground font-wizard">
+          {currentStep === steps.length - 1 ? <Button onClick={handleClose} className="bg-primary hover:bg-primary/90 text-primary-foreground font-wizard">
               <Sparkles className="mr-2 h-4 w-4" />
               Begin Journey
-            </Button>
-          ) : (
-            <Button onClick={nextStep} className="bg-wizard-purple hover:bg-wizard-purple/90 text-white font-wizard">
+            </Button> : <Button onClick={nextStep} className="bg-wizard-purple hover:bg-wizard-purple/90 text-white font-wizard">
               Next
               <ChevronRight className="h-4 w-4 ml-1" />
-            </Button>
-          )}
+            </Button>}
         </div>
         
         <p className="text-xs text-center text-muted-foreground font-scroll">
           *Tim grumbles about being interrupted but secretly enjoys the company*
         </p>
       </DialogContent>
-    </Dialog>
-  );
+    </Dialog>;
 };
-
 export default EnhancedOnboardingModal;

@@ -64,13 +64,13 @@ export default {
 					ring: 'hsl(var(--sidebar-ring))'
 				},
 				wizard: {
-					dark: '#1A1F2C',
-					purple: '#483D8B', 
-					brown: '#8B4513',
-					gold: '#FFD700',
-					cream: '#FEF7CD',
-					peach: '#FDE1D3',
-					green: '#556B2F',
+					dark: 'hsl(var(--wizard-dark))',
+					purple: 'hsl(var(--wizard-primary))', 
+					brown: 'hsl(var(--wizard-secondary))',
+					gold: 'hsl(var(--wizard-accent))',
+					cream: 'hsl(var(--wizard-light))',
+					peach: 'hsl(var(--wizard-light))',
+					green: 'hsl(var(--wizard-secondary))',
 				}
 			},
 			borderRadius: {

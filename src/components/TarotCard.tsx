@@ -37,7 +37,8 @@ const TarotCard: React.FC<TarotCardProps> = ({
   // Handle video reveal
   useEffect(() => {
     if (isRevealed && drawnCard?.card.videoUrl && !prefersReducedMotion) {
-      console.log('Starting video reveal for:', drawnCard.card.name);
+      console.log('🎬 Starting video reveal for:', drawnCard.card.name);
+      console.log('🎬 Video URL:', drawnCard.card.videoUrl);
       setVideoLoading(true);
       setShowVideo(true);
       setVideoEnded(false);
@@ -46,28 +47,39 @@ const TarotCard: React.FC<TarotCardProps> = ({
       // Start video playback when ready
       if (videoRef.current) {
         const video = videoRef.current;
+        console.log('🎬 Video element found, setting up event listeners');
         
         const handleCanPlay = () => {
-          console.log('Video can play, starting playback');
+          console.log('🎬 Video can play, starting playback');
           setVideoLoading(false);
           video.play().catch((error) => {
-            console.error('Video play failed:', error);
+            console.error('🎬 Video play failed:', error);
             setVideoError(true);
             setShowVideo(false);
             setVideoEnded(true);
           });
         };
 
-        const handleError = () => {
-          console.error('Video loading error');
+        const handleError = (e: Event) => {
+          console.error('🎬 Video loading error:', e);
           setVideoError(true);
           setVideoLoading(false);
           setShowVideo(false);
           setVideoEnded(true);
         };
 
+        const handleLoadStart = () => {
+          console.log('🎬 Video load started');
+        };
+
+        const handleLoadedData = () => {
+          console.log('🎬 Video data loaded');
+        };
+
         video.addEventListener('canplay', handleCanPlay);
         video.addEventListener('error', handleError);
+        video.addEventListener('loadstart', handleLoadStart);
+        video.addEventListener('loadeddata', handleLoadedData);
         
         // Reset video to start
         video.currentTime = 0;
@@ -76,10 +88,15 @@ const TarotCard: React.FC<TarotCardProps> = ({
         return () => {
           video.removeEventListener('canplay', handleCanPlay);
           video.removeEventListener('error', handleError);
+          video.removeEventListener('loadstart', handleLoadStart);
+          video.removeEventListener('loadeddata', handleLoadedData);
         };
+      } else {
+        console.error('🎬 Video element not found');
       }
     } else if (isRevealed) {
       // No video or reduced motion - show static image immediately
+      console.log('🎬 No video or reduced motion, showing static image');
       setShowVideo(false);
       setVideoEnded(true);
     }
@@ -96,13 +113,22 @@ const TarotCard: React.FC<TarotCardProps> = ({
   };
 
   const handleVideoEnded = () => {
-    console.log('Video ended, transitioning to static image');
+    console.log('🎬 Video ended, transitioning to static image');
     setShowVideo(false);
     setVideoEnded(true);
   };
 
   const shouldShowVideo = showVideo && !videoEnded && !videoError && drawnCard?.card.videoUrl && !prefersReducedMotion;
   const shouldShowImage = !shouldShowVideo && isRevealed && drawnCard;
+
+  console.log('🎬 Render state:', {
+    isRevealed,
+    shouldShowVideo,
+    shouldShowImage,
+    videoLoading,
+    videoError,
+    hasVideoUrl: !!drawnCard?.card.videoUrl
+  });
 
   return (
     <div className={`relative w-36 h-64 ${onReveal && !isRevealed ? 'cursor-pointer' : ''} ${className}`} onClick={handleClick}>
@@ -114,7 +140,7 @@ const TarotCard: React.FC<TarotCardProps> = ({
       `}>
         {/* Card Back */}
         <Card className={`
-          absolute inset-0 w-full h-full [backface-visibility:hidden]
+          absolute inset-0 w-full h-full [backface-visibility:hidden] z-10
           border-2 border-wizard-gold/50 bg-gradient-to-br from-wizard-purple to-wizard-dark
           flex items-center justify-center hover:border-wizard-gold hover:shadow-lg
           hover:shadow-wizard-gold/20 transition-all
@@ -128,14 +154,14 @@ const TarotCard: React.FC<TarotCardProps> = ({
 
         {/* Card Front */}
         <Card className={`
-          absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)]
+          absolute inset-0 w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)] z-20
           border-2 border-wizard-gold/50 bg-gradient-to-br from-wizard-cream to-wizard-peach
           ${drawnCard?.isReversed ? 'rotate-180' : ''}
           hover:shadow-lg hover:shadow-wizard-gold/20 transition-all overflow-hidden
         `}>
           {/* Video Loading Indicator */}
           {videoLoading && (
-            <div className="absolute inset-0 flex items-center justify-center bg-wizard-dark/10">
+            <div className="absolute inset-0 flex items-center justify-center bg-wizard-dark/10 z-30">
               <div className="text-wizard-dark/60 text-center">
                 <div className="text-2xl mb-2">📽️</div>
                 <div className="text-sm">Loading magical animation...</div>
@@ -147,19 +173,23 @@ const TarotCard: React.FC<TarotCardProps> = ({
           {shouldShowVideo && (
             <video
               ref={videoRef}
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-cover z-40"
               muted
               playsInline
               preload="auto"
               onEnded={handleVideoEnded}
-              onError={() => {
-                console.error('Video playback error');
+              onError={(e) => {
+                console.error('🎬 Video playback error:', e);
                 setVideoError(true);
                 setShowVideo(false);
                 setVideoEnded(true);
               }}
+              style={{ 
+                visibility: shouldShowVideo ? 'visible' : 'hidden',
+                opacity: shouldShowVideo ? 1 : 0 
+              }}
             >
-              <source src={drawnCard.card.videoUrl} type="video/mp4" />
+              <source src={drawnCard?.card.videoUrl} type="video/mp4" />
             </video>
           )}
 
@@ -168,16 +198,16 @@ const TarotCard: React.FC<TarotCardProps> = ({
             <img 
               src={drawnCard.card.imageUrl}
               alt={drawnCard.card.imageAlt}
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 z-30 ${
                 videoEnded ? 'opacity-100' : 'opacity-0'
               }`}
               loading="lazy"
               onError={(e) => {
-                console.error('Image loading error for:', drawnCard.card.name);
+                console.error('🎬 Image loading error for:', drawnCard.card.name);
                 // Fallback to emoji if image fails to load
                 e.currentTarget.style.display = 'none';
                 const fallback = document.createElement('div');
-                fallback.className = 'absolute inset-0 w-full h-full flex items-center justify-center bg-wizard-dark/10';
+                fallback.className = 'absolute inset-0 w-full h-full flex items-center justify-center bg-wizard-dark/10 z-25';
                 fallback.innerHTML = '<div class="text-6xl opacity-50">🎴</div>';
                 e.currentTarget.parentNode?.appendChild(fallback);
               }}
@@ -186,7 +216,7 @@ const TarotCard: React.FC<TarotCardProps> = ({
 
           {/* Video Error Fallback */}
           {videoError && isRevealed && (
-            <div className="absolute inset-0 flex items-center justify-center bg-wizard-dark/5">
+            <div className="absolute inset-0 flex items-center justify-center bg-wizard-dark/5 z-35">
               <div className="text-wizard-dark/60 text-center p-4">
                 <div className="text-3xl mb-2">🎴</div>
                 <div className="text-xs">Video unavailable</div>

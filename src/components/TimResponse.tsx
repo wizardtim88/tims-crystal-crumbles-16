@@ -50,7 +50,7 @@ const TimResponse: React.FC<TimResponseProps> = ({ response, category, isNew = f
       const fortuneQuote = quoteMatch[1];
       
       // Updated promotional text
-      const promoText = "🔮 Get your zodiac read by The Wizard Tim! 🔗 in bio.";
+      const promoText = "🔮 Get your fortune read by The Wizard Tim! 🔗 in bio.";
       
       // Calculate available space for fortune text (280 - promo - buffer)
       const maxFortuneLength = 280 - promoText.length - 3; // 3 char buffer (reduced from 5)
@@ -96,7 +96,7 @@ const TimResponse: React.FC<TimResponseProps> = ({ response, category, isNew = f
       const fortuneQuote = quoteMatch[1];
       
       // Updated promotional text
-      const promoText = "🔮 Get your zodiac read by The Wizard Tim! 🔗 in bio.";
+      const promoText = "🔮 Get your fortune read by The Wizard Tim! 🔗 in bio.";
       
       // Calculate available space for fortune text (500 - promo - buffer) for Threads
       const maxFortuneLength = 500 - promoText.length - 3; // 3 char buffer (reduced from 5)

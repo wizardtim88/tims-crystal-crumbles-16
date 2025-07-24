@@ -63,7 +63,17 @@ export const generateTimResponse = (category: FortuneCategory = "general", userQ
         "Someone will appreciate your quirks as much as I appreciate a well-timed snack.",
         "Love finds you when you're busy doing what you love. Like eating pie.",
         "Your heart opens to new possibilities, wider than my mouth at buffet time.",
-        "The universe conspires to bring you love. Unlike how it conspires against my diet."
+        "The universe conspires to bring you love. Unlike how it conspires against my diet.",
+        "Romance blossoms when you least expect it, like finding chocolate in forgotten pockets.",
+        "Your charm works best when you're relaxed and well-fed. Take notes from my lifestyle.",
+        "Love letters will be sweeter than my favorite desserts. And that's quite sweet.",
+        "Moonlit dinners are in your future. I recommend bringing extra portions.",
+        "Passion ignites like my enthusiasm for surprise snacks. Suddenly and intensely.",
+        "Your romantic aura strengthens with each act of kindness. And each shared meal.",
+        "Cupid aims true when you're at your most comfortable. Sweatpants-level comfortable.",
+        "A text message will change everything. Hopefully it's dinner plans.",
+        "Love multiplies when shared, like how pizza slices mysteriously disappear around me.",
+        "Your future partner will understand your need for alone time. And snack time."
       ],
       negative: [
         "Romance is as elusive as finding good snacks at 3 AM. Try again next season.",
@@ -84,7 +94,18 @@ export const generateTimResponse = (category: FortuneCategory = "general", userQ
         "Dating will feel like eating without seasoning. Bland and disappointing.",
         "Your heart will be as closed as my mind to morning workouts. Completely.",
         "Romance will slip through your fingers like crumbs through mine. Constantly.",
-        "Love will be as elusive as the last slice of cake when I'm nearby. Gone instantly."
+        "Love will be as elusive as the last slice of cake when I'm nearby. Gone instantly.",
+        "Your dating profile gets as much attention as my exercise equipment. None.",
+        "Romance will ghost you faster than I disappear when chores are mentioned.",
+        "Love interests will fade like my willpower at dessert time. Quickly and completely.",
+        "Your pickup lines work as well as my diet attempts. Spoiler: they don't.",
+        "Dating will drain your energy like climbing stairs drains mine. Thoroughly.",
+        "Your romantic timing is as bad as mine with portion control. Consistently off.",
+        "Love will be as confusing as instructions on healthy eating. Utterly baffling.",
+        "Your heart breaks as easily as my promises to eat vegetables. Frequently.",
+        "Romance will be as reliable as my commitment to morning jogs. Not at all.",
+        "Dating costs will exceed your budget like my food costs exceed mine. Significantly.",
+        "Your love life will have more plot holes than my excuses for avoiding exercise."
       ]
     },
     career: {
@@ -111,7 +132,19 @@ export const generateTimResponse = (category: FortuneCategory = "general", userQ
         "Career doors open as easily as I open snack containers. Effortlessly.",
         "Success tastes as sweet as my favorite dessert. Which is saying something.",
         "Your value at work becomes as obvious as my need for afternoon naps. Very obvious.",
-        "Professional achievements stack up like pancakes on my plate. Impressively high."
+        "Professional achievements stack up like pancakes on my plate. Impressively high.",
+        "Your resume will shine brighter than the grease stains on my robe. Impressively bright.",
+        "Promotions come to those who persevere, like how I persevere through buffet lines.",
+        "Your expertise will be sought after like my secret to finding the best naps spots.",
+        "Work-life balance improves when you prioritize rest. I'm basically a productivity guru.",
+        "Your salary increases as steadily as my appreciation for afternoon tea breaks.",
+        "Team projects succeed when everyone contributes. I contribute snack recommendations.",
+        "Professional growth accelerates like my walk to the kitchen when dinner's ready.",
+        "Your skills develop naturally, like my talent for avoiding physical labor.",
+        "Career momentum builds like my excitement when someone mentions free food.",
+        "Your workplace influence expands like my waistline. Gradually but noticeably.",
+        "Success multiplies when you help others, especially if they bring cookies.",
+        "Your professional network grows stronger than my coffee preferences. Very strong."
       ],
       negative: [
         "Your boss will be as helpful as a chocolate teapot. Time to polish that resume.",
@@ -123,7 +156,22 @@ export const generateTimResponse = (category: FortuneCategory = "general", userQ
         "That big project will go as smoothly as me trying to eat soup with a fork.",
         "Your work-life balance will be as lopsided as my meal portions. Heavily favoring one side.",
         "Office politics will chew you up like I devour a sandwich. Thoroughly and messily.",
-        "Professional growth will stagnate like my exercise routine. Completely motionless."
+        "Professional growth will stagnate like my exercise routine. Completely motionless.",
+        "Your performance reviews will be as pleasant as my morning alarm. Not pleasant at all.",
+        "Career goals will be as achievable as my fitness resolutions. Laughably optimistic.",
+        "Your workload increases faster than my appetite after smelling fresh bread. Exponentially.",
+        "Office meetings will multiply like my excuses for avoiding responsibilities. Endlessly.",
+        "Your productivity will match my enthusiasm for early mornings. Practically nonexistent.",
+        "Deadlines will chase you like the aroma of bacon chases me. Relentlessly.",
+        "Your stress levels will rise like my blood pressure when the kitchen is closed.",
+        "Professional setbacks accumulate like dirty dishes in my sink. Alarmingly fast.",
+        "Your job satisfaction will be as low as my motivation before coffee. Rock bottom.",
+        "Career opportunities will vanish like donuts at a police convention. Instantly and completely.",
+        "Your salary will grow as slowly as my desire to exercise. Glacially.",
+        "Work emails will haunt you like the memory of vegetables on my plate. Persistently.",
+        "Your career trajectory will flatline like my activity tracker during nap time.",
+        "Professional respect will be as rare as my vegetable consumption. Extremely scarce.",
+        "Your resume will gather dust like my gym membership. Extensively and sadly."
       ]
     },
     health: {
@@ -137,7 +185,22 @@ export const generateTimResponse = (category: FortuneCategory = "general", userQ
         "Mental clarity comes after rest. I should be brilliant after my next nap.",
         "Listen to your body's needs. Mine usually needs more pastries and pillows.",
         "Stress reduction is highlighted. Try my technique: ignore responsibilities until they disappear.",
-        "Your vitality increases with the right balance of rest and activity. I prefer 80/20."
+        "Your vitality increases with the right balance of rest and activity. I prefer 80/20.",
+        "Hydration improves everything. I recommend flavored water. Coffee is flavored water.",
+        "Your immune system strengthens like my resolve around dessert. Significantly.",
+        "Wellness comes from within, specifically from the stomach region. Keep it happy.",
+        "Your flexibility improves, both physical and mental. I'm flexible about meal times.",
+        "Health goals become achievable when broken into small steps. Like steps to the fridge.",
+        "Your mood lifts like my spirits when I smell fresh cookies baking. Noticeably.",
+        "Better sleep patterns emerge naturally, like my talent for finding comfortable spots.",
+        "Your skin glows with health, unlike my complexion after too much cheese.",
+        "Digestive health improves when you eat mindfully. I'm very mindful of flavor.",
+        "Your posture improves from awareness, unlike mine which suffers from comfortable chairs.",
+        "Mental health benefits from self-care rituals. Mine involve strategic napping.",
+        "Your breathing deepens like my sighs when faced with exercise equipment.",
+        "Circulation improves with gentle movement. Reaching for snacks counts as movement.",
+        "Your appetite regulates naturally, unlike mine which operates on 'see food' diet principles.",
+        "Health momentum builds like my excitement for meal announcements. Steadily and surely."
       ],
       negative: [
         "Your energy levels will match mine after lunch - basically nonexistent.",
@@ -149,7 +212,22 @@ export const generateTimResponse = (category: FortuneCategory = "general", userQ
         "That fitness goal is as achievable as me climbing stairs without getting winded.",
         "Your body will protest movement as much as I protest early mornings. Loudly.",
         "Wellness trends will confuse you as much as salad menus confuse me. Thoroughly.",
-        "Your stamina will be as reliable as my willpower around desserts. Not at all."
+        "Your stamina will be as reliable as my willpower around desserts. Not at all.",
+        "Medical checkups will be as pleasant as my morning weigh-ins. Deeply uncomfortable.",
+        "Your joints will creak like my chair when I sit down after meals. Audibly.",
+        "Health apps will judge you as harshly as my bathroom scale judges me. Mercilessly.",
+        "Your flexibility will be as limited as my tolerance for vegetables. Severely restricted.",
+        "Gym memberships will mock you like mine mocks me. Silently but persistently.",
+        "Your water intake will be as sporadic as my attempts at portion control. Inconsistent.",
+        "Sleep quality will deteriorate like my posture during extended eating sessions.",
+        "Your stress levels will spike like my heart rate when climbing stairs. Dramatically.",
+        "Health goals will be as elusive as my motivation before noon. Completely absent.",
+        "Your immune system will be as weak as my excuses for avoiding exercise. Pretty weak.",
+        "Wellness routines will fail like my diet plans. Spectacularly and repeatedly.",
+        "Your endurance will be as short-lived as my interest in fitness videos. Very brief.",
+        "Health supplements will disappoint you like vegetables disappoint me. Consistently.",
+        "Your recovery time will be as long as my afternoon naps. Impressively extended.",
+        "Medical advice will be as ignored as my nutrition recommendations. Completely disregarded."
       ]
     },
     general: {
@@ -163,7 +241,22 @@ export const generateTimResponse = (category: FortuneCategory = "general", userQ
         "A small act of kindness will return to you threefold. Does letting me nap count?",
         "The answer you seek is right in front of you. So is my lunch, please don't block it.",
         "Patience brings rewards. I've been patient for seconds at dinner for years.",
-        "Your greatest strength is also your greatest weakness. For me, it's cheese appreciation."
+        "Your greatest strength is also your greatest weakness. For me, it's cheese appreciation.",
+        "Today brings unexpected joy, like finding forgotten cookies in your coat pocket.",
+        "Your intuition strengthens like my ability to detect fresh bread from three rooms away.",
+        "Life's rhythm improves when you stop rushing, like how I've perfected leisurely eating.",
+        "Small changes lead to big results, much like how small snacks lead to big satisfaction.",
+        "Your perspective shifts favorably, unlike my perspective on morning exercise.",
+        "Abundance flows toward you like gravy flows toward my plate. Naturally and generously.",
+        "Inner peace arrives when you accept yourself, flaws and all. I've mastered this.",
+        "Your path becomes clearer, like my view of the dessert menu. Crystal clear.",
+        "Harmony enters your life like the perfect blend of flavors in a good meal.",
+        "Positive energy surrounds you, similar to how the aroma of fresh bread surrounds me.",
+        "Your confidence grows like my appreciation for comfortable furniture. Steadily.",
+        "Life's pleasures multiply when shared, much like how meals taste better with company.",
+        "Your purpose reveals itself gradually, like the layers of a perfectly made lasagna.",
+        "Serendipity works in your favor, bringing exactly what you need when you need it.",
+        "Your spirit lightens like my mood when someone mentions unexpected snack deliveries."
       ],
       negative: [
         "Fortune favors the bold, but today it's taking a nap. Come back tomorrow.",
@@ -175,7 +268,22 @@ export const generateTimResponse = (category: FortuneCategory = "general", userQ
         "The cosmos is as indifferent to your troubles as I am to vegetables. Completely.",
         "Your luck will be as consistent as my sleep schedule. Wildly unpredictable.",
         "Murphy's Law will follow you like the scent of fresh bread follows me. Relentlessly.",
-        "Chaos will reign in your life like it does in my kitchen. Absolutely and completely."
+        "Chaos will reign in your life like it does in my kitchen. Absolutely and completely.",
+        "Your plans will crumble faster than cookies in my eager hands. Disappointingly fast.",
+        "Life will test your patience like waiting for a slow oven tests mine. Extensively.",
+        "Your expectations will be dashed like my hopes for an early dinner. Repeatedly.",
+        "Mishaps will accumulate like the dishes in my sink. Alarmingly and consistently.",
+        "Your motivation will waver like my commitment to morning exercise. Constantly.",
+        "Problems will pile up like my excuses for avoiding housework. Impressively high.",
+        "Your resolve will weaken like mine around a fresh pie. Quickly and completely.",
+        "Difficulties will persist like my inability to resist second helpings. Stubbornly.",
+        "Your optimism will fade like my energy after a large meal. Gradually then suddenly.",
+        "Complications will arise like my hunger between scheduled meals. Predictably and frequently.",
+        "Your composure will crack like my discipline around dessert displays. Easily and often.",
+        "Misfortune will cling to you like flour clings to my apron. Persistently and visibly.",
+        "Your momentum will stall like my productivity after lunch. Completely and thoroughly.",
+        "Frustrations will mount like my reluctance to climb stairs. Steadily and obviously.",
+        "Your spirits will droop like my posture in comfortable chairs. Noticeably and naturally."
       ]
     }
   };

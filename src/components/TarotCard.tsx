@@ -161,7 +161,7 @@ const TarotCard: React.FC<TarotCardProps> = ({
         `}>
           {/* Video Loading Indicator */}
           {videoLoading && (
-            <div className="absolute inset-0 flex items-center justify-center bg-wizard-dark/10 z-30">
+            <div className="absolute inset-0 flex items-center justify-center bg-wizard-dark/10 z-[90]">
               <div className="text-wizard-dark/60 text-center">
                 <div className="text-2xl mb-2">📽️</div>
                 <div className="text-sm">Loading magical animation...</div>
@@ -173,7 +173,7 @@ const TarotCard: React.FC<TarotCardProps> = ({
           {shouldShowVideo && (
             <video
               ref={videoRef}
-              className="absolute inset-0 w-full h-full object-cover z-40"
+              className="absolute inset-0 w-full h-full object-cover z-[100]"
               muted
               playsInline
               preload="auto"
@@ -186,7 +186,13 @@ const TarotCard: React.FC<TarotCardProps> = ({
               }}
               style={{ 
                 visibility: shouldShowVideo ? 'visible' : 'hidden',
-                opacity: shouldShowVideo ? 1 : 0 
+                opacity: shouldShowVideo ? 1 : 0,
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                zIndex: 100
               }}
             >
               <source src={drawnCard?.card.videoUrl} type="video/mp4" />
@@ -198,7 +204,7 @@ const TarotCard: React.FC<TarotCardProps> = ({
             <img 
               src={drawnCard.card.imageUrl}
               alt={drawnCard.card.imageAlt}
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 z-30 ${
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 z-[80] ${
                 videoEnded ? 'opacity-100' : 'opacity-0'
               }`}
               loading="lazy"
@@ -207,7 +213,7 @@ const TarotCard: React.FC<TarotCardProps> = ({
                 // Fallback to emoji if image fails to load
                 e.currentTarget.style.display = 'none';
                 const fallback = document.createElement('div');
-                fallback.className = 'absolute inset-0 w-full h-full flex items-center justify-center bg-wizard-dark/10 z-25';
+                fallback.className = 'absolute inset-0 w-full h-full flex items-center justify-center bg-wizard-dark/10 z-[75]';
                 fallback.innerHTML = '<div class="text-6xl opacity-50">🎴</div>';
                 e.currentTarget.parentNode?.appendChild(fallback);
               }}
@@ -216,7 +222,7 @@ const TarotCard: React.FC<TarotCardProps> = ({
 
           {/* Video Error Fallback */}
           {videoError && isRevealed && (
-            <div className="absolute inset-0 flex items-center justify-center bg-wizard-dark/5 z-35">
+            <div className="absolute inset-0 flex items-center justify-center bg-wizard-dark/5 z-[85]">
               <div className="text-wizard-dark/60 text-center p-4">
                 <div className="text-3xl mb-2">🎴</div>
                 <div className="text-xs">Video unavailable</div>

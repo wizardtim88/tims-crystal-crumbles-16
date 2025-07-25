@@ -24,6 +24,17 @@ const TarotCard: React.FC<TarotCardProps> = ({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
+  // Reset all video states when card changes
+  useEffect(() => {
+    if (drawnCard) {
+      console.log('🎬 Card changed, resetting video states for:', drawnCard.card.name);
+      setShowVideo(false);
+      setVideoEnded(false);
+      setVideoError(false);
+      setVideoLoading(false);
+    }
+  }, [drawnCard?.card.id]);
+
   // Check for reduced motion preference
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -39,68 +50,79 @@ const TarotCard: React.FC<TarotCardProps> = ({
     if (isRevealed && drawnCard?.card.videoUrl && !prefersReducedMotion) {
       console.log('🎬 Starting video reveal for:', drawnCard.card.name);
       console.log('🎬 Video URL:', drawnCard.card.videoUrl);
-      setVideoLoading(true);
-      setShowVideo(true);
-      setVideoEnded(false);
-      setVideoError(false);
       
-      // Start video playback when ready
-      if (videoRef.current) {
-        const video = videoRef.current;
-        console.log('🎬 Video element found, setting up event listeners');
+      // Small delay to ensure DOM is ready
+      const timer = setTimeout(() => {
+        setVideoLoading(true);
+        setShowVideo(true);
+        setVideoEnded(false);
+        setVideoError(false);
         
-        const handleCanPlay = () => {
-          console.log('🎬 Video can play, starting playback');
-          setVideoLoading(false);
-          video.play().catch((error) => {
-            console.error('🎬 Video play failed:', error);
+        // Start video playback when ready
+        if (videoRef.current) {
+          const video = videoRef.current;
+          console.log('🎬 Video element found, setting up event listeners');
+          
+          const handleCanPlay = () => {
+            console.log('🎬 Video can play, starting playback');
+            setVideoLoading(false);
+            video.play().catch((error) => {
+              console.error('🎬 Video play failed:', error);
+              setVideoError(true);
+              setShowVideo(false);
+              setVideoEnded(true);
+            });
+          };
+
+          const handleError = (e: Event) => {
+            console.error('🎬 Video loading error:', e);
             setVideoError(true);
+            setVideoLoading(false);
             setShowVideo(false);
             setVideoEnded(true);
-          });
-        };
+          };
 
-        const handleError = (e: Event) => {
-          console.error('🎬 Video loading error:', e);
+          const handleLoadStart = () => {
+            console.log('🎬 Video load started');
+          };
+
+          const handleLoadedData = () => {
+            console.log('🎬 Video data loaded');
+          };
+
+          video.addEventListener('canplay', handleCanPlay);
+          video.addEventListener('error', handleError);
+          video.addEventListener('loadstart', handleLoadStart);
+          video.addEventListener('loadeddata', handleLoadedData);
+          
+          // Reset video to start
+          video.currentTime = 0;
+          video.load();
+
+          return () => {
+            video.removeEventListener('canplay', handleCanPlay);
+            video.removeEventListener('error', handleError);
+            video.removeEventListener('loadstart', handleLoadStart);
+            video.removeEventListener('loadeddata', handleLoadedData);
+          };
+        } else {
+          console.error('🎬 Video element not found');
+          // Fallback if video element not found
           setVideoError(true);
           setVideoLoading(false);
           setShowVideo(false);
           setVideoEnded(true);
-        };
+        }
+      }, 100);
 
-        const handleLoadStart = () => {
-          console.log('🎬 Video load started');
-        };
-
-        const handleLoadedData = () => {
-          console.log('🎬 Video data loaded');
-        };
-
-        video.addEventListener('canplay', handleCanPlay);
-        video.addEventListener('error', handleError);
-        video.addEventListener('loadstart', handleLoadStart);
-        video.addEventListener('loadeddata', handleLoadedData);
-        
-        // Reset video to start
-        video.currentTime = 0;
-        video.load();
-
-        return () => {
-          video.removeEventListener('canplay', handleCanPlay);
-          video.removeEventListener('error', handleError);
-          video.removeEventListener('loadstart', handleLoadStart);
-          video.removeEventListener('loadeddata', handleLoadedData);
-        };
-      } else {
-        console.error('🎬 Video element not found');
-      }
+      return () => clearTimeout(timer);
     } else if (isRevealed) {
       // No video or reduced motion - show static image immediately
       console.log('🎬 No video or reduced motion, showing static image');
       setShowVideo(false);
       setVideoEnded(true);
     }
-  }, [isRevealed, drawnCard?.card.videoUrl, prefersReducedMotion]);
+  }, [isRevealed, drawnCard?.card.id, drawnCard?.card.videoUrl, prefersReducedMotion]);
 
   const handleClick = () => {
     if (!isRevealed && onReveal && !isFlipping) {
@@ -172,6 +194,7 @@ const TarotCard: React.FC<TarotCardProps> = ({
           {/* Video Element */}
           {shouldShowVideo && (
             <video
+              key={`video-${drawnCard?.card.id}`}
               ref={videoRef}
               className="absolute inset-0 w-full h-full object-cover z-[100]"
               muted

@@ -152,7 +152,7 @@ const Index = () => {
       handleDrawTarotCard(question, selectedSpread);
     }
   };
-  return <div className={`min-h-screen flex flex-col transition-all duration-300 ${isDarkMode ? 'starry-night' : 'bg-wizard-study bg-cover bg-center bg-fixed'}`}>
+  return <div className="min-h-screen flex flex-col transition-all duration-300 bg-wizard-purple">
       {isDarkMode && <MagicalParticles />}
       {!isDarkMode && <div className="absolute inset-0 backdrop-blur-[1px] bg-slate-900"></div>}
       

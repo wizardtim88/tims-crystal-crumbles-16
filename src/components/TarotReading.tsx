@@ -231,7 +231,7 @@ const TarotReading: React.FC<TarotReadingProps> = ({
 
           {/* Interpretation */}
           {allRevealed && <div className="max-w-2xl mx-auto animate-fade-in">
-              <div className="bg-card/90 backdrop-blur-sm p-6 rounded-lg border border-wizard-gold/30 shadow-lg">
+              <div className="backdrop-blur-sm p-6 rounded-lg border border-wizard-gold/30 shadow-lg bg-violet-500">
                 {currentReading.spread === 'single' ?
           // Single Card Interpretation
           <div className="text-center mb-4">

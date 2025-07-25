@@ -41,9 +41,7 @@ const CrystalBall: React.FC<CrystalBallProps> = ({
         {/* Inner glow */}
         <div ref={glowRef} className="absolute inset-0 crystal-ball-glow opacity-40 transition-opacity duration-1000" />
         
-        {/* Swirling mist */}
-        
-        
+  
         {/* Magic sparkles */}
         {isActive && <>
             <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-wizard-gold rounded-full animate-ping" />
@@ -60,12 +58,7 @@ const CrystalBall: React.FC<CrystalBallProps> = ({
           </>}
       </div>
       
-      {/* Crystal ball base */}
-      <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-32 h-8 md:w-40 md:h-10">
-        
-        
-      </div>
-      
+
       {/* Sparkles around ball when active */}
       {isActive && <>
           <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 text-wizard-gold animate-bounce text-xl">✨</div>

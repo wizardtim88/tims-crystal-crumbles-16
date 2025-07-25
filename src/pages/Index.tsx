@@ -154,7 +154,7 @@ const Index = () => {
   };
   return <div className="min-h-screen flex flex-col transition-all duration-300 bg-wizard-purple">
       {isDarkMode && <MagicalParticles />}
-      {!isDarkMode && <div className="absolute inset-0 backdrop-blur-[1px] bg-slate-900"></div>}
+      {!isDarkMode && <div className="absolute inset-0 backdrop-blur-[1px] bg-slate-950"></div>}
       
       {/* Header */}
       <header className="w-full backdrop-blur-sm border-b border-border/50 py-4 px-6 flex justify-between items-center z-10 relative bg-slate-700">

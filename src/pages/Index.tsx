@@ -272,12 +272,7 @@ const Index = () => {
         
         {/* Combined Responses */}
         <div ref={fortunesRef} className="w-full mt-8 max-h-[400px] overflow-y-auto px-4 py-2 rounded-lg scrollbar-thin scrollbar-thumb-wizard-purple/30 scrollbar-track-transparent">
-          {showIntro && <div className="bg-card/90 backdrop-blur-sm p-4 rounded-lg border border-border shadow-md mb-4">
-              <p className="font-scroll text-card-foreground italic">
-                Welcome to the cozy hole of The Wizard Tim, the laziest, most food-obsessed wizard in all of Halfass. 
-                Get your fortune told or disturb Tim for a daily horoscope reading - though he's quite skeptical about "star nonsense."
-              </p>
-            </div>}
+          {showIntro}
           
           {/* Show all responses chronologically */}
           {[...fortunes, ...zodiacReadings, ...tarotReadings].sort((a, b) => a.id - b.id).map(item => {

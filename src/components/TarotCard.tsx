@@ -24,14 +24,14 @@ const TarotCard: React.FC<TarotCardProps> = ({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
-  // Reset all video states when card changes
+  // Reset video states when card changes (only what needs resetting)
   useEffect(() => {
     if (drawnCard) {
       console.log('🎬 Card changed, resetting video states for:', drawnCard.card.name);
-      setShowVideo(false);
       setVideoEnded(false);
       setVideoError(false);
       setVideoLoading(false);
+      // Don't reset showVideo here - let the reveal logic handle it
     }
   }, [drawnCard?.card.id]);
 
@@ -51,15 +51,16 @@ const TarotCard: React.FC<TarotCardProps> = ({
       console.log('🎬 Starting video reveal for:', drawnCard.card.name);
       console.log('🎬 Video URL:', drawnCard.card.videoUrl);
       
-      // Small delay to ensure DOM is ready
+      // Increased delay to ensure DOM is ready and video element is mounted
       const timer = setTimeout(() => {
         setVideoLoading(true);
         setShowVideo(true);
         setVideoEnded(false);
         setVideoError(false);
         
-        // Start video playback when ready
-        if (videoRef.current) {
+        // Retry logic for video element access
+        const attemptVideoPlayback = (retries = 3) => {
+          if (videoRef.current) {
           const video = videoRef.current;
           console.log('🎬 Video element found, setting up event listeners');
           
@@ -105,15 +106,20 @@ const TarotCard: React.FC<TarotCardProps> = ({
             video.removeEventListener('loadstart', handleLoadStart);
             video.removeEventListener('loadeddata', handleLoadedData);
           };
-        } else {
-          console.error('🎬 Video element not found');
-          // Fallback if video element not found
-          setVideoError(true);
-          setVideoLoading(false);
-          setShowVideo(false);
-          setVideoEnded(true);
-        }
-      }, 100);
+          } else if (retries > 0) {
+            console.warn(`🎬 Video element not found, retrying... (${retries} attempts left)`);
+            setTimeout(() => attemptVideoPlayback(retries - 1), 50);
+          } else {
+            console.error('🎬 Video element not found after retries');
+            setVideoError(true);
+            setVideoLoading(false);
+            setShowVideo(false);
+            setVideoEnded(true);
+          }
+        };
+        
+        attemptVideoPlayback();
+      }, 200);
 
       return () => clearTimeout(timer);
     } else if (isRevealed) {
@@ -192,9 +198,8 @@ const TarotCard: React.FC<TarotCardProps> = ({
           )}
 
           {/* Video Element */}
-          {shouldShowVideo && (
+          {isRevealed && drawnCard?.card.videoUrl && (
             <video
-              key={`video-${drawnCard?.card.id}`}
               ref={videoRef}
               className="absolute inset-0 w-full h-full object-cover z-[100]"
               muted

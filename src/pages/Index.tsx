@@ -159,10 +159,10 @@ const Index = () => {
       {/* Header */}
       <header className="w-full backdrop-blur-sm border-b border-border/50 py-4 px-6 flex justify-between items-center z-10 relative bg-slate-950">
         <div className="flex flex-col">
-          <h1 className="text-2xl md:text-3xl font-wizard text-amber-500">
+          <h1 className="md:text-3xl font-wizard text-amber-500 text-lg text-left">
             The Wizard Tim's Crystal Ball
           </h1>
-          <p className="text-sm font-scroll text-slate-200">
+          <p className="font-scroll text-slate-200 text-xs">
             Gaze into the Mysteries with the Laziest Wizard Around
           </p>
         </div>

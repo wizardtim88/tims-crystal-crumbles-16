@@ -157,7 +157,7 @@ const Index = () => {
       {!isDarkMode && <div className="absolute inset-0 backdrop-blur-[1px] bg-slate-950"></div>}
       
       {/* Header */}
-      <header className="w-full backdrop-blur-sm border-b border-border/50 py-4 px-6 flex justify-between items-center z-10 relative bg-slate-700">
+      <header className="w-full backdrop-blur-sm border-b border-border/50 py-4 px-6 flex justify-between items-center z-10 relative bg-slate-950">
         <div className="flex flex-col">
           <h1 className="text-2xl md:text-3xl font-wizard text-amber-500">
             The Wizard Tim's Crystal Ball
@@ -168,7 +168,7 @@ const Index = () => {
         </div>
         <div className="flex items-center gap-2">
           <ThemeToggle isDark={isDarkMode} onToggle={() => setIsDarkMode(!isDarkMode)} />
-
+          <Sparkles className="h-5 w-5 text-accent animate-sparkle" />
         </div>
       </header>
       

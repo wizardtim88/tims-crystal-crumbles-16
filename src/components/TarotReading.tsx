@@ -6,13 +6,11 @@ import TarotCard from '@/components/TarotCard';
 import ShareButton from '@/components/ShareButton';
 import { TarotReading as TarotReadingType, TarotSpread } from '@/types/tarot';
 import { Shuffle, Sparkles, Calendar, Clock, Zap, HelpCircle } from 'lucide-react';
-
 interface TarotReadingProps {
   onDrawCard: (question?: string, spread?: TarotSpread) => void;
   isDrawing: boolean;
   currentReading?: TarotReadingType;
 }
-
 const TarotReading: React.FC<TarotReadingProps> = ({
   onDrawCard,
   isDrawing,
@@ -25,20 +23,17 @@ const TarotReading: React.FC<TarotReadingProps> = ({
   const [revealedCards, setRevealedCards] = useState<boolean[]>([]);
   const [allRevealed, setAllRevealed] = useState(false);
   const [showTips, setShowTips] = useState(false);
-
   const handleShuffle = () => {
     // Reset all state
     setIsShuffling(true);
     setIsDealing(false);
     setRevealedCards([]);
     setAllRevealed(false);
-    
     setTimeout(() => {
       setIsShuffling(false);
       onDrawCard(question.trim() || undefined, selectedSpread);
     }, 2000);
   };
-
   const handleReveal = () => {
     if (selectedSpread === 'single') {
       setAllRevealed(true);
@@ -48,24 +43,21 @@ const TarotReading: React.FC<TarotReadingProps> = ({
       setAllRevealed(true);
     }
   };
-
   const handleCardReveal = (index: number) => {
     if (selectedSpread === 'three-card' && !isDealing) {
       setRevealedCards(prev => {
         const newReveals = [...prev];
         newReveals[index] = true;
-        
+
         // Check if all cards are revealed
         const allCardsRevealed = newReveals.every(state => state);
         if (allCardsRevealed) {
           setAllRevealed(true);
         }
-        
         return newReveals;
       });
     }
   };
-
   const handleNewReading = () => {
     setQuestion('');
     setIsShuffling(false);
@@ -81,12 +73,12 @@ const TarotReading: React.FC<TarotReadingProps> = ({
         setRevealedCards(new Array(currentReading.cards.length).fill(false));
         setAllRevealed(false);
         setIsDealing(true);
-        
+
         // Brief dealing animation, then make cards clickable
         const dealTimeout = setTimeout(() => {
           setIsDealing(false);
         }, 1200); // Shorter delay to make cards clickable faster
-        
+
         return () => clearTimeout(dealTimeout);
       } else {
         setRevealedCards([false]);
@@ -112,82 +104,50 @@ const TarotReading: React.FC<TarotReadingProps> = ({
   };
 
   // Count revealed cards for progress
-  const revealedCount = selectedSpread === 'three-card' 
-    ? revealedCards.filter(Boolean).length 
-    : (allRevealed ? 1 : 0);
+  const revealedCount = selectedSpread === 'three-card' ? revealedCards.filter(Boolean).length : allRevealed ? 1 : 0;
   const totalCards = selectedSpread === 'three-card' ? 3 : 1;
-
-  const spreads = [
-    { 
-      id: 'single' as TarotSpread, 
-      name: 'Single Card', 
-      description: 'Quick guidance for any question',
-      icon: Zap,
-      bestFor: 'Daily guidance, yes/no questions, immediate clarity'
-    },
-    { 
-      id: 'three-card' as TarotSpread, 
-      name: 'Past • Present • Future', 
-      description: 'See the full timeline of your situation',
-      icon: Calendar,
-      bestFor: 'Understanding patterns, relationship evolution, career trajectory'
-    }
-  ];
-
-  const tips = [
-    "Be specific with your questions for clearer guidance",
-    "Focus on 'how' and 'what' rather than 'when' questions",
-    "Trust your intuition when interpreting the cards",
-    "Remember, tarot shows possibilities, not fixed outcomes"
-  ];
-
-  return (
-    <div className="space-y-6">
+  const spreads = [{
+    id: 'single' as TarotSpread,
+    name: 'Single Card',
+    description: 'Quick guidance for any question',
+    icon: Zap,
+    bestFor: 'Daily guidance, yes/no questions, immediate clarity'
+  }, {
+    id: 'three-card' as TarotSpread,
+    name: 'Past • Present • Future',
+    description: 'See the full timeline of your situation',
+    icon: Calendar,
+    bestFor: 'Understanding patterns, relationship evolution, career trajectory'
+  }];
+  const tips = ["Be specific with your questions for clearer guidance", "Focus on 'how' and 'what' rather than 'when' questions", "Trust your intuition when interpreting the cards", "Remember, tarot shows possibilities, not fixed outcomes"];
+  return <div className="space-y-6">
       {/* Spread Selection with Enhanced Information */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <Label className="font-wizard text-wizard-cream">Choose Your Reading</Label>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setShowTips(!showTips)}
-            className="text-wizard-cream/70 hover:text-wizard-cream"
-          >
+          <Button variant="ghost" size="sm" onClick={() => setShowTips(!showTips)} className="text-wizard-cream/70 hover:text-wizard-cream">
             <HelpCircle className="h-4 w-4 mr-1" />
             Tips
           </Button>
         </div>
         
-        {showTips && (
-          <div className="bg-wizard-dark/30 border border-wizard-gold/30 rounded-lg p-3 space-y-2">
+        {showTips && <div className="bg-wizard-dark/30 border border-wizard-gold/30 rounded-lg p-3 space-y-2">
             <h4 className="font-wizard text-sm text-wizard-gold">Reading Tips:</h4>
             <ul className="space-y-1">
-              {tips.map((tip, index) => (
-                <li key={index} className="text-xs text-wizard-cream/80 flex items-start gap-2">
+              {tips.map((tip, index) => <li key={index} className="text-xs text-wizard-cream/80 flex items-start gap-2">
                   <span className="text-wizard-gold mt-1">•</span>
                   {tip}
-                </li>
-              ))}
+                </li>)}
             </ul>
-          </div>
-        )}
+          </div>}
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {spreads.map((spread) => {
-            const Icon = spread.icon;
-            return (
-              <button
-                key={spread.id}
-                onClick={() => setSelectedSpread(spread.id)}
-                className={`
+          {spreads.map(spread => {
+          const Icon = spread.icon;
+          return <button key={spread.id} onClick={() => setSelectedSpread(spread.id)} className={`
                   p-4 rounded-lg border text-left transition-all
-                  ${selectedSpread === spread.id 
-                    ? 'border-wizard-gold bg-wizard-gold/10 text-wizard-cream' 
-                    : 'border-wizard-gold/30 bg-wizard-dark/20 text-wizard-cream/70 hover:bg-wizard-dark/40'
-                  }
-                `}
-                disabled={isDrawing || isShuffling}
-              >
+                  ${selectedSpread === spread.id ? 'border-wizard-gold bg-wizard-gold/10 text-wizard-cream' : 'border-wizard-gold/30 bg-wizard-dark/20 text-wizard-cream/70 hover:bg-wizard-dark/40'}
+                `} disabled={isDrawing || isShuffling}>
                 <div className="flex items-start gap-3">
                   <Icon className={`w-5 h-5 mt-0.5 ${selectedSpread === spread.id ? 'text-wizard-gold' : 'text-wizard-cream/50'}`} />
                   <div className="flex-1">
@@ -196,9 +156,8 @@ const TarotReading: React.FC<TarotReadingProps> = ({
                     <p className="text-xs opacity-60">Best for: {spread.bestFor}</p>
                   </div>
                 </div>
-              </button>
-            );
-          })}
+              </button>;
+        })}
         </div>
       </div>
 
@@ -207,38 +166,20 @@ const TarotReading: React.FC<TarotReadingProps> = ({
         <Label htmlFor="tarot-question" className="font-wizard text-wizard-cream">
           Ask Tim's Crystal Ball (Optional)
         </Label>
-        <Input
-          id="tarot-question"
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-          placeholder={selectedSpread === 'single' 
-            ? "What guidance do you seek?" 
-            : "What situation would you like clarity on?"
-          }
-          className="bg-wizard-dark/40 border-wizard-gold/30 text-wizard-cream placeholder:text-wizard-cream/50"
-          disabled={isDrawing || isShuffling}
-        />
+        <Input id="tarot-question" value={question} onChange={e => setQuestion(e.target.value)} placeholder={selectedSpread === 'single' ? "What guidance do you seek?" : "What situation would you like clarity on?"} className="bg-wizard-dark/40 border-wizard-gold/30 text-wizard-cream placeholder:text-wizard-cream/50" disabled={isDrawing || isShuffling} />
         <p className="text-xs text-wizard-cream/60 font-scroll">
-          {selectedSpread === 'single' 
-            ? "Ask about immediate guidance, decisions, or daily focus"
-            : "Ask about situations that have developed over time"
-          }
+          {selectedSpread === 'single' ? "Ask about immediate guidance, decisions, or daily focus" : "Ask about situations that have developed over time"}
         </p>
       </div>
 
       {/* Shuffle Button */}
       <div className="flex justify-center">
-        <Button
-          onClick={handleShuffle}
-          disabled={isDrawing || isShuffling}
-          className={`
+        <Button onClick={handleShuffle} disabled={isDrawing || isShuffling} className={`
             bg-wizard-purple hover:bg-wizard-purple/80 text-white 
             font-wizard px-6 py-6 text-lg flex items-center gap-2 
             transition-all hover:shadow-lg relative overflow-hidden
             ${isShuffling ? 'animate-pulse' : ''}
-          `}
-          size="lg"
-        >
+          `} size="lg">
           <div className="absolute inset-0 bg-gradient-to-r from-wizard-gold/10 to-transparent opacity-50"></div>
           <Shuffle className={`w-5 h-5 ${isShuffling ? 'animate-spin' : ''}`} />
           {isShuffling ? "Tim is shuffling..." : "Shuffle the Deck"}
@@ -249,132 +190,77 @@ const TarotReading: React.FC<TarotReadingProps> = ({
       </div>
 
       {/* Card Display */}
-      {currentReading && (
-        <div className="flex flex-col items-center space-y-6">
-          {currentReading.spread === 'single' ? (
-            // Single Card Layout
-            <TarotCard
-              drawnCard={currentReading.cards[0]}
-              isRevealed={allRevealed}
-              onReveal={isCardClickable(0) ? handleReveal : undefined}
-              className="mx-auto"
-            />
-          ) : (
-            // Three Card Layout
-            <div className="space-y-4">
+      {currentReading && <div className="flex flex-col items-center space-y-6">
+          {currentReading.spread === 'single' ?
+      // Single Card Layout
+      <TarotCard drawnCard={currentReading.cards[0]} isRevealed={allRevealed} onReveal={isCardClickable(0) ? handleReveal : undefined} className="mx-auto" /> :
+      // Three Card Layout
+      <div className="space-y-4">
               {/* Progress Indicator */}
-              {!allRevealed && (
-                <div className="text-center">
+              {!allRevealed && <div className="text-center">
                   <p className="font-wizard text-wizard-cream/70 text-sm mb-2">
-                    {isDealing 
-                      ? "Tim is dealing your cards..." 
-                      : revealedCount === 0 
-                        ? "Click any card to begin"
-                        : `Click cards to reveal (${revealedCount}/${totalCards})`
-                    }
+                    {isDealing ? "Tim is dealing your cards..." : revealedCount === 0 ? "Click any card to begin" : `Click cards to reveal (${revealedCount}/${totalCards})`}
                   </p>
                   <div className="flex justify-center gap-2">
-                    {Array.from({ length: totalCards }, (_, i) => (
-                      <div
-                        key={i}
-                        className={`w-2 h-2 rounded-full transition-colors ${
-                          i < revealedCount ? 'bg-wizard-gold' : 'bg-wizard-gold/30'
-                        }`}
-                      />
-                    ))}
+                    {Array.from({
+              length: totalCards
+            }, (_, i) => <div key={i} className={`w-2 h-2 rounded-full transition-colors ${i < revealedCount ? 'bg-wizard-gold' : 'bg-wizard-gold/30'}`} />)}
                   </div>
-                </div>
-              )}
+                </div>}
               
               {/* Cards Grid */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
-                {currentReading.cards.map((drawnCard, index) => (
-                  <div 
-                    key={index} 
-                    className="text-center space-y-3 transition-all duration-700 opacity-100 scale-100 translate-y-0"
-                    style={{
-                      transitionDelay: isDealing ? `${index * 400}ms` : '0ms'
-                    }}
-                  >
+                {currentReading.cards.map((drawnCard, index) => <div key={index} className="text-center space-y-3 transition-all duration-700 opacity-100 scale-100 translate-y-0" style={{
+            transitionDelay: isDealing ? `${index * 400}ms` : '0ms'
+          }}>
                     <p className="font-wizard text-wizard-gold text-sm">
                       {drawnCard.position}
                     </p>
-                    <TarotCard
-                      drawnCard={drawnCard}
-                      isRevealed={getCardRevealState(index)}
-                      onReveal={isCardClickable(index) ? () => handleCardReveal(index) : undefined}
-                      className={`mx-auto transition-all duration-300 ${
-                        isCardClickable(index) 
-                          ? 'hover:scale-105 cursor-pointer ring-2 ring-wizard-gold/20 hover:ring-wizard-gold/40' 
-                          : getCardRevealState(index) 
-                            ? 'ring-2 ring-wizard-gold/50' 
-                            : ''
-                      }`}
-                    />
-                  </div>
-                ))}
+                    <TarotCard drawnCard={drawnCard} isRevealed={getCardRevealState(index)} onReveal={isCardClickable(index) ? () => handleCardReveal(index) : undefined} className={`mx-auto transition-all duration-300 ${isCardClickable(index) ? 'hover:scale-105 cursor-pointer ring-2 ring-wizard-gold/20 hover:ring-wizard-gold/40' : getCardRevealState(index) ? 'ring-2 ring-wizard-gold/50' : ''}`} />
+                  </div>)}
               </div>
               
               {/* Reveal All Button */}
-              {!allRevealed && revealedCount > 0 && revealedCount < totalCards && !isDealing && (
-                <div className="text-center">
-                  <Button
-                    onClick={handleReveal}
-                    variant="outline"
-                    size="sm"
-                    className="border-wizard-gold/30 text-wizard-gold font-wizard hover:bg-wizard-gold/10"
-                  >
+              {!allRevealed && revealedCount > 0 && revealedCount < totalCards && !isDealing && <div className="text-center">
+                  <Button onClick={handleReveal} variant="outline" size="sm" className="border-wizard-gold/30 text-wizard-gold font-wizard hover:bg-wizard-gold/10">
                     <Sparkles className="w-4 h-4 mr-2" />
                     Reveal All Cards
                   </Button>
-                </div>
-              )}
-            </div>
-          )}
+                </div>}
+            </div>}
 
           {/* Interpretation */}
-          {allRevealed && (
-            <div className="max-w-2xl mx-auto animate-fade-in">
+          {allRevealed && <div className="max-w-2xl mx-auto animate-fade-in">
               <div className="bg-card/90 backdrop-blur-sm p-6 rounded-lg border border-wizard-gold/30 shadow-lg">
-                {currentReading.spread === 'single' ? (
-                  // Single Card Interpretation
-                  <div className="text-center mb-4">
+                {currentReading.spread === 'single' ?
+          // Single Card Interpretation
+          <div className="text-center mb-4">
                     <h3 className="font-wizard text-xl text-wizard-cream mb-2">
                       {currentReading.cards[0].card.name}
-                      {currentReading.cards[0].isReversed && (
-                        <span className="text-sm text-wizard-purple ml-2">(Reversed)</span>
-                      )}
+                      {currentReading.cards[0].isReversed && <span className="text-sm text-wizard-purple ml-2">(Reversed)</span>}
                     </h3>
-                    {currentReading.question && (
-                      <p className="text-sm text-wizard-cream/70 font-scroll italic mb-3">
+                    {currentReading.question && <p className="text-sm text-wizard-cream/70 font-scroll italic mb-3">
                         "{currentReading.question}"
-                      </p>
-                    )}
-                  </div>
-                ) : (
-                  // Three Card Interpretation Header
-                  <div className="text-center mb-6">
-                    <h3 className="font-wizard text-xl text-wizard-cream mb-2">
+                      </p>}
+                  </div> :
+          // Three Card Interpretation Header
+          <div className="text-center mb-6">
+                    <h3 className="font-wizard text-xl mb-2 text-slate-900">
                       Your Past • Present • Future Reading
                     </h3>
-                    {currentReading.question && (
-                      <p className="text-sm text-wizard-cream/70 font-scroll italic mb-3">
+                    {currentReading.question && <p className="text-sm text-wizard-cream/70 font-scroll italic mb-3">
                         "{currentReading.question}"
-                      </p>
-                    )}
+                      </p>}
                     <div className="flex justify-center gap-6 text-sm">
-                      {currentReading.cards.map((card, index) => (
-                        <div key={index} className="text-center">
-                          <p className="font-wizard text-wizard-gold">{card.position}</p>
-                          <p className="text-wizard-cream/80">
+                      {currentReading.cards.map((card, index) => <div key={index} className="text-center">
+                          <p className="font-wizard text-violet-950">{card.position}</p>
+                          <p className="text-gray-800">
                             {card.card.name}
                             {card.isReversed && <span className="text-wizard-purple ml-1">(R)</span>}
                           </p>
-                        </div>
-                      ))}
+                        </div>)}
                     </div>
-                  </div>
-                )}
+                  </div>}
                 
                 <div className="text-center">
                   <div className="font-scroll text-card-foreground leading-relaxed whitespace-pre-line">
@@ -386,22 +272,14 @@ const TarotReading: React.FC<TarotReadingProps> = ({
                 <ShareButton reading={currentReading} />
                 
                 <div className="mt-6 text-center">
-                  <Button
-                    onClick={handleNewReading}
-                    variant="outline"
-                    className="border-wizard-gold/30 text-wizard-purple font-wizard hover:bg-wizard-purple/10"
-                  >
+                  <Button onClick={handleNewReading} variant="outline" className="border-wizard-gold/30 text-wizard-purple font-wizard hover:bg-wizard-purple/10">
                     <Sparkles className="w-4 h-4 mr-2" />
                     New Reading
                   </Button>
                 </div>
               </div>
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  );
+            </div>}
+        </div>}
+    </div>;
 };
-
 export default TarotReading;

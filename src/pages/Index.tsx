@@ -22,14 +22,12 @@ import { FortuneCategory } from '@/types/fortune';
 import { ZodiacSign, ZodiacReading } from '@/types/zodiac';
 import { TarotReading as TarotReadingType, TarotSpread } from '@/types/tarot';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-
 interface Fortune {
   response: string;
   id: number;
   category: FortuneCategory;
   question?: string;
 }
-
 const Index = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isDrawingTarot, setIsDrawingTarot] = useState(false);
@@ -66,7 +64,6 @@ const Index = () => {
     document.documentElement.classList.toggle('dark', isDarkMode);
     localStorage.setItem('wizardTimTheme', isDarkMode ? 'dark' : 'light');
   }, [isDarkMode]);
-
   const handleGenerateFortune = (question?: string) => {
     setIsGenerating(true);
     setShowIntro(false);
@@ -88,7 +85,6 @@ const Index = () => {
       }
     }, 1500 + Math.random() * 1000);
   };
-
   const handleGenerateHoroscope = () => {
     setIsGenerating(true);
     setShowIntro(false);
@@ -110,15 +106,11 @@ const Index = () => {
       }
     }, 1500 + Math.random() * 1000);
   };
-
   const handleDrawTarotCard = (question?: string, spread: TarotSpread = 'single') => {
     setIsDrawingTarot(true);
     setShowIntro(false);
     setTimeout(() => {
-      const reading = spread === 'three-card' 
-        ? drawThreeCards(question)
-        : drawSingleCard(question);
-      
+      const reading = spread === 'three-card' ? drawThreeCards(question) : drawSingleCard(question);
       setCurrentTarotReading(reading);
       setTarotReadings(prev => {
         const updated = [reading, ...prev];
@@ -135,7 +127,6 @@ const Index = () => {
       }
     }, 2000 + Math.random() * 1000);
   };
-
   const clearAll = () => {
     setFortunes([]);
     setZodiacReadings([]);
@@ -153,9 +144,7 @@ const Index = () => {
       fortunesRef.current.scrollTop = fortunesRef.current.scrollHeight;
     }
   }, [fortunes, zodiacReadings, tarotReadings]);
-
   const hasAnyContent = fortunes.length > 0 || zodiacReadings.length > 0 || tarotReadings.length > 0;
-
   const handleQuestionSelect = (question: string, type: 'fortune' | 'tarot') => {
     if (type === 'fortune') {
       handleGenerateFortune(question);
@@ -163,11 +152,9 @@ const Index = () => {
       handleDrawTarotCard(question, selectedSpread);
     }
   };
-
-  return (
-    <div className={`min-h-screen flex flex-col transition-all duration-300 ${isDarkMode ? 'starry-night' : 'bg-wizard-study bg-cover bg-center bg-fixed'}`}>
+  return <div className={`min-h-screen flex flex-col transition-all duration-300 ${isDarkMode ? 'starry-night' : 'bg-wizard-study bg-cover bg-center bg-fixed'}`}>
       {isDarkMode && <MagicalParticles />}
-      {!isDarkMode && <div className="absolute inset-0 bg-wizard-dark/40 backdrop-blur-[1px]"></div>}
+      {!isDarkMode && <div className="absolute inset-0 backdrop-blur-[1px] bg-slate-900"></div>}
       
       {/* Header */}
       <header className="w-full backdrop-blur-sm border-b border-border/50 py-4 px-6 flex justify-between items-center z-10 relative bg-slate-700">
@@ -185,7 +172,7 @@ const Index = () => {
         </div>
       </header>
       
-      <main className="w-full max-w-4xl mx-auto px-4 flex-1 flex flex-col items-center z-10 relative">
+      <main className="w-full max-w-4xl mx-auto px-4 flex-1 flex flex-col items-center z-10 relative bg-slate-900">
         {/* Scattered food crumbs - wizard's messy study */}
         <div className="absolute top-1/4 left-10 w-8 h-8 bg-wizard-cream rounded-full opacity-20 transform rotate-12"></div>
         <div className="absolute top-1/3 right-16 w-10 h-3 bg-wizard-peach rounded-full opacity-30"></div>
@@ -244,11 +231,7 @@ const Index = () => {
             <EnhancedAskForm onGenerateFortune={handleGenerateFortune} isGenerating={isGenerating} selectedCategory={selectedCategory} />
             
             {/* Question Suggestions */}
-            <QuestionSuggestions
-              type="fortune"
-              category={selectedCategory}
-              onSelectQuestion={(question) => handleQuestionSelect(question, 'fortune')}
-            />
+            <QuestionSuggestions type="fortune" category={selectedCategory} onSelectQuestion={question => handleQuestionSelect(question, 'fortune')} />
           </TabsContent>
           
           <TabsContent value="horoscope" className="space-y-4">
@@ -273,25 +256,17 @@ const Index = () => {
             </div>
             
             {/* Question Suggestions for Horoscope */}
-            <QuestionSuggestions
-              type="horoscope"
-              zodiacSign={selectedZodiacSign}
-              onSelectQuestion={(question) => {
-                // For horoscope, we don't use the question directly but it gives users ideas
-                handleGenerateHoroscope();
-              }}
-            />
+            <QuestionSuggestions type="horoscope" zodiacSign={selectedZodiacSign} onSelectQuestion={question => {
+            // For horoscope, we don't use the question directly but it gives users ideas
+            handleGenerateHoroscope();
+          }} />
           </TabsContent>
 
           <TabsContent value="tarot" className="space-y-4">
             <TarotReading onDrawCard={handleDrawTarotCard} isDrawing={isDrawingTarot} currentReading={currentTarotReading} />
             
             {/* Question Suggestions for Tarot */}
-            <QuestionSuggestions
-              type="tarot"
-              tarotSpread={selectedSpread}
-              onSelectQuestion={(question) => handleQuestionSelect(question, 'tarot')}
-            />
+            <QuestionSuggestions type="tarot" tarotSpread={selectedSpread} onSelectQuestion={question => handleQuestionSelect(question, 'tarot')} />
           </TabsContent>
         </Tabs>
         
@@ -343,8 +318,6 @@ const Index = () => {
 
       {/* Enhanced Onboarding Modal */}
       <EnhancedOnboardingModal isOpen={showOnboarding} onClose={() => setShowOnboarding(false)} />
-    </div>
-  );
+    </div>;
 };
-
 export default Index;

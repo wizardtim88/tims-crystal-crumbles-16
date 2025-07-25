@@ -185,45 +185,7 @@ const EnhancedOnboardingModal: React.FC<EnhancedOnboardingModalProps> = ({
     onClose();
   };
   return <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="max-w-md mx-auto backdrop-blur-sm border border-primary/30 bg-slate-50">
-        <DialogHeader className="text-center space-y-2">
-          <DialogTitle className="font-wizard text-xl text-primary">
-            {steps[currentStep].title}
-          </DialogTitle>
-          
-          {/* Progress indicator */}
-          <div className="flex justify-center gap-2">
-            {steps.map((_, index) => <div key={index} className={`w-2 h-2 rounded-full transition-colors ${index === currentStep ? 'bg-wizard-gold' : 'bg-wizard-gold/30'}`} />)}
-          </div>
-        </DialogHeader>
-        
-        <div className="py-4">
-          {steps[currentStep].content}
-        </div>
-        
-        <div className="flex justify-between items-center">
-          <Button variant="ghost" onClick={prevStep} disabled={currentStep === 0} className="text-wizard-cream/70 hover:text-wizard-cream">
-            <ChevronLeft className="h-4 w-4 mr-1" />
-            Previous
-          </Button>
-          
-          <span className="text-xs text-wizard-cream/50 font-scroll">
-            {currentStep + 1} of {steps.length}
-          </span>
-          
-          {currentStep === steps.length - 1 ? <Button onClick={handleClose} className="bg-primary hover:bg-primary/90 text-primary-foreground font-wizard">
-              <Sparkles className="mr-2 h-4 w-4" />
-              Begin Journey
-            </Button> : <Button onClick={nextStep} className="bg-wizard-purple hover:bg-wizard-purple/90 text-white font-wizard">
-              Next
-              <ChevronRight className="h-4 w-4 ml-1" />
-            </Button>}
-        </div>
-        
-        <p className="text-xs text-center text-muted-foreground font-scroll">
-          *Tim grumbles about being interrupted but secretly enjoys the company*
-        </p>
-      </DialogContent>
+      
     </Dialog>;
 };
 export default EnhancedOnboardingModal;

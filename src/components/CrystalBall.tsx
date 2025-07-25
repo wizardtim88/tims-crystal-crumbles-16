@@ -1,24 +1,23 @@
-
 import React, { useEffect, useRef } from 'react';
 import { createGlowEffect, createMistEffect } from '@/lib/animations';
-
 interface CrystalBallProps {
   isActive: boolean;
   className?: string;
 }
-
-const CrystalBall: React.FC<CrystalBallProps> = ({ isActive, className = "" }) => {
+const CrystalBall: React.FC<CrystalBallProps> = ({
+  isActive,
+  className = ""
+}) => {
   // Refs for animation elements
   const glowRef = useRef<HTMLDivElement>(null);
   const mistRef = useRef<HTMLDivElement>(null);
   const ballRef = useRef<HTMLDivElement>(null);
-  
   useEffect(() => {
     // Apply animations
     createGlowEffect(glowRef.current, 2000);
     createMistEffect(mistRef.current, 5000);
   }, []);
-  
+
   // Handle crystal ball click
   const handleBallClick = () => {
     if (ballRef.current) {
@@ -30,38 +29,23 @@ const CrystalBall: React.FC<CrystalBallProps> = ({ isActive, className = "" }) =
       }, 1000);
     }
   };
-  
-  return (
-    <div className={`relative ${className}`}>
+  return <div className={`relative ${className}`}>
       {/* Main crystal ball sphere */}
-      <div 
-        ref={ballRef}
-        onClick={handleBallClick}
-        className={`
+      <div ref={ballRef} onClick={handleBallClick} className={`
           relative w-48 h-48 md:w-64 md:h-64 rounded-full 
           crystal-ball shadow-lg cursor-pointer
           border-2 border-white/30
           ${isActive ? 'animate-pulse' : 'hover:scale-105 transition-transform duration-300'}
           overflow-hidden
-        `}
-        role="button"
-        aria-label="Crystal Ball"
-      >
+        `} role="button" aria-label="Crystal Ball">
         {/* Inner glow */}
-        <div
-          ref={glowRef}
-          className="absolute inset-0 crystal-ball-glow opacity-40 transition-opacity duration-1000"
-        />
+        <div ref={glowRef} className="absolute inset-0 crystal-ball-glow opacity-40 transition-opacity duration-1000" />
         
         {/* Swirling mist */}
-        <div
-          ref={mistRef}
-          className="absolute inset-0 crystal-ball-inner transition-transform duration-3000"
-        />
+        
         
         {/* Magic sparkles */}
-        {isActive && (
-          <>
+        {isActive && <>
             <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-wizard-gold rounded-full animate-ping" />
             <div className="absolute top-1/3 right-1/3 w-2 h-2 bg-white rounded-full animate-pulse" />
             <div className="absolute bottom-1/4 right-1/4 w-1 h-1 bg-wizard-gold rounded-full animate-ping" />
@@ -73,26 +57,21 @@ const CrystalBall: React.FC<CrystalBallProps> = ({ isActive, className = "" }) =
                 <span className="text-wizard-cream font-wizard text-lg">Tim</span>
               </div>
             </div>
-          </>
-        )}
+          </>}
       </div>
       
       {/* Crystal ball base */}
       <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-32 h-8 md:w-40 md:h-10">
-        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-24 md:w-32 h-3 md:h-4 bg-wizard-brown rounded-full"></div>
-        <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-28 md:w-36 h-4 md:h-5 bg-wizard-brown rounded-full"></div>
+        
+        
       </div>
       
       {/* Sparkles around ball when active */}
-      {isActive && (
-        <>
+      {isActive && <>
           <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 text-wizard-gold animate-bounce text-xl">✨</div>
           <div className="absolute -bottom-1 -left-1 text-wizard-gold animate-pulse delay-100 text-lg">✨</div>
           <div className="absolute top-1/4 -right-2 text-wizard-gold animate-pulse delay-300 text-xl">✨</div>
-        </>
-      )}
-    </div>
-  );
+        </>}
+    </div>;
 };
-
 export default CrystalBall;

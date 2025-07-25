@@ -310,7 +310,7 @@ const Index = () => {
       </main>
       
       {/* Footer */}
-      <footer className="w-full bg-background/90 backdrop-blur-sm border-t border-border/50 py-3 px-6 mt-8 text-center z-10 relative">
+      <footer className="w-full backdrop-blur-sm border-t border-border/50 py-3 px-6 mt-8 text-center z-10 relative bg-slate-600">
         <p className="text-sm text-muted-foreground font-scroll">
           Based on The Wizard Tim by Joseph Eleam and Tim Canada
         </p>

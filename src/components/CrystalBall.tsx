@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, forwardRef, useImperativeHandle } from 'react';
 import { createGlowEffect, createMistEffect } from '@/lib/animations';
 
 interface CrystalBallProps {
@@ -9,14 +9,19 @@ interface CrystalBallProps {
   videoType?: 'fortunes' | 'horoscope' | 'tarot';
   onVideoComplete?: () => void;
 }
-const CrystalBall: React.FC<CrystalBallProps> = ({
+
+export interface CrystalBallRef {
+  triggerVideo: () => void;
+}
+
+const CrystalBall = forwardRef<CrystalBallRef, CrystalBallProps>(({
   isActive,
   className = "",
   onCrystalBallClick,
   videoUrl,
   videoType,
   onVideoComplete
-}) => {
+}, ref) => {
   // Refs for animation elements
   const glowRef = useRef<HTMLDivElement>(null);
   const mistRef = useRef<HTMLDivElement>(null);
@@ -27,6 +32,25 @@ const CrystalBall: React.FC<CrystalBallProps> = ({
   const [isPlaying, setIsPlaying] = useState(false);
   const [videoError, setVideoError] = useState(false);
   const [videoLoading, setVideoLoading] = useState(false);
+
+  // Expose triggerVideo method via ref
+  useImperativeHandle(ref, () => ({
+    triggerVideo: () => {
+      if (videoUrl && !videoError && videoRef.current) {
+        setVideoLoading(true);
+        setVideoError(false);
+        try {
+          videoRef.current.currentTime = 0;
+          videoRef.current.play();
+          setIsPlaying(true);
+          setVideoLoading(false);
+        } catch (error) {
+          handleVideoError();
+        }
+      }
+    }
+  }), [videoUrl, videoError]);
+
   useEffect(() => {
     // Apply animations
     createGlowEffect(glowRef.current, 2000);
@@ -149,5 +173,8 @@ const CrystalBall: React.FC<CrystalBallProps> = ({
           <div className="absolute top-1/4 -right-2 text-wizard-gold animate-pulse delay-300 text-xl">✨</div>
         </>}
     </div>;
-};
+});
+
+CrystalBall.displayName = 'CrystalBall';
+
 export default CrystalBall;

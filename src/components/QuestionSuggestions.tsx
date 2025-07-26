@@ -114,16 +114,16 @@ const QuestionSuggestions: React.FC<QuestionSuggestionsProps> = ({
         </h3>
       </div>
       
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pb-6">
         {questions.map((question, index) => (
           <Button
             key={index}
             variant="outline"
             size="sm"
             onClick={() => onSelectQuestion(question)}
-            className="text-left justify-start h-auto p-3 border-wizard-gold/30 bg-wizard-dark/20 text-wizard-cream/80 hover:bg-wizard-gold/10 hover:text-wizard-cream transition-all text-xs leading-relaxed"
+            className="text-left justify-start h-auto p-3 border-wizard-gold/30 bg-wizard-dark/20 text-wizard-cream/80 hover:bg-wizard-gold/10 hover:text-wizard-cream transition-all text-xs leading-relaxed whitespace-normal break-words hyphens-auto overflow-hidden"
           >
-            "{question}"
+            <span className="break-words overflow-wrap-anywhere">"{question}"</span>
           </Button>
         ))}
       </div>

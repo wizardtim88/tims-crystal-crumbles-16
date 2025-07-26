@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import CrystalBall from '@/components/CrystalBall';
+import CrystalBall, { CrystalBallRef } from '@/components/CrystalBall';
 import EnhancedAskForm from '@/components/EnhancedAskForm';
 import TimResponse from '@/components/TimResponse';
 import ZodiacResponse from '@/components/ZodiacResponse';
@@ -45,6 +45,12 @@ const Index = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const fortunesRef = useRef<HTMLDivElement>(null);
+  const crystalBallRef = useRef<CrystalBallRef>(null);
+
+  // Function to trigger crystal ball video
+  const triggerCrystalBallVideo = () => {
+    crystalBallRef.current?.triggerVideo();
+  };
 
   // Check for first visit and show onboarding
   useEffect(() => {
@@ -69,6 +75,8 @@ const Index = () => {
   const handleGenerateFortune = (question?: string) => {
     setIsGenerating(true);
     setShowIntro(false);
+    // Trigger crystal ball video
+    triggerCrystalBallVideo();
     setTimeout(() => {
       const response = generateTimResponse(selectedCategory, question);
       setFortunes(prev => [...prev, {
@@ -90,6 +98,8 @@ const Index = () => {
   const handleGenerateHoroscope = () => {
     setIsGenerating(true);
     setShowIntro(false);
+    // Trigger crystal ball video
+    triggerCrystalBallVideo();
     setTimeout(() => {
       const reading = generateZodiacReading(selectedZodiacSign);
       setZodiacReadings(prev => [...prev, {
@@ -99,10 +109,10 @@ const Index = () => {
         id: Date.now()
       }]);
       setIsGenerating(false);
-      if (Math.random() < 0.2) {
+      if (Math.random() < 0.15) {
         setTimeout(() => {
-          toast("Tim sighs dramatically...", {
-            description: "The stars made me do it! Now can I please get back to my cosmic snacks?"
+          toast("Tim mutters about cosmic alignments...", {
+            description: "The stars are particularly chatty today. They won't let me take my afternoon nap!"
           });
         }, 1000);
       }
@@ -111,6 +121,8 @@ const Index = () => {
   const handleDrawTarotCard = (question?: string, spread: TarotSpread = 'single') => {
     setIsDrawingTarot(true);
     setShowIntro(false);
+    // Trigger crystal ball video
+    triggerCrystalBallVideo();
     setTimeout(() => {
       const reading = spread === 'three-card' ? drawThreeCards(question) : drawSingleCard(question);
       setCurrentTarotReading(reading);
@@ -160,6 +172,7 @@ const Index = () => {
   };
 
   const handleCrystalBallClick = () => {
+    // Trigger video and action simultaneously
     if (activeTab === "fortunes") {
       handleGenerateFortune();
     } else if (activeTab === "horoscope") {
@@ -173,7 +186,7 @@ const Index = () => {
       {!isDarkMode && <div className="absolute inset-0 backdrop-blur-[1px] bg-slate-950"></div>}
       
       {/* Optimized Header */}
-      <header className="sticky top-0 w-full backdrop-blur-sm border-b border-border/50 py-2 md:py-3 px-4 md:px-6 flex justify-between items-center z-10 relative bg-slate-950">
+      <header className="sticky top-0 w-full backdrop-blur-sm border-b border-border/50 py-2 md:py-3 px-4 md:px-6 flex justify-between items-center z-50 relative bg-slate-950/95">
         <div className="flex flex-col md:flex-row md:items-center md:gap-4">
           <h1 className="text-lg md:text-2xl lg:text-3xl font-wizard text-amber-500">
             The Wizard Tim's Crystal Ball
@@ -208,22 +221,12 @@ const Index = () => {
             <div className="relative flex flex-col items-center my-4 lg:my-6">
               <WizardAvatar className="z-10 mb-2 md:mb-4 scale-75 md:scale-100" />
               <CrystalBall 
+                ref={crystalBallRef}
                 isActive={isGenerating || isDrawingTarot} 
                 className="animate-float scale-75 md:scale-90 lg:scale-100" 
                 onCrystalBallClick={handleCrystalBallClick}
                 videoUrl="https://grand-sable-38a0e9.netlify.app/videos/Cosmic%20Pie.mp4"
                 videoType={activeTab}
-                onVideoComplete={() => {
-                  setTimeout(() => {
-                    if (activeTab === "fortunes") {
-                      handleGenerateFortune();
-                    } else if (activeTab === "horoscope") {
-                      handleGenerateHoroscope();
-                    } else if (activeTab === "tarot") {
-                      handleDrawTarotCard();
-                    }
-                  }, 300);
-                }}
               />
             </div>
             

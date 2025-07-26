@@ -201,7 +201,7 @@ const Index = () => {
         <div className="absolute top-2/3 right-1/3 text-wizard-gold text-base md:text-lg animate-float delay-500 opacity-30">✨</div>
         
         {/* Desktop Side-by-Side Layout / Mobile Stacked */}
-        <div className="flex flex-col lg:flex-row lg:gap-6 lg:h-[calc(100vh-80px)]">
+        <div className="flex flex-col lg:flex-row lg:gap-6">
           {/* Controls Column (Left on desktop, top on mobile) */}
           <div className="flex-shrink-0 lg:w-2/5 xl:w-1/3 flex flex-col">
             {/* Crystal Ball Section - Optimized Size */}
@@ -317,8 +317,8 @@ const Index = () => {
           </div>
           
           {/* Responses Column (Right on desktop, bottom on mobile) */}
-          <div className="flex-1 lg:overflow-hidden flex flex-col mt-4 lg:mt-0">
-            <div ref={fortunesRef} className="flex-1 lg:overflow-y-auto px-2 md:px-4 py-2 rounded-lg scrollbar-thin scrollbar-thumb-wizard-purple/30 scrollbar-track-transparent">
+          <div className="flex-1 flex flex-col mt-4 lg:mt-0">
+            <div ref={fortunesRef} className="px-2 md:px-4 py-2 rounded-lg">
               {showIntro && !hasAnyContent && (
                 <div className="text-center text-wizard-cream/60 font-scroll py-8 lg:py-16">
                   <p className="text-lg md:text-xl mb-2">✨ Welcome to Tim's Mystical Realm ✨</p>

@@ -182,7 +182,7 @@ const TarotCardDisplay: React.FC<TarotCardDisplayProps> = ({
         {/* Interpretation */}
         {allRevealed && (
           <div className="animate-fade-in">
-            <div className="backdrop-blur-sm p-4 rounded-lg border border-wizard-gold/30 shadow-lg bg-violet-500 max-w-full overflow-hidden">
+            <div className="backdrop-blur-sm p-3 rounded-lg border border-wizard-gold/30 shadow-lg bg-violet-500 max-w-full overflow-hidden">
               {currentReading.spread === 'single' ? (
                 // Single Card Interpretation
                 <div className="text-center mb-4">
@@ -224,7 +224,7 @@ const TarotCardDisplay: React.FC<TarotCardDisplayProps> = ({
               )}
               
               <div className="text-center">
-                <div className="font-scroll text-card-foreground leading-relaxed whitespace-pre-line break-words overflow-wrap-anywhere max-w-full">
+                <div className="font-scroll text-card-foreground text-sm leading-relaxed whitespace-pre-line break-words overflow-wrap-anywhere max-w-full">
                   {currentReading.interpretation}
                 </div>
               </div>

@@ -52,6 +52,25 @@ const Index = () => {
     crystalBallRef.current?.triggerVideo();
   };
 
+  // Auto-scroll to results after video completion
+  const scrollToResults = () => {
+    if (fortunesRef.current) {
+      const headerHeight = 80; // Account for sticky header
+      const elementTop = fortunesRef.current.offsetTop - headerHeight;
+      window.scrollTo({
+        top: elementTop,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const handleVideoComplete = () => {
+    // Small delay to ensure content has rendered
+    setTimeout(() => {
+      scrollToResults();
+    }, 500);
+  };
+
   // Check for first visit and show onboarding
   useEffect(() => {
     const hasVisited = sessionStorage.getItem('wizardTimVisited');
@@ -227,6 +246,7 @@ const Index = () => {
                 onCrystalBallClick={handleCrystalBallClick}
                 videoUrl="https://grand-sable-38a0e9.netlify.app/videos/Cosmic%20Pie.mp4"
                 videoType={activeTab}
+                onVideoComplete={handleVideoComplete}
               />
             </div>
             

@@ -180,7 +180,7 @@ const TimResponse: React.FC<TimResponseProps> = ({ response, category, isNew = f
               <span className="capitalize">{category}</span>
             </span>
           </div>
-          <div className="text-sm sm:text-base text-gray-800 font-scroll break-words overflow-wrap-anywhere hyphens-auto leading-relaxed">
+          <div className="text-sm sm:text-base text-gray-800 font-scroll break-words overflow-wrap-anywhere hyphens-auto leading-relaxed max-w-full">
             {processResponseText(response)}
           </div>
           <div className="mt-3 flex justify-end gap-1 sm:gap-2">

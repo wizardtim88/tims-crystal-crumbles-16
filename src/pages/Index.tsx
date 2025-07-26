@@ -10,7 +10,8 @@ import ThemeToggle from '@/components/ThemeToggle';
 import MagicalParticles from '@/components/MagicalParticles';
 import EnhancedOnboardingModal from '@/components/EnhancedOnboardingModal';
 import QuestionSuggestions from '@/components/QuestionSuggestions';
-import TarotReading from '@/components/TarotReading';
+import TarotControls from '@/components/TarotControls';
+import TarotCardDisplay from '@/components/TarotCardDisplay';
 import TarotResponse from '@/components/TarotResponse';
 import { generateTimResponse } from '@/utils/fortuneTeller';
 import { generateZodiacReading } from '@/utils/zodiacReader';
@@ -31,6 +32,7 @@ interface Fortune {
 const Index = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isDrawingTarot, setIsDrawingTarot] = useState(false);
+  const [isShuffling, setIsShuffling] = useState(false);
   const [fortunes, setFortunes] = useState<Fortune[]>([]);
   const [zodiacReadings, setZodiacReadings] = useState<ZodiacReading[]>([]);
   const [tarotReadings, setTarotReadings] = useState<TarotReadingType[]>([]);
@@ -126,6 +128,10 @@ const Index = () => {
         }, 1000);
       }
     }, 2000 + Math.random() * 1000);
+  };
+
+  const handleNewTarotReading = () => {
+    setCurrentTarotReading(undefined);
   };
   const clearAll = () => {
     setFortunes([]);
@@ -299,7 +305,12 @@ const Index = () => {
               </TabsContent>
 
               <TabsContent value="tarot" className="space-y-3 md:space-y-4">
-                <TarotReading onDrawCard={handleDrawTarotCard} isDrawing={isDrawingTarot} currentReading={currentTarotReading} />
+                <TarotControls
+                  onDrawCard={handleDrawTarotCard}
+                  isDrawing={isDrawingTarot}
+                  isShuffling={isShuffling}
+                  setIsShuffling={setIsShuffling}
+                />
                 <QuestionSuggestions type="tarot" tarotSpread={selectedSpread} onSelectQuestion={question => handleQuestionSelect(question, 'tarot')} />
               </TabsContent>
             </Tabs>
@@ -315,22 +326,36 @@ const Index = () => {
                 </div>
               )}
               
-              {/* Show all responses chronologically */}
-              {[...fortunes, ...zodiacReadings, ...tarotReadings].sort((a, b) => a.id - b.id).map(item => {
-                if ('category' in item) {
-                  return <div key={item.id} className="mb-4">
-                    <TimResponse response={item.response} category={item.category} isNew={item.id === Math.max(...fortunes.map(f => f.id), ...zodiacReadings.map(z => z.id), ...tarotReadings.map(t => t.id))} />
-                  </div>;
-                } else if ('sign' in item) {
-                  return <div key={item.id} className="mb-4">
-                    <ZodiacResponse reading={item.reading} sign={item.sign} isNew={item.id === Math.max(...fortunes.map(f => f.id), ...zodiacReadings.map(z => z.id), ...tarotReadings.map(t => t.id))} />
-                  </div>;
-                } else {
-                  return <div key={item.id} className="mb-4">
-                    <TarotResponse reading={item} isNew={item.id === Math.max(...fortunes.map(f => f.id), ...zodiacReadings.map(z => z.id), ...tarotReadings.map(t => t.id))} />
-                  </div>;
-                }
-              })}
+              {/* Tarot Card Display - Show in right column when active */}
+              {activeTab === "tarot" && currentTarotReading && (
+                <div className="mb-6 w-full max-w-full overflow-hidden">
+                  <TarotCardDisplay
+                    currentReading={currentTarotReading}
+                    onNewReading={handleNewTarotReading}
+                  />
+                </div>
+              )}
+              
+              {/* Fortune Responses - Only show when fortunes tab is active */}
+              {activeTab === "fortunes" && fortunes.map(item => (
+                <div key={item.id} className="mb-4 w-full max-w-full overflow-hidden">
+                  <TimResponse response={item.response} category={item.category} isNew={item.id === Math.max(...fortunes.map(f => f.id))} />
+                </div>
+              ))}
+              
+              {/* Zodiac Responses - Only show when horoscope tab is active */}
+              {activeTab === "horoscope" && zodiacReadings.map(item => (
+                <div key={item.id} className="mb-4 w-full max-w-full overflow-hidden">
+                  <ZodiacResponse reading={item.reading} sign={item.sign} isNew={item.id === Math.max(...zodiacReadings.map(z => z.id))} />
+                </div>
+              ))}
+              
+              {/* Tarot Summary Cards - Show previous readings */}
+              {activeTab === "tarot" && tarotReadings.slice(1).map(item => (
+                <div key={item.id} className="mb-4 w-full max-w-full overflow-hidden">
+                  <TarotResponse reading={item} isNew={false} />
+                </div>
+              ))}
             </div>
             
             {/* Clear button and Book Advertisement in responses column */}

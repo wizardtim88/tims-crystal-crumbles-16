@@ -81,6 +81,9 @@ const CrystalBall = forwardRef<CrystalBallRef, CrystalBallProps>(({
 
   // Handle crystal ball click
   const handleBallClick = async () => {
+    // Always trigger the callback first
+    onCrystalBallClick?.();
+    
     if (videoUrl && !videoError) {
       setVideoLoading(true);
       setVideoError(false);
@@ -94,10 +97,9 @@ const CrystalBall = forwardRef<CrystalBallRef, CrystalBallProps>(({
         }
       } catch (error) {
         handleVideoError();
-        onCrystalBallClick?.();
       }
     } else {
-      // Fall back to bounce animation and immediate callback
+      // Fall back to bounce animation
       if (ballRef.current) {
         ballRef.current.classList.add('animate-bounce');
         setTimeout(() => {
@@ -106,7 +108,6 @@ const CrystalBall = forwardRef<CrystalBallRef, CrystalBallProps>(({
           }
         }, 1000);
       }
-      onCrystalBallClick?.();
     }
   };
   return <div className={`relative ${className}`}>

@@ -200,7 +200,7 @@ const Index = () => {
             isActive={isGenerating || isDrawingTarot} 
             className="animate-float" 
             onCrystalBallClick={handleCrystalBallClick}
-            videoUrl="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+            videoUrl="https://grand-sable-38a0e9.netlify.app/videos/Cosmic%20Pie.mp4"
             videoType={activeTab}
             onVideoComplete={() => {
               // Video completed, now execute the action

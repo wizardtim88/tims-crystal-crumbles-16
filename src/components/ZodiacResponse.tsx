@@ -17,7 +17,12 @@ const ZodiacResponse: React.FC<ZodiacResponseProps> = ({ reading, sign, isNew = 
   // Auto-scroll to the newest response
   useEffect(() => {
     if (isNew && responseRef.current) {
-      responseRef.current.scrollIntoView({ behavior: 'smooth' });
+      const headerHeight = 80; // Account for sticky header
+      const elementTop = responseRef.current.offsetTop - headerHeight;
+      window.scrollTo({
+        top: elementTop,
+        behavior: 'smooth'
+      });
     }
   }, [isNew]);
   

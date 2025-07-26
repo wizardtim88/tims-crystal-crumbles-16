@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Book, ExternalLink, Sparkles } from 'lucide-react';
+import { ExternalLink, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import wizardTimBookCover from '@/assets/wizard-tim-book-cover.png';
 const BookAdvertisement: React.FC = () => {
   const handleBookClick = () => {
     window.open('https://wizardtim.com', '_blank', 'noopener,noreferrer');
@@ -15,10 +16,14 @@ const BookAdvertisement: React.FC = () => {
         
         {/* Content */}
         <div className="relative z-10 flex flex-col sm:flex-row items-center gap-4">
-          {/* Book icon section */}
+          {/* Book cover section */}
           <div className="flex-shrink-0">
-            <div className={cn("w-16 h-16 sm:w-20 sm:h-20 bg-wizard-purple/20 rounded-lg", "flex items-center justify-center border border-wizard-purple/30", "group-hover:scale-105 transition-transform duration-300")}>
-              <Book className="w-8 h-8 sm:w-10 sm:h-10 text-wizard-purple" />
+            <div className={cn("w-16 h-16 sm:w-20 sm:h-20 rounded-lg overflow-hidden", "border border-wizard-purple/30 shadow-lg", "group-hover:scale-105 transition-transform duration-300")}>
+              <img 
+                src={wizardTimBookCover} 
+                alt="Wizard Tim Book Cover" 
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
           

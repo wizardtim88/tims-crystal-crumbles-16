@@ -152,6 +152,16 @@ const Index = () => {
       handleDrawTarotCard(question, selectedSpread);
     }
   };
+
+  const handleCrystalBallClick = () => {
+    if (activeTab === "fortunes") {
+      handleGenerateFortune();
+    } else if (activeTab === "horoscope") {
+      handleGenerateHoroscope();
+    } else if (activeTab === "tarot") {
+      handleDrawTarotCard();
+    }
+  };
   return <div className="min-h-screen flex flex-col transition-all duration-300 bg-wizard-purple">
       {isDarkMode && <MagicalParticles />}
       {!isDarkMode && <div className="absolute inset-0 backdrop-blur-[1px] bg-slate-950"></div>}
@@ -186,7 +196,11 @@ const Index = () => {
         {/* Crystal Ball Section */}
         <div className="relative flex flex-col items-center my-6">
           <WizardAvatar className="z-10 mb-4" />
-          <CrystalBall isActive={isGenerating} className="animate-float" />
+          <CrystalBall 
+            isActive={isGenerating || isDrawingTarot} 
+            className="animate-float" 
+            onCrystalBallClick={handleCrystalBallClick}
+          />
         </div>
         
         {/* Tabs for Fortunes vs Horoscope vs Tarot */}

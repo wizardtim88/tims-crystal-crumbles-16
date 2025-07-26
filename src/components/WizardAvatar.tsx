@@ -22,6 +22,25 @@ const WizardAvatar: React.FC<WizardAvatarProps> = ({
     console.log("Wizard image loaded successfully");
     setImageError(false);
   };
-  return;
+  return (
+    <div className={`relative ${className}`}>
+      <div 
+        className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-wizard-dark border-2 border-wizard-gold cursor-pointer hover:scale-105 transition-transform duration-300 flex items-center justify-center"
+        onClick={toggleNap}
+        role="button"
+        aria-label="Tim the Wizard"
+      >
+        {imageError ? (
+          <div className="text-wizard-cream font-wizard text-xl">
+            {isNapping ? "😴" : "🧙‍♂️"}
+          </div>
+        ) : (
+          <div className="text-wizard-cream font-wizard text-xl">
+            {isNapping ? "😴" : "🧙‍♂️"}
+          </div>
+        )}
+      </div>
+    </div>
+  );
 };
 export default WizardAvatar;

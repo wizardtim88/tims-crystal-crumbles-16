@@ -3,10 +3,12 @@ import { createGlowEffect, createMistEffect } from '@/lib/animations';
 interface CrystalBallProps {
   isActive: boolean;
   className?: string;
+  onCrystalBallClick?: () => void;
 }
 const CrystalBall: React.FC<CrystalBallProps> = ({
   isActive,
-  className = ""
+  className = "",
+  onCrystalBallClick
 }) => {
   // Refs for animation elements
   const glowRef = useRef<HTMLDivElement>(null);
@@ -28,6 +30,7 @@ const CrystalBall: React.FC<CrystalBallProps> = ({
         }
       }, 1000);
     }
+    onCrystalBallClick?.();
   };
   return <div className={`relative ${className}`}>
       {/* Main crystal ball sphere */}

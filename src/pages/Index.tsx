@@ -166,170 +166,186 @@ const Index = () => {
       {isDarkMode && <MagicalParticles />}
       {!isDarkMode && <div className="absolute inset-0 backdrop-blur-[1px] bg-slate-950"></div>}
       
-      {/* Header */}
-      <header className="w-full backdrop-blur-sm border-b border-border/50 py-4 px-6 flex justify-between items-center z-10 relative bg-slate-950">
-        <div className="flex flex-col">
-          <h1 className="md:text-3xl font-wizard text-amber-500 text-lg text-left">
+      {/* Optimized Header */}
+      <header className="sticky top-0 w-full backdrop-blur-sm border-b border-border/50 py-2 md:py-3 px-4 md:px-6 flex justify-between items-center z-10 relative bg-slate-950">
+        <div className="flex flex-col md:flex-row md:items-center md:gap-4">
+          <h1 className="text-lg md:text-2xl lg:text-3xl font-wizard text-amber-500">
             The Wizard Tim's Crystal Ball
           </h1>
-          <p className="font-scroll text-slate-200 text-xs">
+          <p className="font-scroll text-slate-200 text-xs md:text-sm">
             Gaze into the Mysteries with the Laziest Wizard Around
           </p>
         </div>
         <div className="flex items-center gap-2">
           <ThemeToggle isDark={isDarkMode} onToggle={() => setIsDarkMode(!isDarkMode)} />
-          <Sparkles className="h-5 w-5 text-accent animate-sparkle" />
+          <Sparkles className="h-4 w-4 md:h-5 md:w-5 text-accent animate-sparkle" />
         </div>
       </header>
       
-      <main className="w-full max-w-4xl mx-auto px-4 flex-1 flex flex-col items-center z-10 relative bg-slate-900">
-        {/* Scattered food crumbs - wizard's messy study */}
-        <div className="absolute top-1/4 left-10 w-8 h-8 bg-wizard-cream rounded-full opacity-20 transform rotate-12"></div>
-        <div className="absolute top-1/3 right-16 w-10 h-3 bg-wizard-peach rounded-full opacity-30"></div>
-        <div className="absolute bottom-1/4 left-20 w-12 h-4 bg-wizard-cream rounded-full opacity-25 transform -rotate-6"></div>
+      {/* Responsive Main Layout */}
+      <main className="w-full max-w-7xl mx-auto px-2 md:px-4 flex-1 z-10 relative bg-slate-900">
+        {/* Background Elements */}
+        <div className="absolute top-1/4 left-4 md:left-10 w-6 h-6 md:w-8 md:h-8 bg-wizard-cream rounded-full opacity-20 transform rotate-12"></div>
+        <div className="absolute top-1/3 right-8 md:right-16 w-8 h-2 md:w-10 md:h-3 bg-wizard-peach rounded-full opacity-30"></div>
+        <div className="absolute bottom-1/4 left-10 md:left-20 w-8 h-3 md:w-12 md:h-4 bg-wizard-cream rounded-full opacity-25 transform -rotate-6"></div>
         
         {/* Floating magical elements */}
-        <div className="absolute top-1/3 left-1/4 text-wizard-gold text-xl animate-float opacity-40">✨</div>
-        <div className="absolute bottom-1/3 right-1/4 text-wizard-gold text-2xl animate-float delay-1000 opacity-50">✨</div>
-        <div className="absolute top-2/3 right-1/3 text-wizard-cream text-lg animate-float delay-500 opacity-30">✨</div>
+        <div className="absolute top-1/3 left-1/4 text-wizard-gold text-lg md:text-xl animate-float opacity-40">✨</div>
+        <div className="absolute bottom-1/3 right-1/4 text-wizard-gold text-xl md:text-2xl animate-float delay-1000 opacity-50">✨</div>
+        <div className="absolute top-2/3 right-1/3 text-wizard-gold text-base md:text-lg animate-float delay-500 opacity-30">✨</div>
         
-        {/* Crystal Ball Section */}
-        <div className="relative flex flex-col items-center my-6">
-          <WizardAvatar className="z-10 mb-4" />
-          <CrystalBall 
-            isActive={isGenerating || isDrawingTarot} 
-            className="animate-float" 
-            onCrystalBallClick={handleCrystalBallClick}
-            videoUrl="https://grand-sable-38a0e9.netlify.app/videos/Cosmic%20Pie.mp4"
-            videoType={activeTab}
-            onVideoComplete={() => {
-              // Video completed, now execute the action
-              setTimeout(() => {
-                if (activeTab === "fortunes") {
-                  handleGenerateFortune();
-                } else if (activeTab === "horoscope") {
-                  handleGenerateHoroscope();
-                } else if (activeTab === "tarot") {
-                  handleDrawTarotCard();
-                }
-              }, 300);
-            }}
-          />
-        </div>
-        
-        {/* Tabs for Fortunes vs Horoscope vs Tarot */}
-        <Tabs value={activeTab} onValueChange={value => setActiveTab(value as "fortunes" | "horoscope" | "tarot")} className="w-full max-w-2xl">
-          <TabsList className="grid w-full grid-cols-3 mb-4 bg-wizard-dark/40 border-wizard-gold/30">
-            <TabsTrigger value="fortunes" className="font-wizard data-[state=active]:bg-wizard-purple text-orange-200">
-              <Book className="mr-2 h-4 w-4" />
-              Fortunes
-            </TabsTrigger>
-            <TabsTrigger value="horoscope" className="font-wizard data-[state=active]:bg-wizard-purple text-orange-200">
-              <Stars className="mr-2 h-4 w-4" />
-              Horoscope
-            </TabsTrigger>
-            <TabsTrigger value="tarot" className="font-wizard data-[state=active]:bg-wizard-purple text-orange-200">
-              <Spade className="mr-2 h-4 w-4" />
-              Tarot
-            </TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="fortunes" className="space-y-4">
-            {/* Fortune Categories */}
-            <div className="w-full max-w-md mx-auto mb-4 flex flex-wrap justify-center gap-2">
-              <Button variant={selectedCategory === "general" ? "default" : "outline"} className={`border-wizard-gold/30 font-wizard ${selectedCategory === "general" ? "bg-wizard-purple text-white" : "bg-wizard-dark/40 text-wizard-cream hover:bg-wizard-purple/40"}`} onClick={() => setSelectedCategory("general")}>
-                <Book className="mr-2 h-4 w-4" />
-                General
-              </Button>
-              <Button variant={selectedCategory === "love" ? "default" : "outline"} className={`border-wizard-gold/30 font-wizard ${selectedCategory === "love" ? "bg-wizard-purple text-white" : "bg-wizard-dark/40 text-wizard-cream hover:bg-wizard-purple/40"}`} onClick={() => setSelectedCategory("love")}>
-                <Heart className="mr-2 h-4 w-4" />
-                Love
-              </Button>
-              <Button variant={selectedCategory === "career" ? "default" : "outline"} className={`border-wizard-gold/30 font-wizard ${selectedCategory === "career" ? "bg-wizard-purple text-white" : "bg-wizard-dark/40 text-wizard-cream hover:bg-wizard-purple/40"}`} onClick={() => setSelectedCategory("career")}>
-                <Coins className="mr-2 h-4 w-4" />
-                Career
-              </Button>
-              <Button variant={selectedCategory === "health" ? "default" : "outline"} className={`border-wizard-gold/30 font-wizard ${selectedCategory === "health" ? "bg-wizard-purple text-white" : "bg-wizard-dark/40 text-wizard-cream hover:bg-wizard-purple/40"}`} onClick={() => setSelectedCategory("health")}>
-                <Thermometer className="mr-2 h-4 w-4" />
-                Health
-              </Button>
+        {/* Desktop Side-by-Side Layout / Mobile Stacked */}
+        <div className="flex flex-col lg:flex-row lg:gap-6 lg:h-[calc(100vh-80px)]">
+          {/* Controls Column (Left on desktop, top on mobile) */}
+          <div className="flex-shrink-0 lg:w-2/5 xl:w-1/3 flex flex-col">
+            {/* Crystal Ball Section - Optimized Size */}
+            <div className="relative flex flex-col items-center my-4 lg:my-6">
+              <WizardAvatar className="z-10 mb-2 md:mb-4 scale-75 md:scale-100" />
+              <CrystalBall 
+                isActive={isGenerating || isDrawingTarot} 
+                className="animate-float scale-75 md:scale-90 lg:scale-100" 
+                onCrystalBallClick={handleCrystalBallClick}
+                videoUrl="https://grand-sable-38a0e9.netlify.app/videos/Cosmic%20Pie.mp4"
+                videoType={activeTab}
+                onVideoComplete={() => {
+                  setTimeout(() => {
+                    if (activeTab === "fortunes") {
+                      handleGenerateFortune();
+                    } else if (activeTab === "horoscope") {
+                      handleGenerateHoroscope();
+                    } else if (activeTab === "tarot") {
+                      handleDrawTarotCard();
+                    }
+                  }, 300);
+                }}
+              />
             </div>
             
-            {/* Enhanced Fortune Form */}
-            <EnhancedAskForm onGenerateFortune={handleGenerateFortune} isGenerating={isGenerating} selectedCategory={selectedCategory} />
-            
-            {/* Question Suggestions */}
-            <QuestionSuggestions type="fortune" category={selectedCategory} onSelectQuestion={question => handleQuestionSelect(question, 'fortune')} />
-          </TabsContent>
-          
-          <TabsContent value="horoscope" className="space-y-4">
-            {/* Zodiac Sign Selector */}
-            <ZodiacSelector selectedSign={selectedZodiacSign} onSignSelect={setSelectedZodiacSign} />
-            
-            {/* Horoscope Button */}
-            <div className="w-full max-w-md mx-auto flex justify-center">
-              <Button onClick={handleGenerateHoroscope} disabled={isGenerating} className={`
-                  bg-wizard-purple hover:bg-wizard-purple/80 text-white 
-                  font-wizard px-6 py-6 text-lg flex items-center gap-2 
-                  transition-all hover:shadow-lg relative overflow-hidden
-                  ${isGenerating ? 'animate-pulse' : ''}
-                `} size="lg">
-                <div className="absolute inset-0 bg-gradient-to-r from-wizard-gold/10 to-transparent opacity-50"></div>
-                <Stars className="w-5 h-5" />
-                {isGenerating ? "Tim is consulting the stars..." : "Get Daily Horoscope"}
+            {/* Tabs and Forms Section */}
+            <Tabs value={activeTab} onValueChange={value => setActiveTab(value as "fortunes" | "horoscope" | "tarot")} className="w-full">
+              <TabsList className="grid w-full grid-cols-3 mb-3 md:mb-4 bg-wizard-dark/40 border-wizard-gold/30">
+                <TabsTrigger value="fortunes" className="font-wizard data-[state=active]:bg-wizard-purple text-orange-200 text-xs md:text-sm">
+                  <Book className="mr-1 md:mr-2 h-3 w-3 md:h-4 md:w-4" />
+                  <span className="hidden sm:inline">Fortunes</span>
+                  <span className="sm:hidden">Fort</span>
+                </TabsTrigger>
+                <TabsTrigger value="horoscope" className="font-wizard data-[state=active]:bg-wizard-purple text-orange-200 text-xs md:text-sm">
+                  <Stars className="mr-1 md:mr-2 h-3 w-3 md:h-4 md:w-4" />
+                  <span className="hidden sm:inline">Horoscope</span>
+                  <span className="sm:hidden">Horo</span>
+                </TabsTrigger>
+                <TabsTrigger value="tarot" className="font-wizard data-[state=active]:bg-wizard-purple text-orange-200 text-xs md:text-sm">
+                  <Spade className="mr-1 md:mr-2 h-3 w-3 md:h-4 md:w-4" />
+                  Tarot
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="fortunes" className="space-y-3 md:space-y-4">
+                {/* Fortune Categories */}
+                <div className="w-full flex flex-wrap justify-center gap-1 md:gap-2">
+                  <Button variant={selectedCategory === "general" ? "default" : "outline"} 
+                    className={`border-wizard-gold/30 font-wizard text-xs md:text-sm px-2 md:px-3 py-1 md:py-2 ${selectedCategory === "general" ? "bg-wizard-purple text-white" : "bg-wizard-dark/40 text-wizard-cream hover:bg-wizard-purple/40"}`} 
+                    onClick={() => setSelectedCategory("general")}>
+                    <Book className="mr-1 h-3 w-3 md:h-4 md:w-4" />
+                    General
+                  </Button>
+                  <Button variant={selectedCategory === "love" ? "default" : "outline"} 
+                    className={`border-wizard-gold/30 font-wizard text-xs md:text-sm px-2 md:px-3 py-1 md:py-2 ${selectedCategory === "love" ? "bg-wizard-purple text-white" : "bg-wizard-dark/40 text-wizard-cream hover:bg-wizard-purple/40"}`} 
+                    onClick={() => setSelectedCategory("love")}>
+                    <Heart className="mr-1 h-3 w-3 md:h-4 md:w-4" />
+                    Love
+                  </Button>
+                  <Button variant={selectedCategory === "career" ? "default" : "outline"} 
+                    className={`border-wizard-gold/30 font-wizard text-xs md:text-sm px-2 md:px-3 py-1 md:py-2 ${selectedCategory === "career" ? "bg-wizard-purple text-white" : "bg-wizard-dark/40 text-wizard-cream hover:bg-wizard-purple/40"}`} 
+                    onClick={() => setSelectedCategory("career")}>
+                    <Coins className="mr-1 h-3 w-3 md:h-4 md:w-4" />
+                    Career
+                  </Button>
+                  <Button variant={selectedCategory === "health" ? "default" : "outline"} 
+                    className={`border-wizard-gold/30 font-wizard text-xs md:text-sm px-2 md:px-3 py-1 md:py-2 ${selectedCategory === "health" ? "bg-wizard-purple text-white" : "bg-wizard-dark/40 text-wizard-cream hover:bg-wizard-purple/40"}`} 
+                    onClick={() => setSelectedCategory("health")}>
+                    <Thermometer className="mr-1 h-3 w-3 md:h-4 md:w-4" />
+                    Health
+                  </Button>
+                </div>
                 
-                <span className="absolute -top-1 left-1/4 text-wizard-gold text-xs">✨</span>
-                <span className="absolute -bottom-1 right-1/4 text-wizard-gold text-xs">✨</span>
-              </Button>
-            </div>
-            
-            {/* Question Suggestions for Horoscope */}
-            <QuestionSuggestions type="horoscope" zodiacSign={selectedZodiacSign} onSelectQuestion={question => {
-            // For horoscope, we don't use the question directly but it gives users ideas
-            handleGenerateHoroscope();
-          }} />
-          </TabsContent>
+                <EnhancedAskForm onGenerateFortune={handleGenerateFortune} isGenerating={isGenerating} selectedCategory={selectedCategory} />
+                <QuestionSuggestions type="fortune" category={selectedCategory} onSelectQuestion={question => handleQuestionSelect(question, 'fortune')} />
+              </TabsContent>
+              
+              <TabsContent value="horoscope" className="space-y-3 md:space-y-4">
+                <ZodiacSelector selectedSign={selectedZodiacSign} onSignSelect={setSelectedZodiacSign} />
+                
+                <div className="w-full flex justify-center">
+                  <Button onClick={handleGenerateHoroscope} disabled={isGenerating} className={`
+                      bg-wizard-purple hover:bg-wizard-purple/80 text-white 
+                      font-wizard px-4 md:px-6 py-3 md:py-6 text-sm md:text-lg flex items-center gap-2 
+                      transition-all hover:shadow-lg relative overflow-hidden
+                      ${isGenerating ? 'animate-pulse' : ''}
+                    `} size="lg">
+                    <div className="absolute inset-0 bg-gradient-to-r from-wizard-gold/10 to-transparent opacity-50"></div>
+                    <Stars className="w-4 h-4 md:w-5 md:h-5" />
+                    <span className="hidden md:inline">{isGenerating ? "Tim is consulting the stars..." : "Get Daily Horoscope"}</span>
+                    <span className="md:hidden">{isGenerating ? "Consulting..." : "Horoscope"}</span>
+                    
+                    <span className="absolute -top-1 left-1/4 text-wizard-gold text-xs">✨</span>
+                    <span className="absolute -bottom-1 right-1/4 text-wizard-gold text-xs">✨</span>
+                  </Button>
+                </div>
+                
+                <QuestionSuggestions type="horoscope" zodiacSign={selectedZodiacSign} onSelectQuestion={question => {
+                  handleGenerateHoroscope();
+                }} />
+              </TabsContent>
 
-          <TabsContent value="tarot" className="space-y-4">
-            <TarotReading onDrawCard={handleDrawTarotCard} isDrawing={isDrawingTarot} currentReading={currentTarotReading} />
-            
-            {/* Question Suggestions for Tarot */}
-            <QuestionSuggestions type="tarot" tarotSpread={selectedSpread} onSelectQuestion={question => handleQuestionSelect(question, 'tarot')} />
-          </TabsContent>
-        </Tabs>
-        
-        {/* Combined Responses */}
-        <div ref={fortunesRef} className="w-full mt-8 max-h-[400px] overflow-y-auto px-4 py-2 rounded-lg scrollbar-thin scrollbar-thumb-wizard-purple/30 scrollbar-track-transparent">
-          {showIntro}
+              <TabsContent value="tarot" className="space-y-3 md:space-y-4">
+                <TarotReading onDrawCard={handleDrawTarotCard} isDrawing={isDrawingTarot} currentReading={currentTarotReading} />
+                <QuestionSuggestions type="tarot" tarotSpread={selectedSpread} onSelectQuestion={question => handleQuestionSelect(question, 'tarot')} />
+              </TabsContent>
+            </Tabs>
+          </div>
           
-          {/* Show all responses chronologically */}
-          {[...fortunes, ...zodiacReadings, ...tarotReadings].sort((a, b) => a.id - b.id).map(item => {
-          if ('category' in item) {
-            // It's a fortune
-            return <div key={item.id} className="mb-4">
+          {/* Responses Column (Right on desktop, bottom on mobile) */}
+          <div className="flex-1 lg:overflow-hidden flex flex-col mt-4 lg:mt-0">
+            <div ref={fortunesRef} className="flex-1 lg:overflow-y-auto px-2 md:px-4 py-2 rounded-lg scrollbar-thin scrollbar-thumb-wizard-purple/30 scrollbar-track-transparent">
+              {showIntro && !hasAnyContent && (
+                <div className="text-center text-wizard-cream/60 font-scroll py-8 lg:py-16">
+                  <p className="text-lg md:text-xl mb-2">✨ Welcome to Tim's Mystical Realm ✨</p>
+                  <p className="text-sm md:text-base">Click the crystal ball or use the tabs to begin your journey into the unknown...</p>
+                </div>
+              )}
+              
+              {/* Show all responses chronologically */}
+              {[...fortunes, ...zodiacReadings, ...tarotReadings].sort((a, b) => a.id - b.id).map(item => {
+                if ('category' in item) {
+                  return <div key={item.id} className="mb-4">
                     <TimResponse response={item.response} category={item.category} isNew={item.id === Math.max(...fortunes.map(f => f.id), ...zodiacReadings.map(z => z.id), ...tarotReadings.map(t => t.id))} />
                   </div>;
-          } else if ('sign' in item) {
-            // It's a zodiac reading
-            return <div key={item.id} className="mb-4">
+                } else if ('sign' in item) {
+                  return <div key={item.id} className="mb-4">
                     <ZodiacResponse reading={item.reading} sign={item.sign} isNew={item.id === Math.max(...fortunes.map(f => f.id), ...zodiacReadings.map(z => z.id), ...tarotReadings.map(t => t.id))} />
                   </div>;
-          } else {
-            // It's a tarot reading
-            return <div key={item.id} className="mb-4">
+                } else {
+                  return <div key={item.id} className="mb-4">
                     <TarotResponse reading={item} isNew={item.id === Math.max(...fortunes.map(f => f.id), ...zodiacReadings.map(z => z.id), ...tarotReadings.map(t => t.id))} />
                   </div>;
-          }
-        })}
+                }
+              })}
+            </div>
+            
+            {/* Clear button and Book Advertisement in responses column */}
+            <div className="flex-shrink-0 mt-4 space-y-4">
+              {hasAnyContent && (
+                <div className="text-center">
+                  <Button variant="outline" onClick={clearAll} className="border-wizard-purple/30 text-wizard-purple font-scroll hover:bg-wizard-purple/10">
+                    Clear All
+                  </Button>
+                </div>
+              )}
+              <BookAdvertisement />
+            </div>
+          </div>
         </div>
-        
-        {/* Clear button - now above book advertisement */}
-        {hasAnyContent && <Button variant="outline" onClick={clearAll} className="mt-4 mb-6 border-wizard-purple/30 text-wizard-purple font-scroll hover:bg-wizard-purple/10">
-            Clear All
-          </Button>}
-        
-        {/* Book Advertisement - moved below responses and clear button */}
-        <BookAdvertisement />
       </main>
       
       {/* Footer */}

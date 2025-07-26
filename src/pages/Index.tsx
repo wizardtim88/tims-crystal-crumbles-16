@@ -44,6 +44,11 @@ const Index = () => {
   const [selectedSpread, setSelectedSpread] = useState<TarotSpread>('single');
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [showOnboarding, setShowOnboarding] = useState(false);
+  
+  // Shared form state
+  const [fortuneQuestion, setFortuneQuestion] = useState('');
+  const [tarotQuestion, setTarotQuestion] = useState('');
+  const [selectedTarotSpread, setSelectedTarotSpread] = useState<TarotSpread>('single');
   const fortunesRef = useRef<HTMLDivElement>(null);
   const crystalBallRef = useRef<CrystalBallRef>(null);
 
@@ -193,11 +198,11 @@ const Index = () => {
   const handleCrystalBallClick = () => {
     // Trigger video and action simultaneously
     if (activeTab === "fortunes") {
-      handleGenerateFortune();
+      handleGenerateFortune(fortuneQuestion.trim() || undefined);
     } else if (activeTab === "horoscope") {
       handleGenerateHoroscope();
     } else if (activeTab === "tarot") {
-      handleDrawTarotCard();
+      handleDrawTarotCard(tarotQuestion.trim() || undefined, selectedTarotSpread);
     }
   };
   return <div className="min-h-screen flex flex-col transition-all duration-300 bg-wizard-purple">
@@ -298,7 +303,13 @@ const Index = () => {
                   </Button>
                 </div>
                 
-                <EnhancedAskForm onGenerateFortune={handleGenerateFortune} isGenerating={isGenerating} selectedCategory={selectedCategory} />
+                <EnhancedAskForm 
+                  onGenerateFortune={handleGenerateFortune} 
+                  isGenerating={isGenerating} 
+                  selectedCategory={selectedCategory}
+                  question={fortuneQuestion}
+                  onQuestionChange={setFortuneQuestion}
+                />
                 <QuestionSuggestions type="fortune" category={selectedCategory} onSelectQuestion={question => handleQuestionSelect(question, 'fortune')} />
               </TabsContent>
               
@@ -333,6 +344,10 @@ const Index = () => {
                   isDrawing={isDrawingTarot}
                   isShuffling={isShuffling}
                   setIsShuffling={setIsShuffling}
+                  question={tarotQuestion}
+                  onQuestionChange={setTarotQuestion}
+                  selectedSpread={selectedTarotSpread}
+                  onSpreadChange={setSelectedTarotSpread}
                 />
                 <QuestionSuggestions type="tarot" tarotSpread={selectedSpread} onSelectQuestion={question => handleQuestionSelect(question, 'tarot')} />
               </TabsContent>

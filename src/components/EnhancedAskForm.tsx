@@ -8,13 +8,16 @@ interface EnhancedAskFormProps {
   onGenerateFortune: (question?: string) => void;
   isGenerating: boolean;
   selectedCategory: FortuneCategory;
+  question: string;
+  onQuestionChange: (question: string) => void;
 }
 const EnhancedAskForm: React.FC<EnhancedAskFormProps> = ({
   onGenerateFortune,
   isGenerating,
-  selectedCategory
+  selectedCategory,
+  question,
+  onQuestionChange
 }) => {
-  const [question, setQuestion] = useState('');
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onGenerateFortune(question.trim() || undefined);
@@ -30,7 +33,7 @@ const EnhancedAskForm: React.FC<EnhancedAskFormProps> = ({
         <Label htmlFor="question" className="text-sm font-wizard text-foreground/90">
           Ask Tim a question (optional)
         </Label>
-        <Input id="question" type="text" placeholder={categoryPlaceholders[selectedCategory]} value={question} onChange={e => setQuestion(e.target.value)} maxLength={200} disabled={isGenerating} className="border-primary/30 focus:border-primary/60 placeholder:text-muted-foreground/60 font-scroll bg-slate-100" />
+        <Input id="question" type="text" placeholder={categoryPlaceholders[selectedCategory]} value={question} onChange={e => onQuestionChange(e.target.value)} maxLength={200} disabled={isGenerating} className="border-primary/30 focus:border-primary/60 placeholder:text-muted-foreground/60 font-scroll bg-slate-100" />
         <p className="text-xs text-muted-foreground font-scroll">
           Leave blank for a surprise reading from Tim's crystal ball
         </p>

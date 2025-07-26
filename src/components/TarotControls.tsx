@@ -10,16 +10,22 @@ interface TarotControlsProps {
   isDrawing: boolean;
   isShuffling: boolean;
   setIsShuffling: (value: boolean) => void;
+  question: string;
+  onQuestionChange: (question: string) => void;
+  selectedSpread: TarotSpread;
+  onSpreadChange: (spread: TarotSpread) => void;
 }
 
 const TarotControls: React.FC<TarotControlsProps> = ({
   onDrawCard,
   isDrawing,
   isShuffling,
-  setIsShuffling
+  setIsShuffling,
+  question,
+  onQuestionChange,
+  selectedSpread,
+  onSpreadChange
 }) => {
-  const [question, setQuestion] = useState('');
-  const [selectedSpread, setSelectedSpread] = useState<TarotSpread>('single');
   const [showTips, setShowTips] = useState(false);
 
   const handleShuffle = () => {
@@ -91,7 +97,7 @@ const TarotControls: React.FC<TarotControlsProps> = ({
             return (
               <button
                 key={spread.id}
-                onClick={() => setSelectedSpread(spread.id)}
+                onClick={() => onSpreadChange(spread.id)}
                 className={`
                   p-4 rounded-lg border text-left transition-all
                   ${selectedSpread === spread.id 
@@ -123,7 +129,7 @@ const TarotControls: React.FC<TarotControlsProps> = ({
         <Input
           id="tarot-question"
           value={question}
-          onChange={(e) => setQuestion(e.target.value)}
+          onChange={(e) => onQuestionChange(e.target.value)}
           placeholder={selectedSpread === 'single' ? "What guidance do you seek?" : "What situation would you like clarity on?"}
           className="bg-wizard-dark/40 border-wizard-gold/30 text-wizard-cream placeholder:text-wizard-cream/50"
           disabled={isDrawing || isShuffling}

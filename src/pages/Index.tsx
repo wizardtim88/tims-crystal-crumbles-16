@@ -200,6 +200,20 @@ const Index = () => {
             isActive={isGenerating || isDrawingTarot} 
             className="animate-float" 
             onCrystalBallClick={handleCrystalBallClick}
+            videoUrl="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+            videoType={activeTab}
+            onVideoComplete={() => {
+              // Video completed, now execute the action
+              setTimeout(() => {
+                if (activeTab === "fortunes") {
+                  handleGenerateFortune();
+                } else if (activeTab === "horoscope") {
+                  handleGenerateHoroscope();
+                } else if (activeTab === "tarot") {
+                  handleDrawTarotCard();
+                }
+              }, 300);
+            }}
           />
         </div>
         

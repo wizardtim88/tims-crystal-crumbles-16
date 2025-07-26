@@ -22,6 +22,22 @@ const WizardAvatar: React.FC<WizardAvatarProps> = ({
     console.log("Wizard image loaded successfully");
     setImageError(false);
   };
-  return;
+  return (
+    <div 
+      className={`relative cursor-pointer ${className}`}
+      onClick={toggleNap}
+      role="button"
+      aria-label={isNapping ? "Wake up Tim" : "Put Tim to sleep"}
+    >
+      <div className="w-24 h-24 md:w-32 md:h-32 bg-wizard-dark rounded-full flex items-center justify-center border-2 border-wizard-gold">
+        <span className="text-wizard-cream font-wizard text-lg">
+          {isNapping ? "😴" : "🧙‍♂️"}
+        </span>
+      </div>
+      {isNapping && (
+        <div className="absolute -top-2 -right-2 text-xl animate-pulse">💤</div>
+      )}
+    </div>
+  );
 };
 export default WizardAvatar;

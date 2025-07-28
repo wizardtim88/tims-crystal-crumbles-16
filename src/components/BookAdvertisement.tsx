@@ -3,9 +3,11 @@ import { Button } from '@/components/ui/button';
 import { ExternalLink, Sparkles, Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import wizardTimBookCover from '@/assets/wizard-tim-book-cover.png';
+import { analytics } from '@/utils/analytics';
 
 const BookAdvertisement: React.FC = () => {
   const handleBookClick = () => {
+    analytics.trackBookClick();
     window.open('https://wizardtim.com', '_blank', 'noopener,noreferrer');
   };
 

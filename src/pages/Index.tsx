@@ -23,6 +23,7 @@ import { FortuneCategory } from '@/types/fortune';
 import { ZodiacSign, ZodiacReading } from '@/types/zodiac';
 import { TarotReading as TarotReadingType, TarotSpread } from '@/types/tarot';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { analytics, initAnalytics } from '@/utils/analytics';
 interface Fortune {
   response: string;
   id: number;
@@ -78,6 +79,9 @@ const Index = () => {
 
   // Check for first visit and show onboarding
   useEffect(() => {
+    // Initialize analytics
+    initAnalytics();
+    
     const hasVisited = sessionStorage.getItem('wizardTimVisited');
     if (!hasVisited) {
       setShowOnboarding(true);
@@ -95,10 +99,15 @@ const Index = () => {
   useEffect(() => {
     document.documentElement.classList.toggle('dark', isDarkMode);
     localStorage.setItem('wizardTimTheme', isDarkMode ? 'dark' : 'light');
+    analytics.trackThemeToggle(isDarkMode ? 'dark' : 'light');
   }, [isDarkMode]);
   const handleGenerateFortune = (question?: string) => {
     setIsGenerating(true);
     setShowIntro(false);
+    
+    // Track fortune generation
+    analytics.trackFortuneGeneration(selectedCategory, !!question);
+    
     // Trigger crystal ball video
     triggerCrystalBallVideo();
     setTimeout(() => {
@@ -122,6 +131,10 @@ const Index = () => {
   const handleGenerateHoroscope = () => {
     setIsGenerating(true);
     setShowIntro(false);
+    
+    // Track zodiac reading
+    analytics.trackZodiacReading(selectedZodiacSign);
+    
     // Trigger crystal ball video
     triggerCrystalBallVideo();
     setTimeout(() => {
@@ -145,6 +158,10 @@ const Index = () => {
   const handleDrawTarotCard = (question?: string, spread: TarotSpread = 'single') => {
     setIsDrawingTarot(true);
     setShowIntro(false);
+    
+    // Track tarot draw
+    analytics.trackTarotDraw(spread === 'three-card' ? 'three-card' : 'single');
+    
     // Trigger crystal ball video
     triggerCrystalBallVideo();
     setTimeout(() => {
@@ -175,6 +192,10 @@ const Index = () => {
     setTarotReadings([]);
     setCurrentTarotReading(undefined);
     setShowIntro(true);
+    
+    // Track clear all action
+    analytics.trackClearAll();
+    
     toast("All cleared", {
       description: "Tim has returned to his well-deserved nap."
     });
@@ -188,6 +209,9 @@ const Index = () => {
   }, [fortunes, zodiacReadings, tarotReadings]);
   const hasAnyContent = fortunes.length > 0 || zodiacReadings.length > 0 || tarotReadings.length > 0;
   const handleQuestionSelect = (question: string, type: 'fortune' | 'tarot') => {
+    // Track question suggestion usage
+    analytics.trackQuestionSuggestion(type, type === 'fortune' ? selectedCategory : undefined);
+    
     if (type === 'fortune') {
       handleGenerateFortune(question);
     } else if (type === 'tarot') {
@@ -196,6 +220,9 @@ const Index = () => {
   };
 
   const handleCrystalBallClick = () => {
+    // Track crystal ball click
+    analytics.trackCrystalBallClick();
+    
     // Trigger video and action simultaneously
     if (activeTab === "fortunes") {
       handleGenerateFortune(fortuneQuestion.trim() || undefined);
@@ -256,7 +283,10 @@ const Index = () => {
             </div>
             
             {/* Tabs and Forms Section */}
-            <Tabs value={activeTab} onValueChange={value => setActiveTab(value as "fortunes" | "horoscope" | "tarot")} className="w-full">
+            <Tabs value={activeTab} onValueChange={value => {
+              setActiveTab(value as "fortunes" | "horoscope" | "tarot");
+              analytics.trackTabChange(value);
+            }} className="w-full">
               <TabsList className="grid w-full grid-cols-3 mb-3 md:mb-4 bg-wizard-dark/40 border-wizard-gold/30">
                 <TabsTrigger value="fortunes" className="font-wizard data-[state=active]:bg-wizard-purple text-orange-200 text-xs md:text-sm">
                   <Book className="mr-1 md:mr-2 h-3 w-3 md:h-4 md:w-4" />
@@ -419,7 +449,10 @@ const Index = () => {
       </footer>
 
       {/* Enhanced Onboarding Modal */}
-      <EnhancedOnboardingModal isOpen={showOnboarding} onClose={() => setShowOnboarding(false)} />
+      <EnhancedOnboardingModal isOpen={showOnboarding} onClose={() => {
+        setShowOnboarding(false);
+        analytics.trackOnboardingComplete();
+      }} />
     </div>;
 };
 export default Index;

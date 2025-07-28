@@ -5,7 +5,7 @@ declare global {
   }
 }
 
-const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX'; // Replace with actual GA4 Measurement ID
+const GA_MEASUREMENT_ID = 'G-LJC1LT2729'; // Replace with actual GA4 Measurement ID
 
 // Initialize analytics if gtag is available
 export const initAnalytics = () => {

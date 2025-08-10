@@ -33,10 +33,11 @@ serve(async (req) => {
     // Initialize Supabase client with service key
     const supabase = createClient(supabaseUrl!, supabaseServiceKey!);
 
-    // Fetch books from database using random sampling
+    // Fetch books from database using random sampling, excluding stuff.io URLs
     const { data: books, error: booksError } = await supabase
       .from('book_io')
       .select('*')
+      .not('URL', 'like', '%stuff.io%')
       .order('random()')
       .limit(50); // Random sample of 50 books for variety
 

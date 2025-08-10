@@ -33,23 +33,35 @@ serve(async (req) => {
     // Initialize Supabase client with service key
     const supabase = createClient(supabaseUrl!, supabaseServiceKey!);
 
-    // Fetch books from database using random sampling
-    const { data: books, error: booksError } = await supabase
+    // Fetch books from database - more than needed for randomization
+    const { data: allBooks, error: booksError } = await supabase
       .from('book_io')
       .select('*')
-      .order('random()')
-      .limit(50); // Random sample of 50 books for variety
+      .limit(200); // Fetch 200 books to randomize from
 
     if (booksError) {
       console.error('Error fetching books:', booksError);
       throw new Error('Failed to fetch books from database');
     }
 
-    if (!books || books.length === 0) {
+    if (!allBooks || allBooks.length === 0) {
       throw new Error('No books found in database');
     }
 
-    console.log(`Found ${books.length} books to analyze`);
+    // Shuffle the books array using Fisher-Yates algorithm
+    const shuffleArray = (array: any[]) => {
+      const shuffled = [...array];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    };
+
+    // Randomly select 50 books from the fetched books
+    const books = shuffleArray(allBooks).slice(0, 50);
+
+    console.log(`Found ${allBooks.length} total books, randomly selected ${books.length} to analyze`);
 
     // Prepare the context for Gemini
     const contextPrompt = `You are The Wizard Tim, a mystical book recommendation expert. Based on the ${type} reading provided, recommend 3 books from the available collection that would be most beneficial for this person.

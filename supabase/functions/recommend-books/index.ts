@@ -33,11 +33,12 @@ serve(async (req) => {
     // Initialize Supabase client with service key
     const supabase = createClient(supabaseUrl!, supabaseServiceKey!);
 
-    // Fetch books from database
+    // Fetch books from database using random sampling
     const { data: books, error: booksError } = await supabase
       .from('book_io')
       .select('*')
-      .limit(50); // Limit to reduce AI processing time
+      .order('random()')
+      .limit(50); // Random sample of 50 books for variety
 
     if (booksError) {
       console.error('Error fetching books:', booksError);

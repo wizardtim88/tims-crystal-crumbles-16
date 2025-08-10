@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/sonner';
 import { Heart, Coins, Thermometer, Book } from 'lucide-react';
 import { FortuneCategory } from '@/types/fortune';
+import BookRecommendations from '@/components/BookRecommendations';
 
 interface TimResponseProps {
   response: string;
@@ -208,6 +209,12 @@ const TimResponse: React.FC<TimResponseProps> = ({ response, category, isNew = f
               <span className="hidden xs:inline">Share on </span>Threads
             </Button>
           </div>
+          
+          <BookRecommendations 
+            reading={response}
+            type="fortune"
+            className="mt-3"
+          />
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ import { Twitter, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/sonner';
 import { ZodiacSign, ZODIAC_SIGNS } from '@/types/zodiac';
+import BookRecommendations from '@/components/BookRecommendations';
 
 interface ZodiacResponseProps {
   reading: string;
@@ -186,6 +187,12 @@ const ZodiacResponse: React.FC<ZodiacResponseProps> = ({ reading, sign, isNew = 
               <span className="hidden xs:inline">Share on </span>Threads
             </Button>
           </div>
+          
+          <BookRecommendations 
+            reading={reading}
+            type="zodiac"
+            className="mt-3"
+          />
         </div>
       </div>
     </div>

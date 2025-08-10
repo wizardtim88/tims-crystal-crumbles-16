@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card } from '@/components/ui/card';
 import { TarotReading } from '@/types/tarot';
+import BookRecommendations from '@/components/BookRecommendations';
 
 interface TarotResponseProps {
   reading: TarotReading;
@@ -58,6 +59,12 @@ const TarotResponse: React.FC<TarotResponseProps> = ({ reading, isNew = false })
         <div className="text-xs text-muted-foreground">
           <span className="font-wizard">Keywords:</span> {card.card.keywords.join(' • ')}
         </div>
+        
+        <BookRecommendations 
+          reading={reading.interpretation}
+          type="tarot"
+          question={reading.question}
+        />
       </div>
     </Card>
   );

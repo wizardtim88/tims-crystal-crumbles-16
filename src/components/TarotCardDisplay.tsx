@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import TarotCard from '@/components/TarotCard';
 import ShareButton from '@/components/ShareButton';
+import BookRecommendations from '@/components/BookRecommendations';
 import { TarotReading as TarotReadingType } from '@/types/tarot';
 import { Sparkles } from 'lucide-react';
 
@@ -231,6 +232,13 @@ const TarotCardDisplay: React.FC<TarotCardDisplayProps> = ({
 
               {/* Share Buttons */}
               <ShareButton reading={currentReading} />
+              
+              {/* Book Recommendations */}
+              <BookRecommendations 
+                reading={currentReading.interpretation}
+                type="tarot"
+                question={currentReading.question}
+              />
               
               <div className="mt-4 text-center">
                 <Button

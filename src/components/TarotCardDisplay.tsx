@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import TarotCard from '@/components/TarotCard';
 import ShareButton from '@/components/ShareButton';
 import BookRecommendations from '@/components/BookRecommendations';
+import ShareableImageGenerator from '@/components/ShareableImageGenerator';
 import { TarotReading as TarotReadingType } from '@/types/tarot';
 import { Sparkles } from 'lucide-react';
 
@@ -231,7 +232,16 @@ const TarotCardDisplay: React.FC<TarotCardDisplayProps> = ({
               </div>
 
               {/* Share Buttons */}
-              <ShareButton reading={currentReading} />
+              <div className="flex justify-end gap-2 mb-4">
+                <ShareButton reading={currentReading} />
+                <ShareableImageGenerator
+                  type="tarot"
+                  data={{
+                    tarotReading: currentReading,
+                    bookRecommendations: [] // Will be populated when available
+                  }}
+                />
+              </div>
               
               {/* Book Recommendations */}
               <BookRecommendations 

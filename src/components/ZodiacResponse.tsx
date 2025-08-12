@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from '@/components/ui/sonner';
 import { ZodiacSign, ZODIAC_SIGNS } from '@/types/zodiac';
 import BookRecommendations from '@/components/BookRecommendations';
+import ShareableImageGenerator from '@/components/ShareableImageGenerator';
 
 interface ZodiacResponseProps {
   reading: string;
@@ -186,6 +187,14 @@ const ZodiacResponse: React.FC<ZodiacResponseProps> = ({ reading, sign, isNew = 
               <MessageCircle className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
               <span className="hidden xs:inline">Share on </span>Threads
             </Button>
+            <ShareableImageGenerator
+              type="zodiac"
+              data={{
+                zodiacReading: reading,
+                zodiacSign: sign,
+                bookRecommendations: [] // Will be populated when available
+              }}
+            />
           </div>
           
           <BookRecommendations 

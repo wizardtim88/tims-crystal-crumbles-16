@@ -6,6 +6,7 @@ import { toast } from '@/components/ui/sonner';
 import { Heart, Coins, Thermometer, Book } from 'lucide-react';
 import { FortuneCategory } from '@/types/fortune';
 import BookRecommendations from '@/components/BookRecommendations';
+import ShareableImageGenerator from '@/components/ShareableImageGenerator';
 
 interface TimResponseProps {
   response: string;
@@ -208,6 +209,14 @@ const TimResponse: React.FC<TimResponseProps> = ({ response, category, isNew = f
               <MessageCircle className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
               <span className="hidden xs:inline">Share on </span>Threads
             </Button>
+            <ShareableImageGenerator
+              type="fortune"
+              data={{
+                fortuneResponse: response,
+                fortuneCategory: category,
+                bookRecommendations: [] // Will be populated when available
+              }}
+            />
           </div>
           
           <BookRecommendations 

@@ -1,30 +1,61 @@
 
 import html2canvas from "html2canvas";
 
-// Function to generate a shareable image from a DOM element
-export const generateFortuneImage = async (element: HTMLElement): Promise<string> => {
+export type ImageTemplateType = "tarot" | "zodiac" | "fortune";
+
+// Function to generate a shareable image from a DOM element with enhanced settings
+export const generateComprehensiveImage = async (element: HTMLElement, type: ImageTemplateType): Promise<string> => {
   try {
-    console.log("Starting image generation...");
+    console.log(`Starting ${type} image generation...`);
     
-    // Set the desired dimensions for Twitter (1200x675)
+    // Enhanced settings based on template type
+    const getBackgroundColor = () => {
+      switch (type) {
+        case "tarot": return "#f3e8ff"; // Light purple
+        case "zodiac": return "#e0e7ff"; // Light indigo
+        case "fortune": return "#fef3c7"; // Light amber
+        default: return "#fef3c7";
+      }
+    };
+
+    // Wait for images to load before capturing
+    const images = element.querySelectorAll('img');
+    await Promise.all(Array.from(images).map(img => {
+      if (img.complete) return Promise.resolve();
+      return new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = reject;
+        // Set timeout for image loading
+        setTimeout(reject, 10000);
+      });
+    }));
+
     const canvas = await html2canvas(element, {
       width: 1200,
       height: 675,
-      scale: 1.5, // Reduced from 2 to improve performance
-      backgroundColor: "#fef3c7", // Solid amber background instead of null
-      logging: true, // Enable logging for debugging
+      scale: 1.5,
+      backgroundColor: getBackgroundColor(),
+      logging: true,
       useCORS: true,
-      allowTaint: true, // Allow cross-origin images
-      foreignObjectRendering: false, // Disable foreign object rendering which can cause issues
+      allowTaint: true,
+      foreignObjectRendering: false,
       removeContainer: true,
-      imageTimeout: 15000, // 15 second timeout
+      imageTimeout: 20000, // Increased timeout for complex images
       onclone: (clonedDoc) => {
         console.log("Document cloned successfully");
-        // Ensure fonts are loaded in the cloned document
-        const clonedElement = clonedDoc.querySelector('[data-html2canvas-ignore]');
-        if (clonedElement) {
-          clonedElement.remove();
-        }
+        // Remove any elements that shouldn't be captured
+        const elementsToHide = clonedDoc.querySelectorAll('[data-html2canvas-ignore]');
+        elementsToHide.forEach(el => el.remove());
+        
+        // Ensure all fonts are loaded
+        const links = clonedDoc.querySelectorAll('link[rel="stylesheet"]') as NodeListOf<HTMLLinkElement>;
+        links.forEach(link => {
+          if (!link.href.includes('fonts.googleapis.com')) return;
+          const newLink = clonedDoc.createElement('link');
+          newLink.rel = 'stylesheet';
+          newLink.href = link.href;
+          clonedDoc.head.appendChild(newLink);
+        });
       }
     });
     
@@ -38,8 +69,13 @@ export const generateFortuneImage = async (element: HTMLElement): Promise<string
   } catch (error) {
     console.error("Detailed error generating fortune image:", error);
     console.error("Error stack:", error instanceof Error ? error.stack : "No stack trace");
-    throw new Error(`Failed to generate image: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    throw new Error(`Failed to generate ${type} image: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
+};
+
+// Legacy function for backward compatibility
+export const generateFortuneImage = async (element: HTMLElement): Promise<string> => {
+  return generateComprehensiveImage(element, "fortune");
 };
 
 // Function to download the generated image

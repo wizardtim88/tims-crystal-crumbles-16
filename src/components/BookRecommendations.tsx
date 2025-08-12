@@ -19,12 +19,14 @@ interface BookRecommendationsProps {
   type: 'fortune' | 'tarot' | 'zodiac';
   question?: string;
   className?: string;
+  renderShareButtons?: (recommendations: BookRecommendation[]) => React.ReactNode;
 }
 const BookRecommendations: React.FC<BookRecommendationsProps> = ({
   reading,
   type,
   question,
-  className = ''
+  className = '',
+  renderShareButtons
 }) => {
   const [recommendations, setRecommendations] = useState<BookRecommendation[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -139,6 +141,8 @@ const BookRecommendations: React.FC<BookRecommendationsProps> = ({
             </div>
           </Card>)}
       </div>
+      
+      {renderShareButtons && renderShareButtons(recommendations)}
       
       <div className="text-center">
         <Button onClick={generateRecommendations} disabled={isLoading} variant="ghost" size="sm" className="text-wizard-purple hover:bg-wizard-purple/10 text-xs">

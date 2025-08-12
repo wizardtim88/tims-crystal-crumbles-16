@@ -168,7 +168,7 @@ const ZodiacResponse: React.FC<ZodiacResponseProps> = ({ reading, sign, isNew = 
           <div className="text-sm sm:text-base text-gray-800 font-scroll break-words overflow-wrap-anywhere hyphens-auto leading-relaxed">
             {processResponseText(reading)}
           </div>
-          <div className="mt-3 flex justify-end gap-1 sm:gap-2">
+          <div className="mt-3 flex flex-wrap justify-end gap-1 sm:gap-2">
             <Button 
               variant="ghost" 
               size="sm"
@@ -187,20 +187,25 @@ const ZodiacResponse: React.FC<ZodiacResponseProps> = ({ reading, sign, isNew = 
               <MessageCircle className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
               <span className="hidden xs:inline">Share on </span>Threads
             </Button>
-            <ShareableImageGenerator
-              type="zodiac"
-              data={{
-                zodiacReading: reading,
-                zodiacSign: sign,
-                bookRecommendations: [] // Will be populated when available
-              }}
-            />
           </div>
           
           <BookRecommendations 
             reading={reading}
             type="zodiac"
             className="mt-3"
+            renderShareButtons={(bookRecommendations) => (
+              <div className="flex flex-wrap justify-center gap-2 mt-2 mb-2">
+                <ShareableImageGenerator
+                  type="zodiac"
+                  data={{
+                    zodiacReading: reading,
+                    zodiacSign: sign,
+                    bookRecommendations
+                  }}
+                  className="text-xs"
+                />
+              </div>
+            )}
           />
         </div>
       </div>

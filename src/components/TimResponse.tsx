@@ -190,7 +190,7 @@ const TimResponse: React.FC<TimResponseProps> = ({ response, category, isNew = f
           <div className="text-sm text-gray-800 font-scroll break-words overflow-wrap-anywhere hyphens-auto leading-relaxed max-w-full">
             {processResponseText(response)}
           </div>
-          <div className="mt-3 flex justify-end gap-1 sm:gap-2">
+          <div className="mt-3 flex flex-wrap justify-end gap-1 sm:gap-2">
             <Button 
               variant="ghost" 
               size="sm"
@@ -209,20 +209,25 @@ const TimResponse: React.FC<TimResponseProps> = ({ response, category, isNew = f
               <MessageCircle className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
               <span className="hidden xs:inline">Share on </span>Threads
             </Button>
-            <ShareableImageGenerator
-              type="fortune"
-              data={{
-                fortuneResponse: response,
-                fortuneCategory: category,
-                bookRecommendations: [] // Will be populated when available
-              }}
-            />
           </div>
           
           <BookRecommendations 
             reading={response}
             type="fortune"
             className="mt-3"
+            renderShareButtons={(bookRecommendations) => (
+              <div className="flex flex-wrap justify-center gap-2 mt-2 mb-2">
+                <ShareableImageGenerator
+                  type="fortune"
+                  data={{
+                    fortuneResponse: response,
+                    fortuneCategory: category,
+                    bookRecommendations
+                  }}
+                  className="text-xs"
+                />
+              </div>
+            )}
           />
         </div>
       </div>

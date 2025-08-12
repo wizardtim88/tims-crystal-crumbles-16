@@ -231,23 +231,24 @@ const TarotCardDisplay: React.FC<TarotCardDisplayProps> = ({
                 </div>
               </div>
 
-              {/* Share Buttons */}
-              <div className="flex justify-end gap-2 mb-4">
-                <ShareButton reading={currentReading} />
-                <ShareableImageGenerator
-                  type="tarot"
-                  data={{
-                    tarotReading: currentReading,
-                    bookRecommendations: [] // Will be populated when available
-                  }}
-                />
-              </div>
-              
               {/* Book Recommendations */}
               <BookRecommendations 
                 reading={currentReading.interpretation}
                 type="tarot"
                 question={currentReading.question}
+                renderShareButtons={(bookRecommendations) => (
+                  <div className="flex flex-wrap justify-center gap-2 mt-4 mb-2">
+                    <ShareButton reading={currentReading} />
+                    <ShareableImageGenerator
+                      type="tarot"
+                      data={{
+                        tarotReading: currentReading,
+                        bookRecommendations
+                      }}
+                      className="text-xs"
+                    />
+                  </div>
+                )}
               />
               
               <div className="mt-4 text-center">

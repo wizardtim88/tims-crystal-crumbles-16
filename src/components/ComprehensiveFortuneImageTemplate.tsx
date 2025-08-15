@@ -82,55 +82,40 @@ const ComprehensiveFortuneImageTemplate = React.forwardRef<HTMLDivElement, Compr
         className={`relative w-[1200px] h-[675px] overflow-hidden bg-gradient-to-br ${getBackgroundGradient()}`}
       >
         {/* Magical elements */}
-        <div className="absolute top-20 left-24 text-amber-600 text-3xl">✨</div>
-        <div className="absolute bottom-24 right-24 text-amber-600 text-4xl">✨</div>
-        <div className="absolute top-32 right-28 text-amber-500 text-2xl">✨</div>
-        <div className="absolute top-16 right-16 text-amber-400 text-2xl">🔮</div>
+        <div className="absolute top-12 left-12 text-amber-600 text-2xl opacity-60">✨</div>
+        <div className="absolute bottom-16 right-16 text-amber-600 text-3xl opacity-60">✨</div>
+        <div className="absolute top-20 right-20 text-amber-500 text-xl opacity-60">✨</div>
+        <div className="absolute bottom-12 left-16 text-amber-400 text-2xl opacity-60">🔮</div>
 
-        {/* Content Container - Fixed height sections */}
-        <div className="absolute inset-0 p-8 flex flex-col">
-          {/* Header - Fixed height */}
-          <div className="h-28 flex flex-col justify-center text-center mb-4">
-            <h1 className="text-3xl font-bold text-amber-800 mb-2">
-              The Wizard Tim's Fortune
-            </h1>
-            <div className="flex items-center justify-center gap-2 text-lg text-amber-700">
-              <span className="flex items-center gap-2 bg-purple-200 px-3 py-1 rounded-full">
-                {getCategoryIcon()}
-                <span className="capitalize font-semibold">{category} Fortune</span>
-              </span>
-            </div>
-          </div>
-
-          {/* Main Content Area - Remaining space */}
-          <div className="flex-1 flex flex-col min-h-0">
-            {/* Fortune Content */}
-            <div className={`bg-white/95 p-4 rounded-lg border-2 shadow-lg flex-1 mb-3 ${getBorderColor()}`}>
-              <div className="flex gap-3 h-full">
-                <div className="flex-shrink-0">
-                  <div className="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-white font-bold text-sm">
-                    T
-                  </div>
+        {/* Two Column Layout */}
+        <div className="absolute inset-0 p-6 grid grid-cols-[1fr_2fr] gap-6">
+          {/* Left Column - Header & Books */}
+          <div className="flex flex-col">
+            {/* Header with Category */}
+            <div className="bg-white/90 p-5 rounded-lg border-2 border-amber-400 shadow-lg mb-4">
+              <h1 className="text-2xl font-bold text-amber-800 text-center mb-3">
+                The Wizard Tim's Fortune
+              </h1>
+              <div className="flex flex-col items-center gap-3">
+                <div className="flex items-center justify-center w-20 h-20 bg-purple-200 rounded-full">
+                  {getCategoryIcon()}
                 </div>
-                <div className="flex-1 overflow-hidden">
-                  <div className="text-gray-800 text-sm leading-relaxed line-clamp-[12]">
-                    {processResponseText(response)}
-                  </div>
-                </div>
+                <span className="capitalize font-bold text-xl text-amber-700">{category} Fortune</span>
               </div>
             </div>
 
-            {/* Book Recommendations - Fixed bottom section */}
+            {/* Book Recommendations */}
             {bookRecommendations && bookRecommendations.length > 0 && (
-              <div className="bg-amber-50/90 p-3 rounded-lg border border-amber-300 flex-shrink-0">
-                <div className="text-amber-800 font-semibold text-xs mb-2">
-                  📚 Tim's Mystic Book Recommendations:
+              <div className="bg-amber-50/95 p-4 rounded-lg border-2 border-amber-400 shadow-lg flex-1">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-2xl">📚</span>
+                  <h3 className="text-amber-800 font-bold text-base">Tim's Mystic Reads</h3>
                 </div>
-                <div className="grid grid-cols-3 gap-2 text-xs">
+                <div className="space-y-3">
                   {bookRecommendations.slice(0, 3).map((book, index) => (
-                    <div key={index} className="text-amber-700">
-                      <div className="font-medium line-clamp-1">{book.title}</div>
-                      <div className="text-amber-600 italic line-clamp-1">{book.reason}</div>
+                    <div key={index} className="bg-white/80 p-3 rounded border border-amber-300">
+                      <div className="font-semibold text-amber-800 text-sm mb-1">{book.title}</div>
+                      <div className="text-amber-700 text-xs italic">{book.reason}</div>
                     </div>
                   ))}
                 </div>
@@ -138,12 +123,31 @@ const ComprehensiveFortuneImageTemplate = React.forwardRef<HTMLDivElement, Compr
             )}
           </div>
 
-          {/* Branding - Fixed position */}
-          <div className="absolute bottom-2 right-3 text-amber-700 opacity-70 flex items-center gap-1 text-xs">
-            <span className="font-bold">Tim's Crystal Crumbles</span>
-            <span>•</span>
-            <span>wizardtim.com</span>
+          {/* Right Column - Fortune Content */}
+          <div className="flex flex-col">
+            <div className={`bg-white/90 p-6 rounded-lg border-2 shadow-lg flex-1 ${getBorderColor()}`}>
+              <div className="flex gap-4 h-full">
+                <div className="flex-shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-purple-600 flex items-center justify-center text-white font-bold text-xl">
+                    T
+                  </div>
+                </div>
+                <div className="flex-1 overflow-hidden">
+                  <h3 className="text-amber-800 font-bold text-2xl mb-4">Your Mystical Guidance</h3>
+                  <div className="text-gray-800 text-lg leading-relaxed overflow-hidden">
+                    {processResponseText(response)}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+        </div>
+
+        {/* Branding */}
+        <div className="absolute bottom-3 right-4 text-amber-700 opacity-80 flex items-center gap-1 text-sm font-medium">
+          <span className="font-bold">Tim's Crystal Crumbles</span>
+          <span>•</span>
+          <span>wizardtim.com</span>
         </div>
       </div>
     );

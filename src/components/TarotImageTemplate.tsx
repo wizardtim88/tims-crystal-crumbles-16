@@ -102,41 +102,44 @@ const TarotImageTemplate = React.forwardRef<HTMLDivElement, TarotImageTemplatePr
             )}
           </div>
 
-          {/* Reading Content */}
-          <div className="bg-white/95 p-6 rounded-lg border-2 border-purple-300 shadow-lg flex-1 mb-4">
-            <div className="flex gap-4">
-              <div className="flex-shrink-0">
-                <div className="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center text-white font-bold text-xl">
-                  T
+          {/* Main Content Area */}
+          <div className="flex-1 flex flex-col space-y-4 pb-12">
+            {/* Reading Content */}
+            <div className="bg-white/95 p-6 rounded-lg border-2 border-purple-300 shadow-lg flex-1 min-h-0">
+              <div className="flex gap-4 h-full">
+                <div className="flex-shrink-0">
+                  <div className="w-10 h-10 rounded-full bg-purple-600 flex items-center justify-center text-white font-bold text-xl">
+                    T
+                  </div>
                 </div>
-              </div>
-              <div className="flex-1">
-                <div className="text-gray-800 text-lg leading-relaxed">
-                  {processResponseText(reading.interpretation)}
+                <div className="flex-1 overflow-hidden">
+                  <div className="text-gray-800 text-base leading-relaxed">
+                    {processResponseText(reading.interpretation)}
+                  </div>
                 </div>
               </div>
             </div>
+
+            {/* Book Recommendations */}
+            {bookRecommendations && bookRecommendations.length > 0 && (
+              <div className="bg-amber-50/90 p-3 rounded-lg border border-amber-300 flex-shrink-0">
+                <div className="text-amber-800 font-semibold text-sm mb-2">
+                  📚 Tim's Book Recommendations:
+                </div>
+                <div className="grid grid-cols-3 gap-2 text-xs">
+                  {bookRecommendations.slice(0, 3).map((book, index) => (
+                    <div key={index} className="text-amber-700">
+                      <div className="font-medium line-clamp-2">{book.title}</div>
+                      <div className="text-amber-600 italic line-clamp-1">{book.reason}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Book Recommendations */}
-          {bookRecommendations && bookRecommendations.length > 0 && (
-            <div className="bg-amber-50/90 p-4 rounded-lg border border-amber-300">
-              <div className="text-amber-800 font-semibold text-sm mb-2">
-                📚 Tim's Book Recommendations:
-              </div>
-              <div className="grid grid-cols-3 gap-3 text-xs">
-                {bookRecommendations.slice(0, 3).map((book, index) => (
-                  <div key={index} className="text-amber-700">
-                    <div className="font-medium">{book.title}</div>
-                    <div className="text-amber-600 italic truncate">{book.reason}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
           {/* Branding */}
-          <div className="absolute bottom-4 right-6 text-purple-700 opacity-70 flex items-center gap-2 text-sm">
+          <div className="absolute bottom-2 right-4 text-purple-700 opacity-70 flex items-center gap-2 text-xs">
             <span className="font-bold">Tim's Crystal Crumbles</span>
             <span>•</span>
             <span>wizardtim.com</span>

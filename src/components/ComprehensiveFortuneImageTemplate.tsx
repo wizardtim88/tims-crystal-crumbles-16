@@ -82,62 +82,65 @@ const ComprehensiveFortuneImageTemplate = React.forwardRef<HTMLDivElement, Compr
         className={`relative w-[1200px] h-[675px] overflow-hidden bg-gradient-to-br ${getBackgroundGradient()}`}
       >
         {/* Magical elements */}
-        <div className="absolute top-1/3 left-1/4 text-amber-600 text-4xl">✨</div>
-        <div className="absolute bottom-1/3 right-1/4 text-amber-600 text-5xl">✨</div>
-        <div className="absolute top-2/3 right-1/3 text-amber-500 text-3xl">✨</div>
-        <div className="absolute top-1/6 right-1/6 text-amber-400 text-3xl">🔮</div>
+        <div className="absolute top-20 left-24 text-amber-600 text-3xl">✨</div>
+        <div className="absolute bottom-24 right-24 text-amber-600 text-4xl">✨</div>
+        <div className="absolute top-32 right-28 text-amber-500 text-2xl">✨</div>
+        <div className="absolute top-16 right-16 text-amber-400 text-2xl">🔮</div>
 
-        {/* Content Container */}
-        <div className="absolute inset-0 flex flex-col p-12">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold text-amber-800 mb-3">
+        {/* Content Container - Fixed height sections */}
+        <div className="absolute inset-0 p-8 flex flex-col">
+          {/* Header - Fixed height */}
+          <div className="h-28 flex flex-col justify-center text-center mb-4">
+            <h1 className="text-3xl font-bold text-amber-800 mb-2">
               The Wizard Tim's Fortune
             </h1>
-            <div className="flex items-center justify-center gap-3 text-xl text-amber-700">
-              <span className="flex items-center gap-2 bg-purple-200 px-4 py-2 rounded-full">
+            <div className="flex items-center justify-center gap-2 text-lg text-amber-700">
+              <span className="flex items-center gap-2 bg-purple-200 px-3 py-1 rounded-full">
                 {getCategoryIcon()}
                 <span className="capitalize font-semibold">{category} Fortune</span>
               </span>
             </div>
           </div>
 
-          {/* Fortune Content */}
-          <div className={`bg-white/95 p-8 rounded-lg border-2 shadow-lg flex-1 mb-6 ${getBorderColor()}`}>
-            <div className="flex gap-6">
-              <div className="flex-shrink-0">
-                <div className="w-12 h-12 rounded-full bg-purple-600 flex items-center justify-center text-white font-bold text-2xl">
-                  T
+          {/* Main Content Area - Remaining space */}
+          <div className="flex-1 flex flex-col min-h-0">
+            {/* Fortune Content */}
+            <div className={`bg-white/95 p-4 rounded-lg border-2 shadow-lg flex-1 mb-3 ${getBorderColor()}`}>
+              <div className="flex gap-3 h-full">
+                <div className="flex-shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-purple-600 flex items-center justify-center text-white font-bold text-sm">
+                    T
+                  </div>
                 </div>
-              </div>
-              <div className="flex-1">
-                <div className="text-gray-800 text-xl leading-relaxed">
-                  {processResponseText(response)}
+                <div className="flex-1 overflow-hidden">
+                  <div className="text-gray-800 text-sm leading-relaxed line-clamp-[12]">
+                    {processResponseText(response)}
+                  </div>
                 </div>
               </div>
             </div>
+
+            {/* Book Recommendations - Fixed bottom section */}
+            {bookRecommendations && bookRecommendations.length > 0 && (
+              <div className="bg-amber-50/90 p-3 rounded-lg border border-amber-300 flex-shrink-0">
+                <div className="text-amber-800 font-semibold text-xs mb-2">
+                  📚 Tim's Mystic Book Recommendations:
+                </div>
+                <div className="grid grid-cols-3 gap-2 text-xs">
+                  {bookRecommendations.slice(0, 3).map((book, index) => (
+                    <div key={index} className="text-amber-700">
+                      <div className="font-medium line-clamp-1">{book.title}</div>
+                      <div className="text-amber-600 italic line-clamp-1">{book.reason}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
-          {/* Book Recommendations */}
-          {bookRecommendations && bookRecommendations.length > 0 && (
-            <div className="bg-amber-50/90 p-4 rounded-lg border border-amber-300 mb-4">
-              <div className="text-amber-800 font-semibold text-base mb-3">
-                📚 Tim's Mystic Book Recommendations:
-              </div>
-              <div className="grid grid-cols-3 gap-4 text-sm">
-                {bookRecommendations.slice(0, 3).map((book, index) => (
-                  <div key={index} className="text-amber-700">
-                    <div className="font-medium">{book.title}</div>
-                    <div className="text-amber-600 italic line-clamp-2">{book.reason}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Branding */}
-          <div className="absolute bottom-6 right-6 text-amber-700 opacity-70 flex items-center gap-2">
-            <span className="font-bold text-lg">Tim's Crystal Crumbles</span>
+          {/* Branding - Fixed position */}
+          <div className="absolute bottom-2 right-3 text-amber-700 opacity-70 flex items-center gap-1 text-xs">
+            <span className="font-bold">Tim's Crystal Crumbles</span>
             <span>•</span>
             <span>wizardtim.com</span>
           </div>

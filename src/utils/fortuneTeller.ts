@@ -1,8 +1,9 @@
 
 import { FortuneCategory } from "@/types/fortune";
+export { generateTimResponse } from "./enhancedFortuneTeller";
 
-// Lazy, food-obsessed wizard Tim's fortune telling responses
-export const generateTimResponse = (category: FortuneCategory = "general", userQuestion?: string): string => {
+// Legacy implementation - now redirects to enhanced version
+const generateTimResponseLegacy = (category: FortuneCategory = "general", userQuestion?: string): string => {
   // Tim's actions (always in asterisks to be rendered in italics) - now with proper capitalization and punctuation
   const timActions = [
     "*Yawns loudly and brushes crumbs from his beard.*",

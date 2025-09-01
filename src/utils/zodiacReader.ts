@@ -1,5 +1,6 @@
 
 import { ZodiacSign } from "@/types/zodiac";
+export { generateZodiacReading } from "./enhancedZodiacReader";
 
 // Tim's zodiac-specific actions and grumbles
 const timZodiacActions = [
@@ -120,7 +121,7 @@ const cacheReading = (sign: ZodiacSign, reading: string): void => {
   localStorage.setItem(`zodiac_${sign}_${getTodayDateString()}`, reading);
 };
 
-export const generateZodiacReading = (sign: ZodiacSign): string => {
+const generateZodiacReadingLegacy = (sign: ZodiacSign): string => {
   // Check for cached reading first
   const cached = getCachedReading(sign);
   if (cached) {

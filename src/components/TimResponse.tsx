@@ -1,12 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
-import { Twitter, MessageCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { toast } from '@/components/ui/sonner';
 import { Heart, Coins, Thermometer, Book } from 'lucide-react';
 import { FortuneCategory } from '@/types/fortune';
 import BookRecommendations from '@/components/BookRecommendations';
 import ShareableImageGenerator from '@/components/ShareableImageGenerator';
+import EnhancedShareButton from '@/components/EnhancedShareButton';
 
 interface TimResponseProps {
   response: string;
@@ -43,97 +41,7 @@ const TimResponse: React.FC<TimResponseProps> = ({ response, category, isNew = f
     });
   };
 
-  const handleShareToX = () => {
-    try {
-      // Extract only the fortune quote (text in quotes)
-      const quoteMatch = response.match(/"([^"]+)"/);
-      if (!quoteMatch) {
-        toast("No fortune quote found", {
-          description: "Tim's wisdom seems to be missing quotes today...",
-        });
-        return;
-      }
-      
-      const fortuneQuote = quoteMatch[1];
-      
-      // Updated promotional text
-      const promoText = "🔮 Get your fortune read by The Wizard Tim! 🔗 in bio.";
-      
-      // Calculate available space for fortune text (280 - promo - buffer)
-      const maxFortuneLength = 280 - promoText.length - 3; // 3 char buffer (reduced from 5)
-      
-      // Truncate fortune if needed
-      let shareableFortune = fortuneQuote;
-      if (fortuneQuote.length > maxFortuneLength) {
-        shareableFortune = fortuneQuote.substring(0, maxFortuneLength - 3) + "...";
-      }
-      
-      // Create final share text with quote formatting
-      const shareText = `"${shareableFortune}"\n\n${promoText}`;
-      
-      // Share to Twitter
-      window.open(
-        `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`,
-        "_blank",
-        "width=550,height=420"
-      );
-      
-      toast("Fortune shared on X!", {
-        description: "Tim has begrudgingly allowed you to share his wisdom.",
-      });
-    } catch (error) {
-      console.error("Error sharing fortune:", error);
-      toast("X sharing failed", {
-        description: "Tim mutters something about 'unreliable magic networks'...",
-      });
-    }
-  };
-
-  const handleShareToThreads = () => {
-    try {
-      // Extract only the fortune quote (text in quotes)
-      const quoteMatch = response.match(/"([^"]+)"/);
-      if (!quoteMatch) {
-        toast("No fortune quote found", {
-          description: "Tim's wisdom seems to be missing quotes today...",
-        });
-        return;
-      }
-      
-      const fortuneQuote = quoteMatch[1];
-      
-      // Updated promotional text
-      const promoText = "🔮 Get your fortune read by The Wizard Tim! 🔗 in bio.";
-      
-      // Calculate available space for fortune text (500 - promo - buffer) for Threads
-      const maxFortuneLength = 500 - promoText.length - 3; // 3 char buffer (reduced from 5)
-      
-      // Truncate fortune if needed
-      let shareableFortune = fortuneQuote;
-      if (fortuneQuote.length > maxFortuneLength) {
-        shareableFortune = fortuneQuote.substring(0, maxFortuneLength - 3) + "...";
-      }
-      
-      // Create final share text with quote formatting
-      const shareText = `"${shareableFortune}"\n\n${promoText}`;
-      
-      // Share to Threads
-      window.open(
-        `https://threads.net/intent/post?text=${encodeURIComponent(shareText)}`,
-        "_blank",
-        "width=550,height=420"
-      );
-      
-      toast("Fortune shared on Threads!", {
-        description: "Tim sighs but admits 'more platforms means more nap interruptions'.",
-      });
-    } catch (error) {
-      console.error("Error sharing fortune:", error);
-      toast("Threads sharing failed", {
-        description: "Tim grumbles about 'too many social networks to keep track of'...",
-      });
-    }
-  };
+  // Remove old sharing functions - now handled by EnhancedShareButton
 
   const getCategoryIcon = () => {
     switch (category) {
@@ -190,26 +98,12 @@ const TimResponse: React.FC<TimResponseProps> = ({ response, category, isNew = f
           <div className="text-sm text-gray-800 font-scroll break-words overflow-wrap-anywhere hyphens-auto leading-relaxed max-w-full">
             {processResponseText(response)}
           </div>
-          <div className="mt-3 flex flex-wrap justify-end gap-1 sm:gap-2">
-            <Button 
-              variant="ghost" 
-              size="sm"
-              className="text-wizard-purple hover:bg-wizard-purple/10 text-xs sm:text-sm px-2 sm:px-3"
-              onClick={handleShareToX}
-            >
-              <Twitter className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
-              <span className="hidden xs:inline">Share on </span>X
-            </Button>
-            <Button 
-              variant="ghost" 
-              size="sm"
-              className="text-wizard-purple hover:bg-wizard-purple/10 text-xs sm:text-sm px-2 sm:px-3"
-              onClick={handleShareToThreads}
-            >
-              <MessageCircle className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
-              <span className="hidden xs:inline">Share on </span>Threads
-            </Button>
-          </div>
+          {/* Enhanced Social Sharing */}
+          <EnhancedShareButton 
+            response={response} 
+            category={category} 
+            className="mt-3"
+          />
           
           <BookRecommendations 
             reading={response}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Share, ExternalLink, Shuffle } from 'lucide-react';
 import { TarotReading } from '@/types/tarot';
+import { fixTarotTemplate, countSocialChars, PLATFORM_LIMITS } from '@/utils/socialSharing';
 interface ShareButtonProps {
   reading: TarotReading;
 }
@@ -79,12 +80,14 @@ const ShareButton: React.FC<ShareButtonProps> = ({
     setCurrentTemplate(prev => (prev + 1) % templates.length);
   };
   const shareToX = () => {
-    const text = generateShareText();
+    const template = () => generateShareText();
+    const text = fixTarotTemplate(template, 'x');
     const url = `https://x.com/intent/tweet?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank', 'width=600,height=400');
   };
   const shareToThreads = () => {
-    const text = generateShareText();
+    const template = () => generateShareText();
+    const text = fixTarotTemplate(template, 'threads');
     const url = `https://www.threads.net/intent/post?text=${encodeURIComponent(text)}`;
     window.open(url, '_blank', 'width=600,height=600');
   };
@@ -100,8 +103,19 @@ const ShareButton: React.FC<ShareButtonProps> = ({
             <Shuffle className="w-3 h-3" />
           </Button>
         </div>
-        <div className="text-xs text-wizard-cream/80 font-scroll whitespace-pre-line">
+        <div className="text-xs text-wizard-cream/80 font-scroll whitespace-pre-line mb-2">
           {generateShareText()}
+        </div>
+        <div className="flex items-center justify-between text-xs">
+          <span className="text-wizard-gold/60">Character count</span>
+          <div className="flex gap-2">
+            <span className={`${countSocialChars(generateShareText()) <= PLATFORM_LIMITS.x ? 'text-green-400' : 'text-red-400'}`}>
+              X: {countSocialChars(generateShareText())}/{PLATFORM_LIMITS.x}
+            </span>
+            <span className={`${countSocialChars(generateShareText()) <= PLATFORM_LIMITS.threads ? 'text-green-400' : 'text-red-400'}`}>
+              Threads: {countSocialChars(generateShareText())}/{PLATFORM_LIMITS.threads}
+            </span>
+          </div>
         </div>
       </div>
 

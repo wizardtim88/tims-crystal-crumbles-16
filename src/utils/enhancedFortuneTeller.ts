@@ -84,7 +84,7 @@ const expandedPositiveGrumbles = [
 ];
 
 const expandedNegativeGrumbles = [
-  "Oh dear... the crystal ball is showing me something unpleasant. I'm almost sorry to tell you:",
+  "Oh dear... The crystal ball is showing me something unpleasant. I'm almost sorry to tell you:",
   "The mystical energies are particularly taxing today, and they're not bringing good news:",
   "Disturbing a wizard during his rest is bad luck, you know. Speaking of bad luck:",
   "Well, this is awkward. The universe has some... challenging news for you:",
@@ -537,8 +537,26 @@ export const generateEnhancedTimResponse = (
   // Update history
   updateUserHistory(history);
   
-  // Construct final reading
-  return `${action}\n\n${grumble} "${fortune}"${postComment}${timeModifier}`;
+  // Construct final reading with proper spacing and formatting
+  let finalReading = `${action}\n\n${grumble}`;
+  
+  // Add proper spacing before the fortune quote
+  if (!grumble.endsWith(':')) {
+    finalReading += ':';
+  }
+  finalReading += ` "${fortune}"`;
+  
+  // Add post comment with proper spacing
+  if (postComment) {
+    finalReading += postComment;
+  }
+  
+  // Add time modifier with proper spacing
+  if (timeModifier) {
+    finalReading += timeModifier;
+  }
+  
+  return finalReading;
 };
 
 // Enhanced function that can be used as drop-in replacement
